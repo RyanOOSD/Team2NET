@@ -35,6 +35,7 @@
             textBox1 = new TextBox();
             lblPIN = new Label();
             txtPIN = new TextBox();
+            btnSignIn = new Button();
             SuspendLayout();
             // 
             // btnManagePackages
@@ -67,7 +68,7 @@
             // lblAgentID
             // 
             lblAgentID.AutoSize = true;
-            lblAgentID.Location = new Point(44, 65);
+            lblAgentID.Location = new Point(44, 40);
             lblAgentID.Name = "lblAgentID";
             lblAgentID.Size = new Size(56, 15);
             lblAgentID.TabIndex = 3;
@@ -75,7 +76,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(106, 57);
+            textBox1.Location = new Point(106, 32);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(100, 23);
             textBox1.TabIndex = 4;
@@ -83,7 +84,7 @@
             // lblPIN
             // 
             lblPIN.AutoSize = true;
-            lblPIN.Location = new Point(71, 123);
+            lblPIN.Location = new Point(71, 92);
             lblPIN.Name = "lblPIN";
             lblPIN.Size = new Size(29, 15);
             lblPIN.TabIndex = 5;
@@ -91,10 +92,19 @@
             // 
             // txtPIN
             // 
-            txtPIN.Location = new Point(106, 115);
+            txtPIN.Location = new Point(106, 84);
             txtPIN.Name = "txtPIN";
             txtPIN.Size = new Size(100, 23);
             txtPIN.TabIndex = 6;
+            // 
+            // btnSignIn
+            // 
+            btnSignIn.Location = new Point(117, 113);
+            btnSignIn.Name = "btnSignIn";
+            btnSignIn.Size = new Size(75, 23);
+            btnSignIn.TabIndex = 7;
+            btnSignIn.Text = "Sign In";
+            btnSignIn.UseVisualStyleBackColor = true;
             // 
             // frmOptionPicker
             // 
@@ -102,6 +112,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
             ClientSize = new Size(285, 272);
+            Controls.Add(btnSignIn);
             Controls.Add(txtPIN);
             Controls.Add(lblPIN);
             Controls.Add(textBox1);
@@ -124,5 +135,6 @@
         private TextBox textBox1;
         private Label lblPIN;
         private TextBox txtPIN;
+        private Button btnSignIn;
     }
 }
