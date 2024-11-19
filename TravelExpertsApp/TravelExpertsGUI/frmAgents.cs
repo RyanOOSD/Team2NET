@@ -23,8 +23,8 @@ namespace TravelExpertsGUI
         {
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agents.jpg");
-            
-            
+
+
 
 
         }
@@ -34,16 +34,10 @@ namespace TravelExpertsGUI
             picAgencies.Visible = true;
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agents.jpg");
             picAgents.Visible = false;
-            label1.Visible = true;
-            txtAgentID.Visible = true;
-            btnGetAgent.Visible = true;
-            btnAgentAdd.Visible = true;
-            label1OR.Visible = true;
-            label2.Visible = false;
-            cboAgencyLocation.Visible = false;
-            btnGetAgency.Visible = false;
-            btnAddLoc.Visible = false;
-            label2OR.Visible = false;
+            gbManageAgency.Visible = false;
+            gbManageAgent.Visible = true;
+            gbAgency.Visible = false;
+
 
 
 
@@ -56,16 +50,12 @@ namespace TravelExpertsGUI
             picAgents.Visible = true;
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgencies.Visible = false;
-            label1.Visible = false;
-            txtAgentID.Visible = false;
-            btnGetAgent.Visible = false;
-            btnAgentAdd.Visible = false;
-            label1OR.Visible = false;
-            label2.Visible = true;
-            cboAgencyLocation.Visible = true;
-            btnGetAgency.Visible = true;
-            btnAddLoc.Visible = true;
-            label2OR.Visible = true;
+
+            gbManageAgent.Visible = false;
+            gbManageAgency.Visible = true;
+            gbAgent.Visible = false;
+
+
         }
 
         private static void ChangeVisibility(Label labelbox)
@@ -73,9 +63,26 @@ namespace TravelExpertsGUI
             if (labelbox.Visible = true)
             {
                 labelbox.Visible = false;
-            } else { labelbox.Visible = true;}
-            
-            
+            }
+            else { labelbox.Visible = true; }
+
+
+        }
+
+        private void btnAgentAdd_Click(object sender, EventArgs e)
+        {
+            gbAgent.Visible = true;
+            btnAgentAddSave.Enabled = true;
+            btnAgentEdit.Enabled = false;
+            btnAgentDelete.Enabled = false;
+        }
+
+        private void btnAddLoc_Click(object sender, EventArgs e)
+        {
+            gbAgency.Visible = true;
+            btnAddLocSave.Enabled = true;
+            btnAgencyEdit.Enabled = false;
+            btnAgencyDelete.Enabled = false;
         }
     }
 }
