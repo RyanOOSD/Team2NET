@@ -36,23 +36,23 @@
             txtAgentID = new TextBox();
             cboAgencyLocation = new ComboBox();
             label3 = new Label();
-            label4 = new Label();
             label5 = new Label();
+            label4 = new Label();
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
             label10 = new Label();
-            label11 = new Label();
             label12 = new Label();
+            label11 = new Label();
             label13 = new Label();
             label14 = new Label();
             label15 = new Label();
             btnAgentEdit = new Button();
             btnAgentDelete = new Button();
             btnAgentAdd = new Button();
-            label16 = new Label();
-            label17 = new Label();
+            label1OR = new Label();
+            label2OR = new Label();
             btnAgencyEdit = new Button();
             btnAgencyDelete = new Button();
             txtFName = new TextBox();
@@ -84,6 +84,7 @@
             btnManageAgents.TabIndex = 0;
             btnManageAgents.Text = "Manage Agents";
             btnManageAgents.UseVisualStyleBackColor = true;
+            btnManageAgents.Click += btnManageAgents_Click;
             // 
             // btnManageAgencies
             // 
@@ -93,6 +94,7 @@
             btnManageAgencies.TabIndex = 1;
             btnManageAgencies.Text = "Manage Agencies";
             btnManageAgencies.UseVisualStyleBackColor = true;
+            btnManageAgencies.Click += btnManageAgencies_Click;
             // 
             // label1
             // 
@@ -116,7 +118,6 @@
             // 
             // btnAddLoc
             // 
-            btnAddLoc.Enabled = false;
             btnAddLoc.Location = new Point(768, 134);
             btnAddLoc.Name = "btnAddLoc";
             btnAddLoc.Size = new Size(151, 29);
@@ -135,7 +136,6 @@
             // 
             // cboAgencyLocation
             // 
-            cboAgencyLocation.Enabled = false;
             cboAgencyLocation.FormattingEnabled = true;
             cboAgencyLocation.Location = new Point(639, 80);
             cboAgencyLocation.Name = "cboAgencyLocation";
@@ -153,25 +153,25 @@
             label3.Text = "First Name:";
             label3.Visible = false;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(31, 252);
-            label4.Name = "label4";
-            label4.Size = new Size(82, 20);
-            label4.TabIndex = 10;
-            label4.Text = "Last Name:";
-            label4.Visible = false;
-            // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(31, 218);
+            label5.Location = new Point(31, 252);
             label5.Name = "label5";
-            label5.Size = new Size(100, 20);
-            label5.TabIndex = 11;
-            label5.Text = "Middle Initial:";
+            label5.Size = new Size(82, 20);
+            label5.TabIndex = 10;
+            label5.Text = "Last Name:";
             label5.Visible = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(31, 218);
+            label4.Name = "label4";
+            label4.Size = new Size(100, 20);
+            label4.TabIndex = 11;
+            label4.Text = "Middle Initial:";
+            label4.Visible = false;
             // 
             // label6
             // 
@@ -223,25 +223,25 @@
             label10.Text = "Address:";
             label10.Visible = false;
             // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(538, 249);
-            label11.Name = "label11";
-            label11.Size = new Size(68, 20);
-            label11.TabIndex = 17;
-            label11.Text = "Province:";
-            label11.Visible = false;
-            // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(538, 215);
+            label12.Location = new Point(538, 249);
             label12.Name = "label12";
-            label12.Size = new Size(37, 20);
-            label12.TabIndex = 18;
-            label12.Text = "City:";
+            label12.Size = new Size(68, 20);
+            label12.TabIndex = 17;
+            label12.Text = "Province:";
             label12.Visible = false;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(538, 215);
+            label11.Name = "label11";
+            label11.Size = new Size(37, 20);
+            label11.TabIndex = 18;
+            label11.Text = "City:";
+            label11.Visible = false;
             // 
             // label13
             // 
@@ -297,7 +297,6 @@
             // 
             // btnAgentAdd
             // 
-            btnAgentAdd.Enabled = false;
             btnAgentAdd.Location = new Point(248, 135);
             btnAgentAdd.Name = "btnAgentAdd";
             btnAgentAdd.Size = new Size(151, 29);
@@ -306,25 +305,25 @@
             btnAgentAdd.UseVisualStyleBackColor = true;
             btnAgentAdd.Visible = false;
             // 
-            // label16
+            // label1OR
             // 
-            label16.AutoSize = true;
-            label16.Location = new Point(301, 111);
-            label16.Name = "label16";
-            label16.Size = new Size(29, 20);
-            label16.TabIndex = 25;
-            label16.Text = "OR";
-            label16.Visible = false;
+            label1OR.AutoSize = true;
+            label1OR.Location = new Point(301, 111);
+            label1OR.Name = "label1OR";
+            label1OR.Size = new Size(29, 20);
+            label1OR.TabIndex = 25;
+            label1OR.Text = "OR";
+            label1OR.Visible = false;
             // 
-            // label17
+            // label2OR
             // 
-            label17.AutoSize = true;
-            label17.Location = new Point(826, 111);
-            label17.Name = "label17";
-            label17.Size = new Size(29, 20);
-            label17.TabIndex = 26;
-            label17.Text = "OR";
-            label17.Visible = false;
+            label2OR.AutoSize = true;
+            label2OR.Location = new Point(826, 111);
+            label2OR.Name = "label2OR";
+            label2OR.Size = new Size(29, 20);
+            label2OR.TabIndex = 26;
+            label2OR.Text = "OR";
+            label2OR.Visible = false;
             // 
             // btnAgencyEdit
             // 
@@ -458,7 +457,6 @@
             // 
             // btnGetAgent
             // 
-            btnGetAgent.Enabled = false;
             btnGetAgent.Location = new Point(248, 79);
             btnGetAgent.Name = "btnGetAgent";
             btnGetAgent.Size = new Size(151, 29);
@@ -469,7 +467,6 @@
             // 
             // btnGetAgency
             // 
-            btnGetAgency.Enabled = false;
             btnGetAgency.Location = new Point(768, 79);
             btnGetAgency.Name = "btnGetAgency";
             btnGetAgency.Size = new Size(151, 29);
@@ -483,6 +480,7 @@
             picAgents.Location = new Point(16, 68);
             picAgents.Name = "picAgents";
             picAgents.Size = new Size(425, 425);
+            picAgents.SizeMode = PictureBoxSizeMode.Zoom;
             picAgents.TabIndex = 45;
             picAgents.TabStop = false;
             // 
@@ -491,6 +489,7 @@
             picAgencies.Location = new Point(511, 68);
             picAgencies.Name = "picAgencies";
             picAgencies.Size = new Size(425, 425);
+            picAgencies.SizeMode = PictureBoxSizeMode.Zoom;
             picAgencies.TabIndex = 46;
             picAgencies.TabStop = false;
             // 
@@ -516,23 +515,23 @@
             Controls.Add(txtFName);
             Controls.Add(btnAgencyDelete);
             Controls.Add(btnAgencyEdit);
-            Controls.Add(label17);
-            Controls.Add(label16);
+            Controls.Add(label2OR);
+            Controls.Add(label1OR);
             Controls.Add(btnAgentAdd);
             Controls.Add(btnAgentDelete);
             Controls.Add(btnAgentEdit);
             Controls.Add(label15);
             Controls.Add(label14);
             Controls.Add(label13);
-            Controls.Add(label12);
             Controls.Add(label11);
+            Controls.Add(label12);
             Controls.Add(label10);
             Controls.Add(label9);
             Controls.Add(label8);
             Controls.Add(label7);
             Controls.Add(label6);
-            Controls.Add(label5);
             Controls.Add(label4);
+            Controls.Add(label5);
             Controls.Add(label3);
             Controls.Add(cboAgencyLocation);
             Controls.Add(txtAgentID);
@@ -543,9 +542,9 @@
             Controls.Add(btnManageAgents);
             Controls.Add(picAgents);
             Controls.Add(picAgencies);
-            Enabled = false;
             Name = "frmAgents";
             Text = "Manage Agencies and Agents";
+            Load += frmAgents_Load;
             ((System.ComponentModel.ISupportInitialize)picAgents).EndInit();
             ((System.ComponentModel.ISupportInitialize)picAgencies).EndInit();
             ResumeLayout(false);
@@ -562,23 +561,23 @@
         private TextBox txtAgentID;
         private ComboBox cboAgencyLocation;
         private Label label3;
-        private Label label4;
         private Label label5;
+        private Label label4;
         private Label label6;
         private Label label7;
         private Label label8;
         private Label label9;
         private Label label10;
-        private Label label11;
         private Label label12;
+        private Label label11;
         private Label label13;
         private Label label14;
         private Label label15;
         private Button btnAgentEdit;
         private Button btnAgentDelete;
         private Button btnAgentAdd;
-        private Label label16;
-        private Label label17;
+        private Label label1OR;
+        private Label label2OR;
         private Button btnAgencyEdit;
         private Button btnAgencyDelete;
         private TextBox txtFName;

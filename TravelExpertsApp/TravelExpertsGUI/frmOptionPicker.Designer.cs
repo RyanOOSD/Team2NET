@@ -57,6 +57,7 @@
             btnManageAgents.TabIndex = 1;
             btnManageAgents.Text = "Manage Agents";
             btnManageAgents.UseVisualStyleBackColor = true;
+            btnManageAgents.Click += btnManageAgents_Click;
             // 
             // btnManageProducts
             // 

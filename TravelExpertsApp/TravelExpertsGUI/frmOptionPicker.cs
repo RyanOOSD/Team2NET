@@ -15,5 +15,11 @@
             frmProductAndSupplier newForm = new frmProductAndSupplier();
             newForm.ShowDialog();         
         }
+
+        private void btnManageAgents_Click(object sender, EventArgs e)
+        {
+            frmAgents newForm = new frmAgents();
+            newForm.ShowDialog();
+        }
     }
 }
