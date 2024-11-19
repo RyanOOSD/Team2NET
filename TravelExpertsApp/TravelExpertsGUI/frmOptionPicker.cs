@@ -6,5 +6,11 @@ namespace TravelExpertsGUI
         {
             InitializeComponent();
         }
+
+        private void btnManageAgents_Click(object sender, EventArgs e)
+        {
+            frmAgents newForm = new frmAgents();
+            newForm.ShowDialog();
+        }
     }
 }
