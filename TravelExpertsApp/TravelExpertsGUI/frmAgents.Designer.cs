@@ -317,7 +317,7 @@
             // btnAgencyEdit
             // 
             btnAgencyEdit.Enabled = false;
-            btnAgencyEdit.Location = new Point(39, 277);
+            btnAgencyEdit.Location = new Point(39, 301);
             btnAgencyEdit.Name = "btnAgencyEdit";
             btnAgencyEdit.Size = new Size(100, 29);
             btnAgencyEdit.TabIndex = 27;
@@ -327,7 +327,7 @@
             // btnAgencyDelete
             // 
             btnAgencyDelete.Enabled = false;
-            btnAgencyDelete.Location = new Point(145, 277);
+            btnAgencyDelete.Location = new Point(145, 301);
             btnAgencyDelete.Name = "btnAgencyDelete";
             btnAgencyDelete.Size = new Size(100, 29);
             btnAgencyDelete.TabIndex = 28;
@@ -534,6 +534,7 @@
             // 
             // gbAgency
             // 
+            gbAgency.BackColor = SystemColors.Control;
             gbAgency.Controls.Add(btnAddLocSave);
             gbAgency.Controls.Add(cboCity);
             gbAgency.Controls.Add(txtFax);
@@ -560,7 +561,7 @@
             // btnAddLocSave
             // 
             btnAddLocSave.Enabled = false;
-            btnAddLocSave.Location = new Point(251, 277);
+            btnAddLocSave.Location = new Point(251, 301);
             btnAddLocSave.Name = "btnAddLocSave";
             btnAddLocSave.Size = new Size(100, 29);
             btnAddLocSave.TabIndex = 37;
@@ -571,6 +572,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1070, 588);
             Controls.Add(gbAgency);
             Controls.Add(gbManageAgency);
@@ -581,6 +583,7 @@
             Controls.Add(picAgents);
             Controls.Add(picAgencies);
             Name = "frmAgents";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Manage Agencies and Agents";
             Load += frmAgents_Load;
             ((System.ComponentModel.ISupportInitialize)picAgents).EndInit();
