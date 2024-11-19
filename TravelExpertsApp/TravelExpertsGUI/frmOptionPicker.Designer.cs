@@ -42,7 +42,7 @@
             // 
             // btnManagePackages
             // 
-            btnManagePackages.Location = new Point(108, 402);
+            btnManagePackages.Location = new Point(89, 232);
             btnManagePackages.Margin = new Padding(3, 4, 3, 4);
             btnManagePackages.Name = "btnManagePackages";
             btnManagePackages.Size = new Size(146, 31);
@@ -53,7 +53,7 @@
             // 
             // btnManageAgents
             // 
-            btnManageAgents.Location = new Point(108, 441);
+            btnManageAgents.Location = new Point(89, 271);
             btnManageAgents.Margin = new Padding(3, 4, 3, 4);
             btnManageAgents.Name = "btnManageAgents";
             btnManageAgents.Size = new Size(146, 31);
@@ -64,7 +64,7 @@
             // 
             // btnManageProducts
             // 
-            btnManageProducts.Location = new Point(108, 479);
+            btnManageProducts.Location = new Point(89, 309);
             btnManageProducts.Margin = new Padding(3, 4, 3, 4);
             btnManageProducts.Name = "btnManageProducts";
             btnManageProducts.Size = new Size(146, 31);
@@ -76,7 +76,7 @@
             // lblAgentID
             // 
             lblAgentID.AutoSize = true;
-            lblAgentID.Location = new Point(69, 223);
+            lblAgentID.Location = new Point(50, 53);
             lblAgentID.Name = "lblAgentID";
             lblAgentID.Size = new Size(71, 20);
             lblAgentID.TabIndex = 3;
@@ -84,7 +84,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(140, 213);
+            textBox1.Location = new Point(121, 43);
             textBox1.Margin = new Padding(3, 4, 3, 4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(114, 27);
@@ -93,7 +93,7 @@
             // lblPIN
             // 
             lblPIN.AutoSize = true;
-            lblPIN.Location = new Point(100, 293);
+            lblPIN.Location = new Point(81, 123);
             lblPIN.Name = "lblPIN";
             lblPIN.Size = new Size(35, 20);
             lblPIN.TabIndex = 5;
@@ -101,7 +101,7 @@
             // 
             // txtPIN
             // 
-            txtPIN.Location = new Point(140, 282);
+            txtPIN.Location = new Point(121, 112);
             txtPIN.Margin = new Padding(3, 4, 3, 4);
             txtPIN.Name = "txtPIN";
             txtPIN.Size = new Size(114, 27);
@@ -109,7 +109,7 @@
             // 
             // btnSignIn
             // 
-            btnSignIn.Location = new Point(153, 321);
+            btnSignIn.Location = new Point(134, 151);
             btnSignIn.Margin = new Padding(3, 4, 3, 4);
             btnSignIn.Name = "btnSignIn";
             btnSignIn.Size = new Size(86, 31);
@@ -131,8 +131,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
-            ClientSize = new Size(371, 539);
-            Controls.Add(picLogo);
+            ClientSize = new Size(326, 363);
             Controls.Add(btnSignIn);
             Controls.Add(txtPIN);
             Controls.Add(lblPIN);

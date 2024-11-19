@@ -126,7 +126,7 @@
             // 
             // btnAddLoc
             // 
-            btnAddLoc.Location = new Point(260, 80);
+            btnAddLoc.Location = new Point(768, 134);
             btnAddLoc.Name = "btnAddLoc";
             btnAddLoc.Size = new Size(151, 29);
             btnAddLoc.TabIndex = 6;
@@ -161,20 +161,22 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(33, 97);
+            label5.Location = new Point(31, 252);
             label5.Name = "label5";
             label5.Size = new Size(82, 20);
             label5.TabIndex = 10;
             label5.Text = "Last Name:";
+            label5.Visible = false;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(33, 63);
+            label4.Location = new Point(31, 218);
             label4.Name = "label4";
             label4.Size = new Size(100, 20);
             label4.TabIndex = 11;
             label4.Text = "Middle Initial:";
+            label4.Visible = false;
             // 
             // label6
             // 
@@ -224,20 +226,22 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(39, 99);
+            label12.Location = new Point(538, 249);
             label12.Name = "label12";
             label12.Size = new Size(68, 20);
             label12.TabIndex = 17;
             label12.Text = "Province:";
+            label12.Visible = false;
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(39, 65);
+            label11.Location = new Point(538, 215);
             label11.Name = "label11";
             label11.Size = new Size(37, 20);
             label11.TabIndex = 18;
             label11.Text = "City:";
+            label11.Visible = false;
             // 
             // label13
             // 
@@ -288,7 +292,7 @@
             // 
             // btnAgentAdd
             // 
-            btnAgentAdd.Location = new Point(233, 79);
+            btnAgentAdd.Location = new Point(248, 135);
             btnAgentAdd.Name = "btnAgentAdd";
             btnAgentAdd.Size = new Size(151, 29);
             btnAgentAdd.TabIndex = 24;
@@ -299,20 +303,22 @@
             // label1OR
             // 
             label1OR.AutoSize = true;
-            label1OR.Location = new Point(286, 55);
+            label1OR.Location = new Point(301, 111);
             label1OR.Name = "label1OR";
             label1OR.Size = new Size(29, 20);
             label1OR.TabIndex = 25;
             label1OR.Text = "OR";
+            label1OR.Visible = false;
             // 
             // label2OR
             // 
             label2OR.AutoSize = true;
-            label2OR.Location = new Point(318, 57);
+            label2OR.Location = new Point(826, 111);
             label2OR.Name = "label2OR";
             label2OR.Size = new Size(29, 20);
             label2OR.TabIndex = 26;
             label2OR.Text = "OR";
+            label2OR.Visible = false;
             // 
             // btnAgencyEdit
             // 
@@ -431,7 +437,7 @@
             // 
             // btnGetAgent
             // 
-            btnGetAgent.Location = new Point(233, 23);
+            btnGetAgent.Location = new Point(248, 79);
             btnGetAgent.Name = "btnGetAgent";
             btnGetAgent.Size = new Size(151, 29);
             btnGetAgent.TabIndex = 43;
@@ -440,7 +446,7 @@
             // 
             // btnGetAgency
             // 
-            btnGetAgency.Location = new Point(260, 25);
+            btnGetAgency.Location = new Point(768, 79);
             btnGetAgency.Name = "btnGetAgency";
             btnGetAgency.Size = new Size(151, 29);
             btnGetAgency.TabIndex = 44;
@@ -451,7 +457,7 @@
             // 
             picAgents.Location = new Point(16, 68);
             picAgents.Name = "picAgents";
-            picAgents.Size = new Size(450, 450);
+            picAgents.Size = new Size(425, 425);
             picAgents.SizeMode = PictureBoxSizeMode.Zoom;
             picAgents.TabIndex = 45;
             picAgents.TabStop = false;
@@ -460,7 +466,7 @@
             // 
             picAgencies.Location = new Point(511, 68);
             picAgencies.Name = "picAgencies";
-            picAgencies.Size = new Size(450, 450);
+            picAgencies.Size = new Size(425, 425);
             picAgencies.SizeMode = PictureBoxSizeMode.Zoom;
             picAgencies.TabIndex = 46;
             picAgencies.TabStop = false;
@@ -572,12 +578,47 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(1070, 588);
-            Controls.Add(gbAgency);
-            Controls.Add(gbManageAgency);
-            Controls.Add(gbManageAgent);
-            Controls.Add(gbAgent);
+            ClientSize = new Size(1070, 518);
+            Controls.Add(btnGetAgency);
+            Controls.Add(btnGetAgent);
+            Controls.Add(cboCity);
+            Controls.Add(txtFax);
+            Controls.Add(txtAgencyPhone);
+            Controls.Add(txtPostal);
+            Controls.Add(txtProvince);
+            Controls.Add(txtAddress);
+            Controls.Add(cboAgentLocation);
+            Controls.Add(txtPosition);
+            Controls.Add(txtEmail);
+            Controls.Add(txtAgentPhone);
+            Controls.Add(txtLName);
+            Controls.Add(txtMiddle);
+            Controls.Add(txtFName);
+            Controls.Add(btnAgencyDelete);
+            Controls.Add(btnAgencyEdit);
+            Controls.Add(label2OR);
+            Controls.Add(label1OR);
+            Controls.Add(btnAgentAdd);
+            Controls.Add(btnAgentDelete);
+            Controls.Add(btnAgentEdit);
+            Controls.Add(label15);
+            Controls.Add(label14);
+            Controls.Add(label13);
+            Controls.Add(label11);
+            Controls.Add(label12);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label4);
+            Controls.Add(label5);
+            Controls.Add(label3);
+            Controls.Add(cboAgencyLocation);
+            Controls.Add(txtAgentID);
+            Controls.Add(btnAddLoc);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(btnManageAgencies);
             Controls.Add(btnManageAgents);
             Controls.Add(picAgents);
