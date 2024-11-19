@@ -21,6 +21,7 @@ namespace TravelExpertsGUI
 
         private void frmAgents_Load(object sender, EventArgs e)
         {
+            Icon = Icon.ExtractAssociatedIcon(rootDir + "\\Images\\airplane.ico");
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agents.jpg");
 
