@@ -132,7 +132,7 @@ public class ValidatorUtils
         }
         // Check if AgentID is a non-negative integer 
         if (!int.TryParse(textBox.Text, out int agentID) || agentID < 0)
-        {
+    {
             MessageBox.Show("Agent ID must be a non-negative integer.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
@@ -165,10 +165,10 @@ public class ValidatorUtils
                 }
             }
             catch (Exception ex)
-            {
+        {
                 MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+            return false;
+        }
         }
     }
 
