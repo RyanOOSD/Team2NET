@@ -49,6 +49,7 @@
             btnManagePackages.TabIndex = 0;
             btnManagePackages.Text = "Manage Packages";
             btnManagePackages.UseVisualStyleBackColor = true;
+            btnManagePackages.Click += btnManagePackages_Click;
             // 
             // btnManageAgents
             // 

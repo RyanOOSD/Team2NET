@@ -29,5 +29,11 @@
             picLogo.Image = Image.FromFile(rootDir + "\\Images\\travel-experts.png");
             Icon = Icon.ExtractAssociatedIcon(rootDir + "\\Images\\airplane.ico");
         }
+
+        private void btnManagePackages_Click(object sender, EventArgs e)
+        {
+            frmManagePackages managePackages = new frmManagePackages();
+            managePackages.ShowDialog();
+        }
     }
 }
