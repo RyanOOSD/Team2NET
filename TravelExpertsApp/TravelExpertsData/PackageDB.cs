@@ -30,39 +30,24 @@ namespace TravelExpertsData
             }
         }
 
-        public static List<PackageProductsDTO> GetPackageProductsList()
+        public static List<Package> GetPackage()
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
-                List<PackageProductsDTO> packageProducts = db.PackagesProductsSuppliers
-                    .Join(
-                        db.Packages,
-                        pkgProdA => pkgProdA.PackageId,
-                        pkg => pkg.PackageId,
-                        (pkgProdA, pkg) => new { pkgProdA, pkg })
-                    .Join(
-                        db.ProductsSuppliers,
-                        pkgProdB => pkgProdB.pkgProdA.ProductSupplierId,
-                        prodSupA => prodSupA.ProductSupplierId,
-                        (pkgProdB, prodSupA) => new { pkgProdB, prodSupA })
-                    .Join(
-                        db.Products,
-                        prodSupB => prodSupB.prodSupA.ProductId,
-                        prod => prod.ProductId,
-                        (prodSupB, prod) => new { prodSupB, prod})
-                    .Join(
-                        db.Suppliers,
-                        prodSupC => prodSupC.prodSupB.prodSupA.SupplierId,
-                        sup => sup.SupplierId,
-                        (prodSupC, sup) => new { prodSupC, sup })
-                    .Select(p => new PackageProductsDTO
-                    {
-                        PkgProductSupID = p.prodSupC.prodSupB.pkgProdB.pkgProdA.PackageProductSupplierId,
-                        PkgName = p.prodSupC.prodSupB.pkgProdB.pkg.PkgName,
-                        ProductName = p.prodSupC.prod.ProdName,
-                        SupName = p.sup.SupName
-                    }).ToList();
-                return packageProducts;
+                return db.Packages
+                    .OrderBy(p => p.PkgName).ToList();
+            }
+        }
+
+        public static void AddPackage(Package package)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                if (package != null)
+                {
+                    db.Packages.Add(package);
+                    db.SaveChanges();
+                }
             }
         }
     }

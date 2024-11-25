@@ -63,16 +63,16 @@
             dgvPkg.AllowUserToResizeColumns = false;
             dgvPkg.AllowUserToResizeRows = false;
             dgvPkg.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            dgvPkg.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dgvPkg.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPkg.Location = new Point(0, 35);
             dgvPkg.Name = "dgvPkg";
-            dgvPkg.Size = new Size(1009, 262);
+            dgvPkg.ReadOnly = true;
+            dgvPkg.Size = new Size(1026, 262);
             dgvPkg.TabIndex = 2;
             // 
             // btnPkgExit
             // 
-            btnPkgExit.Location = new Point(928, 319);
+            btnPkgExit.Location = new Point(945, 319);
             btnPkgExit.Name = "btnPkgExit";
             btnPkgExit.Size = new Size(75, 23);
             btnPkgExit.TabIndex = 3;
@@ -96,7 +96,7 @@
             tbcPkgPage.Location = new Point(12, 12);
             tbcPkgPage.Name = "tbcPkgPage";
             tbcPkgPage.SelectedIndex = 0;
-            tbcPkgPage.Size = new Size(1017, 376);
+            tbcPkgPage.Size = new Size(1034, 376);
             tbcPkgPage.TabIndex = 5;
             // 
             // tabPackages
@@ -110,13 +110,13 @@
             tabPackages.Location = new Point(4, 24);
             tabPackages.Name = "tabPackages";
             tabPackages.Padding = new Padding(3);
-            tabPackages.Size = new Size(1009, 348);
+            tabPackages.Size = new Size(1026, 348);
             tabPackages.TabIndex = 0;
             tabPackages.Text = "Packages";
             // 
             // btnPkgSearch
             // 
-            btnPkgSearch.Location = new Point(928, 6);
+            btnPkgSearch.Location = new Point(945, 6);
             btnPkgSearch.Name = "btnPkgSearch";
             btnPkgSearch.Size = new Size(75, 23);
             btnPkgSearch.TabIndex = 5;
@@ -125,7 +125,7 @@
             // 
             // txtPkgSearch
             // 
-            txtPkgSearch.Location = new Point(777, 6);
+            txtPkgSearch.Location = new Point(794, 6);
             txtPkgSearch.Name = "txtPkgSearch";
             txtPkgSearch.PlaceholderText = "Enter Package ID or Name";
             txtPkgSearch.Size = new Size(145, 23);
@@ -142,13 +142,13 @@
             tabPkgProductPage.Location = new Point(4, 24);
             tabPkgProductPage.Name = "tabPkgProductPage";
             tabPkgProductPage.Padding = new Padding(3);
-            tabPkgProductPage.Size = new Size(1009, 348);
+            tabPkgProductPage.Size = new Size(1026, 348);
             tabPkgProductPage.TabIndex = 1;
             tabPkgProductPage.Text = "Package Products";
             // 
             // btnPkgProductSearch
             // 
-            btnPkgProductSearch.Location = new Point(928, 6);
+            btnPkgProductSearch.Location = new Point(945, 6);
             btnPkgProductSearch.Name = "btnPkgProductSearch";
             btnPkgProductSearch.Size = new Size(75, 23);
             btnPkgProductSearch.TabIndex = 8;
@@ -157,7 +157,7 @@
             // 
             // txtPkgProductSearch
             // 
-            txtPkgProductSearch.Location = new Point(777, 6);
+            txtPkgProductSearch.Location = new Point(794, 6);
             txtPkgProductSearch.Name = "txtPkgProductSearch";
             txtPkgProductSearch.PlaceholderText = "Enter Package ID or Name";
             txtPkgProductSearch.Size = new Size(145, 23);
@@ -167,17 +167,16 @@
             // 
             dgvPkgProducts.AllowUserToResizeColumns = false;
             dgvPkgProducts.AllowUserToResizeRows = false;
-            dgvPkgProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvPkgProducts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvPkgProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvPkgProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPkgProducts.Location = new Point(0, 35);
             dgvPkgProducts.Name = "dgvPkgProducts";
-            dgvPkgProducts.Size = new Size(1009, 262);
+            dgvPkgProducts.ReadOnly = true;
+            dgvPkgProducts.Size = new Size(1026, 262);
             dgvPkgProducts.TabIndex = 6;
             // 
             // btnPkgProductsExit
             // 
-            btnPkgProductsExit.Location = new Point(928, 319);
+            btnPkgProductsExit.Location = new Point(945, 319);
             btnPkgProductsExit.Name = "btnPkgProductsExit";
             btnPkgProductsExit.Size = new Size(75, 23);
             btnPkgProductsExit.TabIndex = 5;
@@ -189,7 +188,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
-            ClientSize = new Size(1041, 400);
+            ClientSize = new Size(1058, 400);
             Controls.Add(tbcPkgPage);
             Name = "frmManagePackages";
             StartPosition = FormStartPosition.CenterScreen;

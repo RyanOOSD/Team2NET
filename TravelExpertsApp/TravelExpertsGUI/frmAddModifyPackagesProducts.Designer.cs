@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             lblSelectedPkg = new Label();
-            cmbSelectedProduct = new ComboBox();
+            cmbProducts = new ComboBox();
             lblSelectedProduct = new Label();
             btnSubmit = new Button();
             btnCancel = new Button();
-            cmbSelectedPackage = new ComboBox();
+            cmbPackages = new ComboBox();
             SuspendLayout();
             // 
             // lblSelectedPkg
@@ -45,13 +45,14 @@
             lblSelectedPkg.TabIndex = 0;
             lblSelectedPkg.Text = "Package:";
             // 
-            // cmbSelectedProduct
+            // cmbProducts
             // 
-            cmbSelectedProduct.FormattingEnabled = true;
-            cmbSelectedProduct.Location = new Point(72, 71);
-            cmbSelectedProduct.Name = "cmbSelectedProduct";
-            cmbSelectedProduct.Size = new Size(155, 23);
-            cmbSelectedProduct.TabIndex = 2;
+            cmbProducts.FormattingEnabled = true;
+            cmbProducts.Location = new Point(70, 71);
+            cmbProducts.Name = "cmbProducts";
+            cmbProducts.Size = new Size(277, 23);
+            cmbProducts.TabIndex = 2;
+            cmbProducts.Format += cmbProducts_Format;
             // 
             // lblSelectedProduct
             // 
@@ -64,45 +65,47 @@
             // 
             // btnSubmit
             // 
-            btnSubmit.Location = new Point(71, 125);
+            btnSubmit.Location = new Point(70, 125);
             btnSubmit.Name = "btnSubmit";
             btnSubmit.Size = new Size(75, 23);
             btnSubmit.TabIndex = 4;
             btnSubmit.Text = "Submit";
             btnSubmit.UseVisualStyleBackColor = true;
+            btnSubmit.Click += btnSubmit_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(152, 125);
+            btnCancel.Location = new Point(272, 125);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 5;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
-            // cmbSelectedPackage
+            // cmbPackages
             // 
-            cmbSelectedPackage.FormattingEnabled = true;
-            cmbSelectedPackage.Location = new Point(72, 22);
-            cmbSelectedPackage.Name = "cmbSelectedPackage";
-            cmbSelectedPackage.Size = new Size(155, 23);
-            cmbSelectedPackage.TabIndex = 6;
+            cmbPackages.FormattingEnabled = true;
+            cmbPackages.Location = new Point(72, 22);
+            cmbPackages.Name = "cmbPackages";
+            cmbPackages.Size = new Size(155, 23);
+            cmbPackages.TabIndex = 6;
             // 
             // frmAddModifyPackagesProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
-            ClientSize = new Size(239, 160);
-            Controls.Add(cmbSelectedPackage);
+            ClientSize = new Size(359, 160);
+            Controls.Add(cmbPackages);
             Controls.Add(btnCancel);
             Controls.Add(btnSubmit);
             Controls.Add(lblSelectedProduct);
-            Controls.Add(cmbSelectedProduct);
+            Controls.Add(cmbProducts);
             Controls.Add(lblSelectedPkg);
             Name = "frmAddModifyPackagesProducts";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "frmAddModifyPackagesProducts";
+            Load += frmAddModifyPackagesProducts_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -111,10 +114,10 @@
 
         private Label lblSelectedPkg;
         private TextBox txtSelectedPkg;
-        private ComboBox cmbSelectedProduct;
+        private ComboBox cmbProducts;
         private Label lblSelectedProduct;
         private Button btnSubmit;
         private Button btnCancel;
-        private ComboBox cmbSelectedPackage;
+        private ComboBox cmbPackages;
     }
 }

@@ -149,6 +149,7 @@
             btnSubmit.TabIndex = 12;
             btnSubmit.Text = "Submit";
             btnSubmit.UseVisualStyleBackColor = true;
+            btnSubmit.Click += btnSubmit_Click;
             // 
             // btnCancel
             // 
@@ -182,6 +183,7 @@
             Name = "frmAddModifyPackages";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "frmAddModifyPackages";
+            Load += frmAddModifyPackages_Load;
             ResumeLayout(false);
             PerformLayout();
         }

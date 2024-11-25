@@ -14,30 +14,21 @@ namespace TravelExpertsGUI
 {
     public partial class frmManagePackages : Form
     {
+        TravelExpertsData.Package selectedPackage = null;
+        PackagesProductsSupplier selectedPackageProduct = null;
+
         List<PackageDTO> packages = new List<PackageDTO>();
-        List<PackageProductsDTO> products = new List<PackageProductsDTO>();
+        List<PackagesProductsSupplierDTO> products = new List<PackagesProductsSupplierDTO>();
 
         public frmManagePackages()
         {
             InitializeComponent();
         }
 
-        private void btnAddPkg_Click(object sender, EventArgs e)
-        {
-            frmAddModifyPackages addPackage = new frmAddModifyPackages();
-            addPackage.ShowDialog();
-        }
-
-        private void btnAddProductToPkg_Click(object sender, EventArgs e)
-        {
-            frmAddModifyPackagesProducts addProducts = new frmAddModifyPackagesProducts();
-            addProducts.ShowDialog();
-        }
-
         private void frmManagePackages_Load(object sender, EventArgs e)
         {
             DisplayPackages();
-            DisplayProducts();
+            DisplayPackageProducts();
         }
 
         private void DisplayPackages()
@@ -69,8 +60,12 @@ namespace TravelExpertsGUI
 
             dgvPkg.Columns[0].HeaderText = "Package ID";
             dgvPkg.Columns[1].HeaderText = "Package Name";
+
             dgvPkg.Columns[2].HeaderText = "Start Date";
-            dgvPkg.Columns[3].HeaderText = "End Date";  
+            dgvPkg.Columns[2].DefaultCellStyle.Format = "MM/dd/yyyy";
+            dgvPkg.Columns[3].HeaderText = "End Date";
+            dgvPkg.Columns[3].DefaultCellStyle.Format = "MM/dd/yyyy";
+            
             dgvPkg.Columns[4].HeaderText = "Description";
 
             dgvPkg.Columns[5].HeaderText = "Price";
@@ -84,12 +79,14 @@ namespace TravelExpertsGUI
             dgvPkg.Columns[8].Width = 100;
         }
 
-        private void DisplayProducts()
+        private void DisplayPackageProducts()
         {
             dgvPkgProducts.Columns.Clear();
 
-            products = PackageDB.GetPackageProductsList();
+            products = PackagesProductsSupplierDB.GetPackageProductsList();
             dgvPkgProducts.DataSource = products;
+            dgvPkgProducts.Columns["ProductSupId"].Visible = false;
+
             DataGridViewButtonColumn btnModifyColumn = new DataGridViewButtonColumn()
             {
                 UseColumnTextForButtonValue = true,
@@ -112,14 +109,48 @@ namespace TravelExpertsGUI
             dgvPkgProducts.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             dgvPkgProducts.Columns[0].HeaderText = "Package Product ID";
+            dgvPkgProducts.Columns[0].Width = 182;
             dgvPkgProducts.Columns[1].HeaderText = "Package Name";
-            dgvPkgProducts.Columns[2].HeaderText = "Product Name";
-            dgvPkgProducts.Columns[3].HeaderText = "Supplier Name";
+            dgvPkgProducts.Columns[1].Width = 200;
+            dgvPkgProducts.Columns[3].HeaderText = "Product Name";
+            dgvPkgProducts.Columns[3].Width = 200;
+            dgvPkgProducts.Columns[4].HeaderText = "Supplier Name";
+            dgvPkgProducts.Columns[4].Width = 200;
 
-            dgvPkgProducts.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dgvPkgProducts.Columns[4].Width = 100;
             dgvPkgProducts.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dgvPkgProducts.Columns[5].Width = 100;
+            dgvPkgProducts.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvPkgProducts.Columns[6].Width = 100;
+        }
+
+        private void btnAddPkg_Click(object sender, EventArgs e)
+        {
+            frmAddModifyPackages addPackage = new frmAddModifyPackages();
+            addPackage.isNewPackage = true;
+            addPackage.package = null;
+
+            DialogResult result = addPackage.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                selectedPackage = addPackage.package;
+                PackageDB.AddPackage(selectedPackage);
+                DisplayPackages();
+            }
+        }
+
+        private void btnAddProductToPkg_Click(object sender, EventArgs e)
+        {
+            frmAddModifyPackagesProducts addPackageProducts = new frmAddModifyPackagesProducts();
+            addPackageProducts.isNewPackageProduct = true;
+            addPackageProducts.packageProduct = null;
+
+            DialogResult result = addPackageProducts.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                selectedPackageProduct = addPackageProducts.packageProduct;
+                PackagesProductsSupplierDB.AddPackageProduct(selectedPackageProduct);
+                DisplayPackageProducts();
+            }
         }
     }
 }
