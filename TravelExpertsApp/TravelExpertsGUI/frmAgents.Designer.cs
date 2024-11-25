@@ -88,7 +88,7 @@
             // 
             // btnManageAgents
             // 
-            btnManageAgents.Location = new Point(97, 33);
+            btnManageAgents.Location = new Point(177, 24);
             btnManageAgents.Name = "btnManageAgents";
             btnManageAgents.Size = new Size(208, 29);
             btnManageAgents.TabIndex = 0;
@@ -98,7 +98,7 @@
             // 
             // btnManageAgencies
             // 
-            btnManageAgencies.Location = new Point(617, 33);
+            btnManageAgencies.Location = new Point(713, 24);
             btnManageAgencies.Name = "btnManageAgencies";
             btnManageAgencies.Size = new Size(208, 29);
             btnManageAgencies.TabIndex = 1;
@@ -378,7 +378,6 @@
             // 
             // cboAgentLocation
             // 
-            cboAgentLocation.Enabled = false;
             cboAgentLocation.FormattingEnabled = true;
             cboAgentLocation.Location = new Point(155, 249);
             cboAgentLocation.Name = "cboAgentLocation";
@@ -437,6 +436,7 @@
             btnGetAgent.TabIndex = 43;
             btnGetAgent.Text = "Get Agent";
             btnGetAgent.UseVisualStyleBackColor = true;
+            btnGetAgent.Click += btnGetAgent_Click;
             // 
             // btnGetAgency
             // 
@@ -451,16 +451,16 @@
             // 
             picAgents.Location = new Point(16, 68);
             picAgents.Name = "picAgents";
-            picAgents.Size = new Size(450, 450);
+            picAgents.Size = new Size(500, 500);
             picAgents.SizeMode = PictureBoxSizeMode.Zoom;
             picAgents.TabIndex = 45;
             picAgents.TabStop = false;
             // 
             // picAgencies
             // 
-            picAgencies.Location = new Point(511, 68);
+            picAgencies.Location = new Point(559, 68);
             picAgencies.Name = "picAgencies";
-            picAgencies.Size = new Size(450, 450);
+            picAgencies.Size = new Size(500, 500);
             picAgencies.SizeMode = PictureBoxSizeMode.Zoom;
             picAgencies.TabIndex = 46;
             picAgencies.TabStop = false;
@@ -484,7 +484,7 @@
             gbAgent.Controls.Add(txtEmail);
             gbAgent.Controls.Add(txtLName);
             gbAgent.Controls.Add(txtAgentPhone);
-            gbAgent.Location = new Point(40, 212);
+            gbAgent.Location = new Point(68, 213);
             gbAgent.Name = "gbAgent";
             gbAgent.Size = new Size(390, 348);
             gbAgent.TabIndex = 47;
@@ -509,7 +509,7 @@
             gbManageAgent.Controls.Add(btnAgentAdd);
             gbManageAgent.Controls.Add(txtAgentID);
             gbManageAgent.Controls.Add(label1);
-            gbManageAgent.Location = new Point(40, 70);
+            gbManageAgent.Location = new Point(68, 71);
             gbManageAgent.Name = "gbManageAgent";
             gbManageAgent.Size = new Size(390, 118);
             gbManageAgent.TabIndex = 48;
@@ -524,7 +524,7 @@
             gbManageAgency.Controls.Add(cboAgencyLocation);
             gbManageAgency.Controls.Add(btnAddLoc);
             gbManageAgency.Controls.Add(label2);
-            gbManageAgency.Location = new Point(538, 70);
+            gbManageAgency.Location = new Point(592, 71);
             gbManageAgency.Name = "gbManageAgency";
             gbManageAgency.Size = new Size(437, 119);
             gbManageAgency.TabIndex = 49;
@@ -550,7 +550,7 @@
             gbAgency.Controls.Add(label11);
             gbAgency.Controls.Add(label12);
             gbAgency.Controls.Add(label10);
-            gbAgency.Location = new Point(538, 212);
+            gbAgency.Location = new Point(592, 213);
             gbAgency.Name = "gbAgency";
             gbAgency.Size = new Size(437, 348);
             gbAgency.TabIndex = 50;
