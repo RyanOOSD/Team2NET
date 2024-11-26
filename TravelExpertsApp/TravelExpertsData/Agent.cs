@@ -37,4 +37,7 @@ public partial class Agent
 
     [InverseProperty("Agent")]
     public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
+
+    [InverseProperty("Agent")]
+    public virtual UserLogin? UserLogin { get; set; }
 }
