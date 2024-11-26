@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Text.RegularExpressions;
 
 public class ValidatorUtils
@@ -7,6 +8,28 @@ public class ValidatorUtils
     public static bool IsTextBoxNotEmpty(TextBox textBox, string errorMessage)
     {
         if (string.IsNullOrWhiteSpace(textBox.Text))
+        {
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+        return true;
+    }
+
+    // Text Box Cannot Exceed a Certain Number of Characters
+    public static bool IsTextBoxWithinMaxLength(TextBox textBox, int maxLength, string errorMessage)
+    {
+        if (textBox.Text.Length > maxLength)
+        {
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+        return true;
+    }
+
+    // Text Box Must Contain Non-Negative Decimal
+    public static bool IsNonNegativeDecimal(TextBox textBox, string errorMessage)
+    {
+        if (!decimal.TryParse(textBox.Text, out decimal value) || value < 0)
         {
             MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
@@ -98,26 +121,55 @@ public class ValidatorUtils
         return true;
     }
 
-    // Text Box Cannot Exceed a Certain Number of Characters
-    public static bool IsTextBoxWithinMaxLength(TextBox textBox, int maxLength, string errorMessage)
+    // AgentID Validation 
+    public static bool ValidateAgentID(TextBox textBox, string connectionString)
     {
-        if (textBox.Text.Length > maxLength)
+        // Check if AgentID textbox is empty 
+        if (string.IsNullOrWhiteSpace(textBox.Text))
         {
-            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Agent ID must be present.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
+        // Check if AgentID is a non-negative integer 
+        if (!int.TryParse(textBox.Text, out int agentID) || agentID < 0)
+        {
+            MessageBox.Show("Agent ID must be a non-negative integer.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+
+        // Check if AgentID exists in the database 
+        if (!IsAgentIDInDatabase(agentID, connectionString))
+        {
+            MessageBox.Show($"Agent with ID {agentID} does not exist.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+
         return true;
     }
 
-    // Text Box Must Contain Non-Negative Decimal
-    public static bool IsNonNegativeDecimal(TextBox textBox, string errorMessage)
+    private static bool IsAgentIDInDatabase(int agentID, string connectionString)
     {
-        if (!decimal.TryParse(textBox.Text, out decimal value) || value < 0)
+        using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return false;
+            try
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM Agents WHERE AgentID = @AgentID";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@AgentID", agentID);
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
-        return true;
     }
 
 }
