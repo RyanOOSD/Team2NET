@@ -78,6 +78,7 @@
             gbManageAgency = new GroupBox();
             gbAgency = new GroupBox();
             btnAddLocSave = new Button();
+            testBox1 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)picAgents).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picAgencies).BeginInit();
             gbAgent.SuspendLayout();
@@ -140,6 +141,7 @@
             txtAgentID.Name = "txtAgentID";
             txtAgentID.Size = new Size(125, 27);
             txtAgentID.TabIndex = 7;
+            txtAgentID.Enter += txtAgentID_Enter;
             // 
             // cboAgencyLocation
             // 
@@ -269,22 +271,24 @@
             // btnAgentEdit
             // 
             btnAgentEdit.Enabled = false;
-            btnAgentEdit.Location = new Point(33, 301);
+            btnAgentEdit.Location = new Point(6, 301);
             btnAgentEdit.Name = "btnAgentEdit";
             btnAgentEdit.Size = new Size(100, 29);
             btnAgentEdit.TabIndex = 22;
             btnAgentEdit.Text = "Edit";
             btnAgentEdit.UseVisualStyleBackColor = true;
+            btnAgentEdit.Click += btnAgentEdit_Click;
             // 
             // btnAgentDelete
             // 
             btnAgentDelete.Enabled = false;
-            btnAgentDelete.Location = new Point(139, 301);
+            btnAgentDelete.Location = new Point(112, 301);
             btnAgentDelete.Name = "btnAgentDelete";
             btnAgentDelete.Size = new Size(100, 29);
             btnAgentDelete.TabIndex = 23;
             btnAgentDelete.Text = "Delete";
             btnAgentDelete.UseVisualStyleBackColor = true;
+            btnAgentDelete.Click += btnAgentDelete_Click;
             // 
             // btnAgentAdd
             // 
@@ -494,13 +498,13 @@
             // 
             // btnAgentAddSave
             // 
-            btnAgentAddSave.Enabled = false;
-            btnAgentAddSave.Location = new Point(245, 301);
+            btnAgentAddSave.Location = new Point(233, 301);
             btnAgentAddSave.Name = "btnAgentAddSave";
-            btnAgentAddSave.Size = new Size(100, 29);
+            btnAgentAddSave.Size = new Size(151, 29);
             btnAgentAddSave.TabIndex = 36;
-            btnAgentAddSave.Text = "Add";
+            btnAgentAddSave.Text = "Save Changes";
             btnAgentAddSave.UseVisualStyleBackColor = true;
+            btnAgentAddSave.Click += btnAgentAddSave_Click;
             // 
             // gbManageAgent
             // 
@@ -568,12 +572,21 @@
             btnAddLocSave.Text = "Add";
             btnAddLocSave.UseVisualStyleBackColor = true;
             // 
+            // testBox1
+            // 
+            testBox1.Location = new Point(439, 15);
+            testBox1.Name = "testBox1";
+            testBox1.Size = new Size(236, 27);
+            testBox1.TabIndex = 51;
+            testBox1.Visible = false;
+            // 
             // frmAgents
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1070, 588);
+            Controls.Add(testBox1);
             Controls.Add(gbAgency);
             Controls.Add(gbManageAgency);
             Controls.Add(gbManageAgent);
@@ -597,6 +610,7 @@
             gbAgency.ResumeLayout(false);
             gbAgency.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -651,5 +665,6 @@
         private GroupBox gbAgency;
         private Button btnAgentAddSave;
         private Button btnAddLocSave;
+        private TextBox testBox1;
     }
 }
