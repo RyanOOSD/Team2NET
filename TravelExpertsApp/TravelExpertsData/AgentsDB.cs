@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace TravelExpertsData
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
                 agent = db.Agents.Find(agentId);
+               
 
             }
             return agent;
@@ -57,7 +59,7 @@ namespace TravelExpertsData
 
         }
 
-        public static void ModifyAgent(int agentId, Agent selectedAgent)
+        public static void ModifyAgent(int agentId, Agent selectedAgent, string city)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
@@ -70,9 +72,18 @@ namespace TravelExpertsData
                     modifiedAgent.AgtBusPhone = selectedAgent.AgtBusPhone;
                     modifiedAgent.AgtEmail = selectedAgent.AgtEmail;
                     modifiedAgent.AgtPosition = selectedAgent.AgtPosition;
-                    modifiedAgent.AgencyId = selectedAgent.AgencyId;
+                    modifiedAgent.AgencyId = db.Agencies.Where(a => a.AgncyCity == city).Select(a => a.AgencyId).FirstOrDefault();
                 }
                 db.SaveChanges();
+            }
+        }
+
+        public static string AgencyIDtoCity(int? agencyId)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                string selectedCity = db.Agencies.Find(agencyId).AgncyCity;
+                return selectedCity;
             }
         }
     }
