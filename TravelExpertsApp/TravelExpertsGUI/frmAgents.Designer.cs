@@ -62,7 +62,6 @@
             txtEmail = new TextBox();
             txtPosition = new TextBox();
             cboAgentLocation = new ComboBox();
-            cboCity = new ComboBox();
             txtFax = new TextBox();
             txtAgencyPhone = new TextBox();
             txtPostal = new TextBox();
@@ -77,6 +76,7 @@
             gbManageAgent = new GroupBox();
             gbManageAgency = new GroupBox();
             gbAgency = new GroupBox();
+            txtCity = new TextBox();
             btnAddLocSave = new Button();
             testBox1 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)picAgents).BeginInit();
@@ -327,6 +327,7 @@
             btnAgencyEdit.TabIndex = 27;
             btnAgencyEdit.Text = "Edit";
             btnAgencyEdit.UseVisualStyleBackColor = true;
+            btnAgencyEdit.Click += btnAgencyEdit_Click;
             // 
             // btnAgencyDelete
             // 
@@ -337,6 +338,7 @@
             btnAgencyDelete.TabIndex = 28;
             btnAgencyDelete.Text = "Delete";
             btnAgencyDelete.UseVisualStyleBackColor = true;
+            btnAgencyDelete.Click += btnAgencyDelete_Click;
             // 
             // txtFName
             // 
@@ -387,14 +389,6 @@
             cboAgentLocation.Name = "cboAgentLocation";
             cboAgentLocation.Size = new Size(151, 28);
             cboAgentLocation.TabIndex = 35;
-            // 
-            // cboCity
-            // 
-            cboCity.FormattingEnabled = true;
-            cboCity.Location = new Point(151, 65);
-            cboCity.Name = "cboCity";
-            cboCity.Size = new Size(151, 28);
-            cboCity.TabIndex = 42;
             // 
             // txtFax
             // 
@@ -450,6 +444,7 @@
             btnGetAgency.TabIndex = 44;
             btnGetAgency.Text = "Get Agency";
             btnGetAgency.UseVisualStyleBackColor = true;
+            btnGetAgency.Click += btnGetAgency_Click;
             // 
             // picAgents
             // 
@@ -539,8 +534,8 @@
             // gbAgency
             // 
             gbAgency.BackColor = SystemColors.Control;
+            gbAgency.Controls.Add(txtCity);
             gbAgency.Controls.Add(btnAddLocSave);
-            gbAgency.Controls.Add(cboCity);
             gbAgency.Controls.Add(txtFax);
             gbAgency.Controls.Add(txtAgencyPhone);
             gbAgency.Controls.Add(txtPostal);
@@ -562,15 +557,22 @@
             gbAgency.Text = "Location Details:";
             gbAgency.Visible = false;
             // 
+            // txtCity
+            // 
+            txtCity.Location = new Point(151, 66);
+            txtCity.Name = "txtCity";
+            txtCity.Size = new Size(125, 27);
+            txtCity.TabIndex = 42;
+            // 
             // btnAddLocSave
             // 
-            btnAddLocSave.Enabled = false;
-            btnAddLocSave.Location = new Point(251, 301);
+            btnAddLocSave.Location = new Point(280, 301);
             btnAddLocSave.Name = "btnAddLocSave";
-            btnAddLocSave.Size = new Size(100, 29);
+            btnAddLocSave.Size = new Size(151, 29);
             btnAddLocSave.TabIndex = 37;
-            btnAddLocSave.Text = "Add";
+            btnAddLocSave.Text = "Save Changes";
             btnAddLocSave.UseVisualStyleBackColor = true;
+            btnAddLocSave.Click += btnAddLocSave_Click;
             // 
             // testBox1
             // 
@@ -649,7 +651,6 @@
         private TextBox txtEmail;
         private TextBox txtPosition;
         private ComboBox cboAgentLocation;
-        private ComboBox cboCity;
         private TextBox txtFax;
         private TextBox txtAgencyPhone;
         private TextBox txtPostal;
@@ -666,5 +667,6 @@
         private Button btnAgentAddSave;
         private Button btnAddLocSave;
         private TextBox testBox1;
+        private TextBox txtCity;
     }
 }

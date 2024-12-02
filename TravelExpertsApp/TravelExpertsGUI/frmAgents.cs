@@ -14,9 +14,12 @@ namespace TravelExpertsGUI
     public partial class frmAgents : Form
     {
         Agent? selectedAgent = null;
+        Agency? selectedAgency = null;
         int agentID = 0;
+        string agencyCity;
         string rootDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
         bool isAdd = true;
+        bool isAgencyAdd = true;
 
 
 
@@ -31,6 +34,7 @@ namespace TravelExpertsGUI
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agents.jpg");
             txtAgentID.Text = "Enter Agent ID";
+            
         }
 
         private void btnManageAgents_Click(object sender, EventArgs e)
@@ -50,10 +54,13 @@ namespace TravelExpertsGUI
             picAgents.Visible = true;
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgencies.Visible = false;
+            LoadCities(cboAgencyLocation);
 
             gbManageAgent.Visible = false;
             gbManageAgency.Visible = true;
             gbAgent.Visible = false;
+            txtPostal.Text = AgenciesDB.LoadProvince();
+            testBox1.Text = AgenciesDB.LoadProvince();
 
 
         }
@@ -79,16 +86,30 @@ namespace TravelExpertsGUI
             btnAddLocSave.Enabled = true;
             btnAgencyEdit.Enabled = false;
             btnAgencyDelete.Enabled = false;
+            selectedAgency = null;
+            ClearAgency();
+            txtProvince.Text = AgenciesDB.LoadProvince();
+            MakeAgencyNotReadOnly();
+        }
+
+        private void ClearAgency()
+        {
+            txtAddress.Clear();
+            txtCity.Clear();
+            txtPostal.Clear();
+            txtAgencyPhone.Clear();
+            txtFax.Clear();
         }
 
         private void btnGetAgent_Click(object sender, EventArgs e)
         {
             gbAgent.Visible = true;
-            
+
             btnAgentEdit.Enabled = true;
             btnAgentDelete.Enabled = true;
             agentID = Convert.ToInt32(txtAgentID.Text);
             selectedAgent = AgentsDB.GetAgent(agentID);
+            LoadCities(cboAgentLocation);
             DisplayAgent(selectedAgent);
             MakeAgentReadOnly();
         }
@@ -116,6 +137,7 @@ namespace TravelExpertsGUI
                 txtAgentPhone.Text = selectedAgent.AgtBusPhone;
                 txtEmail.Text = selectedAgent.AgtEmail;
                 txtPosition.Text = selectedAgent.AgtPosition;
+                cboAgentLocation.SelectedValue = AgentsDB.AgencyIDtoCity(selectedAgent.AgencyId);
 
             }
         }
@@ -163,7 +185,8 @@ namespace TravelExpertsGUI
             if (isAdd == false)
             {
                 PopulateAgentInfo();
-                AgentsDB.ModifyAgent(selectedAgent.AgentId, selectedAgent);
+                string selectedCity = cboAgentLocation.SelectedValue.ToString();
+                AgentsDB.ModifyAgent(selectedAgent.AgentId, selectedAgent, selectedCity);
                 MessageBox.Show($"Agent Info Updated");
                 MakeAgentReadOnly();
             }
@@ -229,6 +252,114 @@ namespace TravelExpertsGUI
             txtAgentPhone.ReadOnly = false;
             txtPosition.ReadOnly = false;
             cboAgentLocation.Enabled = true;
+        }
+
+        private void btnGetAgency_Click(object sender, EventArgs e)
+        {
+            gbAgency.Visible = true;
+
+            btnAgencyEdit.Enabled = true;
+            btnAgencyDelete.Enabled = true;
+            agencyCity = cboAgencyLocation.SelectedValue.ToString();
+            selectedAgency = AgenciesDB.GetAgency(agencyCity);
+            DisplayAgency(selectedAgency);
+            MakeAgencyReadOnly();
+            //testBox1.Text = agencyCity;
+        }
+
+        private void MakeAgencyReadOnly()
+        {
+            txtAddress.ReadOnly = true;
+            txtCity.ReadOnly = true;
+            txtProvince.ReadOnly = true;
+            txtPostal.ReadOnly = true;
+            txtAgencyPhone.ReadOnly = true;
+            txtFax.ReadOnly = true;
+        }
+
+        private void DisplayAgency(Agency selectedAgency)
+        {
+            if (selectedAgency != null)
+            {
+                txtAddress.Text = selectedAgency.AgncyAddress;
+                txtProvince.Text = selectedAgency.AgncyProv;
+                txtPostal.Text = selectedAgency.AgncyPostal;
+                txtAgencyPhone.Text = selectedAgency.AgncyPhone;
+                txtFax.Text = selectedAgency.AgncyFax;
+                txtCity.Text = selectedAgency.AgncyCity;
+            }
+        }
+
+        private void btnAgencyEdit_Click(object sender, EventArgs e)
+        {
+            MakeAgencyNotReadOnly();
+            isAgencyAdd = false;
+        }
+
+        private void MakeAgencyNotReadOnly()
+        {
+            txtAddress.ReadOnly = false;
+            txtCity.ReadOnly = false;
+            txtProvince.ReadOnly = false;
+            txtPostal.ReadOnly = false;
+            txtAgencyPhone.ReadOnly = false;
+            txtFax.ReadOnly = false;
+        }
+
+        private void btnAddLocSave_Click(object sender, EventArgs e)
+        {
+            if (isAgencyAdd == true)
+            {
+                selectedAgency = new Agency();
+
+                PopulateAgencyInfo();
+
+                AgenciesDB.AddAgency(selectedAgency);
+                MessageBox.Show("Agency has been added");
+                LoadCities(cboAgencyLocation);
+                DisplayAgency(selectedAgency);
+                MakeAgencyReadOnly();
+            }
+
+            if (isAgencyAdd == false)
+            {
+                PopulateAgencyInfo();
+
+                AgenciesDB.ModifyAgency(selectedAgency.AgencyId, selectedAgency);
+                MessageBox.Show($"Agency Info Updated");
+                MakeAgencyReadOnly();
+            }
+
+        }
+
+        private void PopulateAgencyInfo()
+        {
+            selectedAgency.AgncyAddress = txtAddress.Text;
+            selectedAgency.AgncyCity = txtCity.Text;
+            selectedAgency.AgncyProv = txtProvince.Text;
+            selectedAgency.AgncyPostal = txtPostal.Text;
+            selectedAgency.AgncyPhone = txtAgencyPhone.Text;
+            selectedAgency.AgncyFax = txtFax.Text;
+        }
+
+        private void btnAgencyDelete_Click(object sender, EventArgs e)
+        {
+            if (selectedAgency != null)
+            {
+                var result = MessageBox.Show($"Are you sure you want to delete Agency " +
+                    $"{selectedAgency.AgncyCity}?",
+                    "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    AgenciesDB.DeleteAgency(selectedAgency.AgencyId);
+                    MessageBox.Show("Agency has been deleted");
+                    ClearAgency();
+                    gbAgency.Visible = false;
+                    LoadCities(cboAgencyLocation);
+
+                }
+            }
+
         }
     }
 }
