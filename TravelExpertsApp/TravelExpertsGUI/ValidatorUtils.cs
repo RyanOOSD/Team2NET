@@ -40,6 +40,7 @@ public class ValidatorUtils
     // Phone Number Validation
     public static bool IsValidPhoneNumber(TextBox textBox, string errorMessage)
     {
+
         if (string.IsNullOrWhiteSpace(textBox.Text) || !textBox.Text.All(char.IsDigit) || textBox.Text.Length != 10)
         {
             MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -175,6 +176,17 @@ public class ValidatorUtils
     public static bool IsDefaultText(TextBox textBox, string defaultText, string errorMessage)
     {
         if (textBox.Text == defaultText)
+        {
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+        return true;
+    }
+
+    public static bool IsValidPhoneNumberAgent(TextBox textBox, string errorMessage)
+    {
+        Regex validatePhoneNumberRegex = new Regex("^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$");
+        if (string.IsNullOrWhiteSpace(textBox.Text) || validatePhoneNumberRegex.IsMatch(textBox.Text))
         {
             MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;

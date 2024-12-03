@@ -267,9 +267,9 @@
             label15.AutoSize = true;
             label15.Location = new Point(39, 220);
             label15.Name = "label15";
-            label15.Size = new Size(39, 20);
+            label15.Size = new Size(33, 20);
             label15.TabIndex = 21;
-            label15.Text = "Fax*:";
+            label15.Text = "Fax:";
             // 
             // btnAgentEdit
             // 
@@ -404,6 +404,7 @@
             txtFax.Name = "txtFax";
             txtFax.Size = new Size(125, 27);
             txtFax.TabIndex = 41;
+            txtFax.Tag = "Agent Fax Number";
             // 
             // txtAgencyPhone
             // 
@@ -411,6 +412,7 @@
             txtAgencyPhone.Name = "txtAgencyPhone";
             txtAgencyPhone.Size = new Size(125, 27);
             txtAgencyPhone.TabIndex = 40;
+            txtAgencyPhone.Tag = "Agency Phone Number";
             // 
             // txtPostal
             // 
@@ -418,6 +420,7 @@
             txtPostal.Name = "txtPostal";
             txtPostal.Size = new Size(125, 27);
             txtPostal.TabIndex = 39;
+            txtPostal.Tag = "Agency Postal Code";
             // 
             // txtProvince
             // 
@@ -433,6 +436,7 @@
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(125, 27);
             txtAddress.TabIndex = 36;
+            txtAddress.Tag = "Agency Address";
             // 
             // btnGetAgent
             // 
@@ -456,18 +460,18 @@
             // 
             // picAgents
             // 
-            picAgents.Location = new Point(16, 68);
+            picAgents.Location = new Point(12, 73);
             picAgents.Name = "picAgents";
-            picAgents.Size = new Size(500, 500);
+            picAgents.Size = new Size(512, 512);
             picAgents.SizeMode = PictureBoxSizeMode.Zoom;
             picAgents.TabIndex = 45;
             picAgents.TabStop = false;
             // 
             // picAgencies
             // 
-            picAgencies.Location = new Point(559, 68);
+            picAgencies.Location = new Point(546, 73);
             picAgencies.Name = "picAgencies";
-            picAgencies.Size = new Size(500, 500);
+            picAgencies.Size = new Size(512, 512);
             picAgencies.SizeMode = PictureBoxSizeMode.Zoom;
             picAgencies.TabIndex = 46;
             picAgencies.TabStop = false;
@@ -492,7 +496,7 @@
             gbAgent.Controls.Add(txtEmail);
             gbAgent.Controls.Add(txtLName);
             gbAgent.Controls.Add(txtAgentPhone);
-            gbAgent.Location = new Point(68, 213);
+            gbAgent.Location = new Point(68, 208);
             gbAgent.Name = "gbAgent";
             gbAgent.Size = new Size(390, 374);
             gbAgent.TabIndex = 47;
@@ -526,7 +530,7 @@
             gbManageAgent.Controls.Add(btnAgentAdd);
             gbManageAgent.Controls.Add(txtAgentID);
             gbManageAgent.Controls.Add(label1);
-            gbManageAgent.Location = new Point(68, 71);
+            gbManageAgent.Location = new Point(68, 78);
             gbManageAgent.Name = "gbManageAgent";
             gbManageAgent.Size = new Size(390, 118);
             gbManageAgent.TabIndex = 48;
@@ -541,7 +545,7 @@
             gbManageAgency.Controls.Add(cboAgencyLocation);
             gbManageAgency.Controls.Add(btnAddLoc);
             gbManageAgency.Controls.Add(label2);
-            gbManageAgency.Location = new Point(592, 71);
+            gbManageAgency.Location = new Point(592, 78);
             gbManageAgency.Name = "gbManageAgency";
             gbManageAgency.Size = new Size(437, 119);
             gbManageAgency.TabIndex = 49;
@@ -568,7 +572,7 @@
             gbAgency.Controls.Add(label11);
             gbAgency.Controls.Add(label12);
             gbAgency.Controls.Add(label10);
-            gbAgency.Location = new Point(592, 213);
+            gbAgency.Location = new Point(592, 208);
             gbAgency.Name = "gbAgency";
             gbAgency.Size = new Size(437, 374);
             gbAgency.TabIndex = 50;
@@ -591,6 +595,7 @@
             txtCity.Name = "txtCity";
             txtCity.Size = new Size(125, 27);
             txtCity.TabIndex = 42;
+            txtCity.Tag = "Agency City";
             // 
             // btnAddLocSave
             // 
