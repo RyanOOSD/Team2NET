@@ -107,10 +107,8 @@ namespace TravelExpertsGUI
         private void btnGetAgent_Click(object sender, EventArgs e)
         {
             string errorMessage = "Please Enter Valid Agent ID";
-            if (
-                ValidatorUtils.ValidateAgentID(txtAgentID, connectionString) &&
-                ValidatorUtils.IsDefaultText(txtAgentID, defaultText, errorMessage)
-                )
+            if (ValidatorUtils.IsDefaultText(txtAgentID, defaultText, errorMessage) &&
+                ValidatorUtils.ValidateAgentID(txtAgentID, connectionString))
             {
                 gbAgent.Visible = true;
 
@@ -181,13 +179,17 @@ namespace TravelExpertsGUI
 
         private void btnAgentAddSave_Click(object sender, EventArgs e)
         {
-            
-
-            if (ValidatorUtils.IsTextBoxNotEmpty(txtFName, generateErrorMessage(txtFName)) &&
-                ValidatorUtils.IsTextBoxNotEmpty(txtLName, generateErrorMessage(txtLName)) &&
-                ValidatorUtils.IsTextBoxNotEmpty(txtAgentPhone, generateErrorMessage(txtAgentPhone)) &&
-                ValidatorUtils.IsTextBoxNotEmpty(txtEmail, generateErrorMessage(txtEmail)) &&
-                ValidatorUtils.IsTextBoxNotEmpty(txtPosition, generateErrorMessage(txtPosition))
+            if (ValidatorUtils.IsTextBoxNotEmpty(txtFName, errorMessageBlank(txtFName)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtLName, errorMessageBlank(txtLName)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtAgentPhone, errorMessageBlank(txtAgentPhone)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtEmail, errorMessageBlank(txtEmail)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtPosition, errorMessageBlank(txtPosition)) &&
+                ValidatorUtils.IsValidPhoneNumberAgent(txtAgentPhone, errorMessagePhone(txtAgentPhone)) &&
+                ValidatorUtils.IsValidEmail(txtEmail, "Email must be in format 'jsmith@example.com'") &&
+                ValidatorUtils.IsTextBoxWithinMaxLength(txtFName, 20, errorMessageCharLimit(txtFName, 20)) &&
+                ValidatorUtils.IsTextBoxWithinMaxLength(txtMiddle, 20, errorMessageCharLimit(txtMiddle, 5)) &&
+                ValidatorUtils.IsTextBoxWithinMaxLength(txtPosition, 20, errorMessageCharLimit(txtPosition, 20)) &&
+                ValidatorUtils.IsTextBoxWithinMaxLength(txtEmail, 50, errorMessageCharLimit(txtFName, 50))
                 )
 
                 
@@ -331,28 +333,44 @@ namespace TravelExpertsGUI
 
         private void btnAddLocSave_Click(object sender, EventArgs e)
         {
-            if (isAgencyAdd == true)
+            if (ValidatorUtils.IsTextBoxNotEmpty(txtAddress, errorMessageBlank(txtAddress)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtPostal, errorMessageBlank(txtPostal)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtAgencyPhone, errorMessageBlank(txtAgencyPhone)) &&
+                ValidatorUtils.IsValidPostalCode(txtPostal, "Postal Code in text box must be in correct format: 'A1A 1A1'") &&
+                ValidatorUtils.IsValidPhoneNumber(txtAgencyPhone, errorMessagePhone(txtAgencyPhone)) &&
+                ValidatorUtils.IsTextBoxWithinMaxLength(txtAddress, 50, errorMessageCharLimit(txtAddress, 50))
+
+                )
             {
-                selectedAgency = new Agency();
+                if (isAgencyAdd == true)
+                {
+                    selectedAgency = new Agency();
 
-                PopulateAgencyInfo();
+                    PopulateAgencyInfo();
 
-                AgenciesDB.AddAgency(selectedAgency);
-                MessageBox.Show("Agency has been added");
-                LoadCities(cboAgencyLocation);
-                DisplayAgency(selectedAgency);
-                MakeAgencyReadOnly();
+                    AgenciesDB.AddAgency(selectedAgency);
+                    MessageBox.Show("Agency has been added");
+                    LoadCities(cboAgencyLocation);
+                    DisplayAgency(selectedAgency);
+                    MakeAgencyReadOnly();
+                }
+
+                if (isAgencyAdd == false)
+                {
+                    PopulateAgencyInfo();
+
+                    AgenciesDB.ModifyAgency(selectedAgency.AgencyId, selectedAgency);
+                    MessageBox.Show($"Agency Info Updated");
+                    MakeAgencyReadOnly();
+                } 
             }
 
-            if (isAgencyAdd == false)
-            {
-                PopulateAgencyInfo();
+        }
 
-                AgenciesDB.ModifyAgency(selectedAgency.AgencyId, selectedAgency);
-                MessageBox.Show($"Agency Info Updated");
-                MakeAgencyReadOnly();
-            }
-
+        private string errorMessageCharLimit(TextBox textBox, int charLimit)
+        {
+            string errorMessage = $"{textBox.Tag} cannot have more than {charLimit} characters";
+            return errorMessage;
         }
 
         private void PopulateAgencyInfo()
@@ -385,9 +403,15 @@ namespace TravelExpertsGUI
 
         }
 
-        private string generateErrorMessage(TextBox textBox)
+        private string errorMessageBlank(TextBox textBox)
         {
             string errorMessage = $"{textBox.Tag} Field cannot be empty";
+            return errorMessage;
+        }
+
+        private string errorMessagePhone(TextBox textBox)
+        {
+            string errorMessage = $"{textBox.Tag} must contain only numerical characters and have 10 digits";
             return errorMessage;
         }
 
