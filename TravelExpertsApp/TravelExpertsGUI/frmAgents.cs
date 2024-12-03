@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace TravelExpertsGUI
         string rootDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
         bool isAdd = true;
         bool isAgencyAdd = true;
+        string defaultText = "Enter Agent ID";
+        string connectionString = "Data Source=localhost\\sqlexpress;Initial Catalog=TravelExperts;Integrated Security=True; TrustServerCertificate=true";
 
 
 
@@ -32,8 +35,9 @@ namespace TravelExpertsGUI
         {
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agents.jpg");
-            txtAgentID.Text = "Enter Agent ID";
-            
+
+            txtAgentID.Text = defaultText;
+
         }
 
         private void btnManageAgents_Click(object sender, EventArgs e)
@@ -102,15 +106,24 @@ namespace TravelExpertsGUI
 
         private void btnGetAgent_Click(object sender, EventArgs e)
         {
-            gbAgent.Visible = true;
+            string errorMessage = "Please Enter Valid Agent ID";
+            if (
+                ValidatorUtils.ValidateAgentID(txtAgentID, connectionString) &&
+                ValidatorUtils.IsDefaultText(txtAgentID, defaultText, errorMessage)
+                )
+            {
+                gbAgent.Visible = true;
 
-            btnAgentEdit.Enabled = true;
-            btnAgentDelete.Enabled = true;
-            agentID = Convert.ToInt32(txtAgentID.Text);
-            selectedAgent = AgentsDB.GetAgent(agentID);
-            LoadCities(cboAgentLocation);
-            DisplayAgent(selectedAgent);
-            MakeAgentReadOnly();
+                btnAgentEdit.Enabled = true;
+                btnAgentDelete.Enabled = true;
+                agentID = Convert.ToInt32(txtAgentID.Text);
+                selectedAgent = AgentsDB.GetAgent(agentID);
+                LoadCities(cboAgentLocation);
+                DisplayAgent(selectedAgent);
+                MakeAgentReadOnly();
+            }
+
+            
         }
 
         private void MakeAgentReadOnly()
@@ -168,26 +181,37 @@ namespace TravelExpertsGUI
 
         private void btnAgentAddSave_Click(object sender, EventArgs e)
         {
+            
 
-            if (isAdd == true)
-            {
-                selectedAgent = new Agent();
-                string selectedCity = cboAgentLocation.SelectedValue.ToString();
-                PopulateAgentInfo();
-                selectedAgent.AgencyId = null;
-                AgentsDB.AddAgent(selectedAgent, selectedCity);
-                MessageBox.Show("Agent has been added");
-                DisplayAgent(selectedAgent);
-                MakeAgentReadOnly();
-            }
+            if (ValidatorUtils.IsTextBoxNotEmpty(txtFName, generateErrorMessage(txtFName)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtLName, generateErrorMessage(txtLName)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtAgentPhone, generateErrorMessage(txtAgentPhone)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtEmail, generateErrorMessage(txtEmail)) &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtPosition, generateErrorMessage(txtPosition))
+                )
 
-            if (isAdd == false)
+                
             {
-                PopulateAgentInfo();
-                string selectedCity = cboAgentLocation.SelectedValue.ToString();
-                AgentsDB.ModifyAgent(selectedAgent.AgentId, selectedAgent, selectedCity);
-                MessageBox.Show($"Agent Info Updated");
-                MakeAgentReadOnly();
+                if (isAdd == true)
+                {
+                    selectedAgent = new Agent();
+                    string selectedCity = cboAgentLocation.SelectedValue.ToString();
+                    PopulateAgentInfo();
+                    selectedAgent.AgencyId = null;
+                    AgentsDB.AddAgent(selectedAgent, selectedCity);
+                    MessageBox.Show("Agent has been added");
+                    DisplayAgent(selectedAgent);
+                    MakeAgentReadOnly();
+                }
+
+                if (isAdd == false)
+                {
+                    PopulateAgentInfo();
+                    string selectedCity = cboAgentLocation.SelectedValue.ToString();
+                    AgentsDB.ModifyAgent(selectedAgent.AgentId, selectedAgent, selectedCity);
+                    MessageBox.Show($"Agent Info Updated");
+                    MakeAgentReadOnly();
+                } 
             }
 
 
@@ -359,6 +383,17 @@ namespace TravelExpertsGUI
                 }
             }
 
+        }
+
+        private string generateErrorMessage(TextBox textBox)
+        {
+            string errorMessage = $"{textBox.Tag} Field cannot be empty";
+            return errorMessage;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
         }
     }
 }

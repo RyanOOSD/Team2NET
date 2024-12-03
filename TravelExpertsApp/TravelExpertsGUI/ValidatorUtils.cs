@@ -132,7 +132,7 @@ public class ValidatorUtils
         }
         // Check if AgentID is a non-negative integer 
         if (!int.TryParse(textBox.Text, out int agentID) || agentID < 0)
-    {
+        {
             MessageBox.Show("Agent ID must be a non-negative integer.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
@@ -165,13 +165,14 @@ public class ValidatorUtils
                 }
             }
             catch (Exception ex)
-        {
+            {
                 MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
-        }
+                return false;
+            }
         }
     }
 
+    public static bool IsDefaultText(TextBox textBox, string defaultText, string errorMessage)
     //Login Page Validation
     // Method to validate that the input is either numeric or a valid email 
     public static bool IsValidEmailOrAgentID(string input, string errorMessage)
@@ -187,11 +188,15 @@ public class ValidatorUtils
     // Method to validate that the password does not contain spaces 
     public static bool IsValidPassword(string input, string errorMessage)
     {
+        if (textBox.Text == defaultText)
         // Ensure the password does not contain spaces
         if(input.Contains(" "))
         {
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
             MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        return true;
         return !input.Contains(" ");
     }
 
