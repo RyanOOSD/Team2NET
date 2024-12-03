@@ -34,10 +34,8 @@
             btnAddProductToPkg = new Button();
             tbcPkgPage = new TabControl();
             tabPackages = new TabPage();
-            btnPkgSearch = new Button();
             txtPkgSearch = new TextBox();
             tabPkgProductPage = new TabPage();
-            btnPkgProductSearch = new Button();
             txtPkgProductSearch = new TextBox();
             dgvPkgProducts = new DataGridView();
             btnPkgProductsExit = new Button();
@@ -69,6 +67,8 @@
             dgvPkg.ReadOnly = true;
             dgvPkg.Size = new Size(1026, 262);
             dgvPkg.TabIndex = 2;
+            dgvPkg.CellClick += dgvPkg_CellClick;
+            dgvPkg.CellFormatting += dgvPkg_CellFormatting;
             // 
             // btnPkgExit
             // 
@@ -78,6 +78,7 @@
             btnPkgExit.TabIndex = 3;
             btnPkgExit.Text = "Exit";
             btnPkgExit.UseVisualStyleBackColor = true;
+            btnPkgExit.Click += btnPkgExit_Click;
             // 
             // btnAddProductToPkg
             // 
@@ -98,11 +99,11 @@
             tbcPkgPage.SelectedIndex = 0;
             tbcPkgPage.Size = new Size(1034, 376);
             tbcPkgPage.TabIndex = 5;
+            tbcPkgPage.SelectedIndexChanged += tbcPkgPage_SelectedIndexChanged;
             // 
             // tabPackages
             // 
             tabPackages.BackColor = Color.Gainsboro;
-            tabPackages.Controls.Add(btnPkgSearch);
             tabPackages.Controls.Add(txtPkgSearch);
             tabPackages.Controls.Add(dgvPkg);
             tabPackages.Controls.Add(btnAddPkg);
@@ -114,27 +115,18 @@
             tabPackages.TabIndex = 0;
             tabPackages.Text = "Packages";
             // 
-            // btnPkgSearch
-            // 
-            btnPkgSearch.Location = new Point(945, 6);
-            btnPkgSearch.Name = "btnPkgSearch";
-            btnPkgSearch.Size = new Size(75, 23);
-            btnPkgSearch.TabIndex = 5;
-            btnPkgSearch.Text = "Search";
-            btnPkgSearch.UseVisualStyleBackColor = true;
-            // 
             // txtPkgSearch
             // 
             txtPkgSearch.Location = new Point(794, 6);
             txtPkgSearch.Name = "txtPkgSearch";
-            txtPkgSearch.PlaceholderText = "Enter Package ID or Name";
-            txtPkgSearch.Size = new Size(145, 23);
+            txtPkgSearch.PlaceholderText = "Enter your search term...";
+            txtPkgSearch.Size = new Size(226, 23);
             txtPkgSearch.TabIndex = 4;
+            txtPkgSearch.KeyDown += txtPkgSearch_KeyDown;
             // 
             // tabPkgProductPage
             // 
             tabPkgProductPage.BackColor = Color.Gainsboro;
-            tabPkgProductPage.Controls.Add(btnPkgProductSearch);
             tabPkgProductPage.Controls.Add(txtPkgProductSearch);
             tabPkgProductPage.Controls.Add(dgvPkgProducts);
             tabPkgProductPage.Controls.Add(btnPkgProductsExit);
@@ -146,21 +138,12 @@
             tabPkgProductPage.TabIndex = 1;
             tabPkgProductPage.Text = "Package Products";
             // 
-            // btnPkgProductSearch
-            // 
-            btnPkgProductSearch.Location = new Point(945, 6);
-            btnPkgProductSearch.Name = "btnPkgProductSearch";
-            btnPkgProductSearch.Size = new Size(75, 23);
-            btnPkgProductSearch.TabIndex = 8;
-            btnPkgProductSearch.Text = "Search";
-            btnPkgProductSearch.UseVisualStyleBackColor = true;
-            // 
             // txtPkgProductSearch
             // 
             txtPkgProductSearch.Location = new Point(794, 6);
             txtPkgProductSearch.Name = "txtPkgProductSearch";
-            txtPkgProductSearch.PlaceholderText = "Enter Package ID or Name";
-            txtPkgProductSearch.Size = new Size(145, 23);
+            txtPkgProductSearch.PlaceholderText = "Enter your search term...";
+            txtPkgProductSearch.Size = new Size(226, 23);
             txtPkgProductSearch.TabIndex = 7;
             // 
             // dgvPkgProducts
@@ -173,6 +156,8 @@
             dgvPkgProducts.ReadOnly = true;
             dgvPkgProducts.Size = new Size(1026, 262);
             dgvPkgProducts.TabIndex = 6;
+            dgvPkgProducts.CellClick += dgvPkgProducts_CellClick;
+            dgvPkgProducts.CellFormatting += dgvPkgProducts_CellFormatting;
             // 
             // btnPkgProductsExit
             // 
@@ -182,6 +167,7 @@
             btnPkgProductsExit.TabIndex = 5;
             btnPkgProductsExit.Text = "Exit";
             btnPkgProductsExit.UseVisualStyleBackColor = true;
+            btnPkgProductsExit.Click += btnPkgProductsExit_Click;
             // 
             // frmManagePackages
             // 
@@ -214,9 +200,7 @@
         private TabPage tabPkgProductPage;
         private Button btnPkgProductsExit;
         private TextBox txtPkgSearch;
-        private Button btnPkgSearch;
         private DataGridView dgvPkgProducts;
-        private Button btnPkgProductSearch;
         private TextBox txtPkgProductSearch;
     }
 }

@@ -81,6 +81,7 @@
             btnCancel.TabIndex = 5;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // cmbPackages
             // 
@@ -113,7 +114,6 @@
         #endregion
 
         private Label lblSelectedPkg;
-        private TextBox txtSelectedPkg;
         private ComboBox cmbProducts;
         private Label lblSelectedProduct;
         private Button btnSubmit;

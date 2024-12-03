@@ -30,12 +30,20 @@ namespace TravelExpertsData
             }
         }
 
-        public static List<Package> GetPackage()
+        public static List<Package> GetPackageCombobox()
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
                 return db.Packages
                     .OrderBy(p => p.PkgName).ToList();
+            }
+        }
+
+        public static Package? FindPackage(int packageID)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                return db.Packages.Find(packageID);
             }
         }
 
@@ -46,6 +54,37 @@ namespace TravelExpertsData
                 if (package != null)
                 {
                     db.Packages.Add(package);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public static void ModifyPackage(Package selectedPackage)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                Package? packageToModify = db.Packages.Find(selectedPackage.PackageId);
+                if (packageToModify != null)
+                {
+                    packageToModify.PkgName = selectedPackage.PkgName;
+                    packageToModify.PkgStartDate = selectedPackage.PkgStartDate;
+                    packageToModify.PkgEndDate = selectedPackage.PkgEndDate;
+                    packageToModify.PkgDesc = selectedPackage.PkgDesc;
+                    packageToModify.PkgBasePrice = selectedPackage.PkgBasePrice;
+                    packageToModify.PkgAgencyCommission = selectedPackage.PkgAgencyCommission;
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public static void DeletePackage(Package selectedPackage)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                Package? packageToDelete = db.Packages.Find(selectedPackage.PackageId);
+                if (packageToDelete != null)
+                {
+                    db.Packages.Remove(packageToDelete);
                     db.SaveChanges();
                 }
             }

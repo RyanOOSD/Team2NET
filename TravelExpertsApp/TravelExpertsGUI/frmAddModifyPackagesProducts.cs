@@ -50,7 +50,7 @@ namespace TravelExpertsGUI
 
         private void LoadPackages()
         {
-            List<Package> list = PackageDB.GetPackage();
+            List<Package> list = PackageDB.GetPackageCombobox();
             cmbPackages.DataSource = list;
             cmbPackages.DisplayMember = "PkgName";
             cmbPackages.ValueMember = "PackageId";
@@ -58,7 +58,7 @@ namespace TravelExpertsGUI
 
         private void LoadPackageProducts()
         {
-            List<PackagesProductsSupplierDTO> list = PackagesProductsSupplierDB.GetPackageProducts();
+            List<PackagesProductsSupplierDTO> list = PackagesProductsSupplierDB.GetPackageProductsCombobox();
             cmbProducts.DataSource = list;
             cmbProducts.ValueMember = "ProductSupId";
         }
@@ -89,6 +89,11 @@ namespace TravelExpertsGUI
             packageProduct.PackageId = Convert.ToInt32(cmbPackages.SelectedValue);
 
             packageProduct.ProductSupplierId = Convert.ToInt32(cmbProducts.SelectedValue);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

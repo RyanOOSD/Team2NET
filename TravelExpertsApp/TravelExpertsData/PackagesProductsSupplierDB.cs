@@ -44,7 +44,7 @@ namespace TravelExpertsData
             }
         }
 
-        public static List<PackagesProductsSupplierDTO> GetPackageProducts()
+        public static List<PackagesProductsSupplierDTO> GetPackageProductsCombobox()
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
@@ -69,6 +69,14 @@ namespace TravelExpertsData
             }
         }
 
+        public static PackagesProductsSupplier FindPackageProduct(int packageProductID)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                return db.PackagesProductsSuppliers.Find(packageProductID);
+            }
+        }
+
         public static void AddPackageProduct(PackagesProductsSupplier packageProduct)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -76,6 +84,33 @@ namespace TravelExpertsData
                 if (packageProduct != null)
                 {
                     db.PackagesProductsSuppliers.Add(packageProduct);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public static void ModifyPackageProduct(PackagesProductsSupplier selectedPackageProduct)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                PackagesProductsSupplier? packageProductToModify = db.PackagesProductsSuppliers.Find(selectedPackageProduct.PackageProductSupplierId);
+                if (packageProductToModify != null)
+                {
+                    packageProductToModify.PackageId = selectedPackageProduct.PackageId;
+                    packageProductToModify.ProductSupplierId = selectedPackageProduct.ProductSupplierId;
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public static void DeletePackageProduct(PackagesProductsSupplier selectedPackageProduct)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                PackagesProductsSupplier? packageProductToDelete = db.PackagesProductsSuppliers.Find(selectedPackageProduct.PackageProductSupplierId);
+                if ( packageProductToDelete != null )
+                {
+                    db.PackagesProductsSuppliers.Remove(packageProductToDelete);
                     db.SaveChanges();
                 }
             }

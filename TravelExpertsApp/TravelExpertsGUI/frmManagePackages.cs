@@ -14,11 +14,16 @@ namespace TravelExpertsGUI
 {
     public partial class frmManagePackages : Form
     {
-        TravelExpertsData.Package selectedPackage = null;
-        PackagesProductsSupplier selectedPackageProduct = null;
+        TravelExpertsData.Package? selectedPackage = null;
+        PackagesProductsSupplier? selectedPackageProduct = null;
 
         List<PackageDTO> packages = new List<PackageDTO>();
         List<PackagesProductsSupplierDTO> products = new List<PackagesProductsSupplierDTO>();
+
+        const int modifyPkgIndex = 7;
+        const int deletePkgIndex = 8;
+        const int modifyPkgProductIndex = 5;
+        const int deletePkgProductIndex = 6;
 
         public frmManagePackages()
         {
@@ -31,29 +36,51 @@ namespace TravelExpertsGUI
             DisplayPackageProducts();
         }
 
+        private void tbcPkgPage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayPackages();
+            DisplayPackageProducts();
+        }
+
         private void DisplayPackages()
         {
             dgvPkg.Columns.Clear();
 
             packages = PackageDB.GetPackageList();
             dgvPkg.DataSource = packages;
+
+            DataGridViewCellStyle btnModifyStyle = new DataGridViewCellStyle()
+            {
+                BackColor = Color.Yellow,
+                Alignment = DataGridViewContentAlignment.MiddleCenter
+            };
+            DataGridViewCellStyle btnDeleteStyle = new DataGridViewCellStyle()
+            {
+                BackColor = Color.Tomato,
+                Alignment = DataGridViewContentAlignment.MiddleCenter
+            };
+
             DataGridViewButtonColumn btnModifyColumn = new DataGridViewButtonColumn()
             {
                 UseColumnTextForButtonValue = true,
                 HeaderText = "",
-                Text = "Modify"
+                Text = "Modify",
+                FlatStyle = FlatStyle.Popup,
+                DefaultCellStyle = btnModifyStyle
             };
             dgvPkg.Columns.Add(btnModifyColumn);
             DataGridViewButtonColumn btnDeleteColumn = new DataGridViewButtonColumn()
             {
                 UseColumnTextForButtonValue = true,
                 HeaderText = "",
-                Text = "Delete"
+                Text = "Delete",
+                FlatStyle = FlatStyle.Popup,
+                DefaultCellStyle = btnDeleteStyle
             };
             dgvPkg.Columns.Add(btnDeleteColumn);
 
             dgvPkg.RowHeadersWidth = 25;
-            dgvPkg.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;   
+            dgvPkg.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvPkg.EnableHeadersVisualStyles = false;
             dgvPkg.ColumnHeadersDefaultCellStyle.BackColor = Color.RoyalBlue;
             dgvPkg.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
@@ -65,7 +92,7 @@ namespace TravelExpertsGUI
             dgvPkg.Columns[2].DefaultCellStyle.Format = "MM/dd/yyyy";
             dgvPkg.Columns[3].HeaderText = "End Date";
             dgvPkg.Columns[3].DefaultCellStyle.Format = "MM/dd/yyyy";
-            
+
             dgvPkg.Columns[4].HeaderText = "Description";
 
             dgvPkg.Columns[5].HeaderText = "Price";
@@ -79,6 +106,108 @@ namespace TravelExpertsGUI
             dgvPkg.Columns[8].Width = 100;
         }
 
+        private void dgvPkg_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex % 2 == 1)
+            {
+                if (e.ColumnIndex == modifyPkgIndex)
+                {
+                    e.CellStyle.BackColor = Color.Yellow;
+                }
+                else if (e.ColumnIndex == deletePkgIndex)
+                {
+                    e.CellStyle.BackColor = Color.Tomato;
+                }
+                else
+                {
+                    dgvPkg.AlternatingRowsDefaultCellStyle.BackColor = Color.LightBlue;
+                }
+            }
+        }
+
+        private void btnAddPkg_Click(object sender, EventArgs e)
+        {
+            frmAddModifyPackages addPackage = new frmAddModifyPackages();
+            addPackage.isNewPackage = true;
+            addPackage.package = null!;
+
+            DialogResult result = addPackage.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                selectedPackage = addPackage.package;
+                PackageDB.AddPackage(selectedPackage);
+                MessageBox.Show($"{selectedPackage.PkgName} has been added successfully.");
+                DisplayPackages();
+            }
+        }
+
+        private void dgvPkg_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                if (e.ColumnIndex == modifyPkgIndex || e.ColumnIndex == deletePkgIndex)
+                {
+                    DataGridViewCell packageIDCell = dgvPkg.Rows[e.RowIndex].Cells[0];
+                    int packageID = Convert.ToInt32(packageIDCell.Value);
+                    selectedPackage = PackageDB.FindPackage(packageID)!;
+                }
+
+                if (selectedPackage != null)
+                {
+                    if (e.ColumnIndex == modifyPkgIndex)
+                    {
+                        ModifyPackage();
+                    }
+                    else if (e.ColumnIndex == deletePkgIndex)
+                    {
+                        DeletePackage();
+                    }
+                }
+            }
+        }
+
+        private void ModifyPackage()
+        {
+            frmAddModifyPackages modifyPackage = new frmAddModifyPackages();
+            modifyPackage.isNewPackage = false;
+            modifyPackage.package = selectedPackage!;
+
+            DialogResult result = modifyPackage.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (selectedPackage != null)
+                {
+                    PackageDB.ModifyPackage(selectedPackage);
+                    MessageBox.Show($"{selectedPackage.PkgName} has been edited successfully.");
+                    DisplayPackages();
+                }
+            }
+        }
+
+        private void DeletePackage()
+        {
+            DialogResult result = MessageBox.Show(
+                $"Are you sure you want to delete {selectedPackage!.PkgName}?",
+                "Confirm Package Deletion", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                PackageDB.DeletePackage(selectedPackage);
+                MessageBox.Show("Package has been successfully deleted.");
+                DisplayPackages();
+            }
+        }
+
+        private void txtPkgSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void btnPkgExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void DisplayPackageProducts()
         {
             dgvPkgProducts.Columns.Clear();
@@ -87,18 +216,33 @@ namespace TravelExpertsGUI
             dgvPkgProducts.DataSource = products;
             dgvPkgProducts.Columns["ProductSupId"].Visible = false;
 
+            DataGridViewCellStyle btnModifyStyle = new DataGridViewCellStyle()
+            {
+                BackColor = Color.Yellow,
+                Alignment = DataGridViewContentAlignment.MiddleCenter
+            };
+            DataGridViewCellStyle btnDeleteStyle = new DataGridViewCellStyle()
+            {
+                BackColor = Color.Tomato,
+                Alignment = DataGridViewContentAlignment.MiddleCenter
+            };
+
             DataGridViewButtonColumn btnModifyColumn = new DataGridViewButtonColumn()
             {
                 UseColumnTextForButtonValue = true,
                 HeaderText = "",
-                Text = "Modify"
+                Text = "Modify",
+                FlatStyle = FlatStyle.Popup,
+                DefaultCellStyle = btnModifyStyle
             };
             dgvPkgProducts.Columns.Add(btnModifyColumn);
             DataGridViewButtonColumn btnDeleteColumn = new DataGridViewButtonColumn()
             {
                 UseColumnTextForButtonValue = true,
                 HeaderText = "",
-                Text = "Delete"
+                Text = "Delete",
+                FlatStyle = FlatStyle.Popup,
+                DefaultCellStyle = btnDeleteStyle
             };
             dgvPkgProducts.Columns.Add(btnDeleteColumn);
 
@@ -123,18 +267,22 @@ namespace TravelExpertsGUI
             dgvPkgProducts.Columns[6].Width = 100;
         }
 
-        private void btnAddPkg_Click(object sender, EventArgs e)
+        private void dgvPkgProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            frmAddModifyPackages addPackage = new frmAddModifyPackages();
-            addPackage.isNewPackage = true;
-            addPackage.package = null;
-
-            DialogResult result = addPackage.ShowDialog();
-            if (result == DialogResult.OK)
+            if (e.RowIndex % 2 == 1)
             {
-                selectedPackage = addPackage.package;
-                PackageDB.AddPackage(selectedPackage);
-                DisplayPackages();
+                if (e.ColumnIndex == modifyPkgProductIndex)
+                {
+                    e.CellStyle.BackColor = Color.Yellow;
+                }
+                else if (e.ColumnIndex == deletePkgProductIndex)
+                {
+                    e.CellStyle.BackColor = Color.Tomato;
+                }
+                else
+                {
+                    dgvPkgProducts.AlternatingRowsDefaultCellStyle.BackColor = Color.LightBlue;
+                }
             }
         }
 
@@ -142,15 +290,75 @@ namespace TravelExpertsGUI
         {
             frmAddModifyPackagesProducts addPackageProducts = new frmAddModifyPackagesProducts();
             addPackageProducts.isNewPackageProduct = true;
-            addPackageProducts.packageProduct = null;
+            addPackageProducts.packageProduct = null!;
 
             DialogResult result = addPackageProducts.ShowDialog();
             if (result == DialogResult.OK)
             {
                 selectedPackageProduct = addPackageProducts.packageProduct;
                 PackagesProductsSupplierDB.AddPackageProduct(selectedPackageProduct);
+                MessageBox.Show("Product successfully added to the package.");
                 DisplayPackageProducts();
             }
+        }
+
+        private void dgvPkgProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == modifyPkgProductIndex || e.ColumnIndex == deletePkgProductIndex)
+            {
+                DataGridViewCell packageProductIDCell = dgvPkgProducts.Rows[e.RowIndex].Cells[0];
+                int packageProductID = Convert.ToInt32(packageProductIDCell.Value);
+                selectedPackageProduct = PackagesProductsSupplierDB.FindPackageProduct(packageProductID);
+
+                if (selectedPackageProduct != null)
+                {
+                    if (e.ColumnIndex == modifyPkgProductIndex)
+                    {
+                        ModifyPackageProduct();
+                    }
+                    if (e.ColumnIndex == deletePkgProductIndex)
+                    {
+                        DeletePackageProduct();
+                    }
+                }
+            }
+        }
+
+        private void ModifyPackageProduct()
+        {
+            frmAddModifyPackagesProducts modifyPackageProducts = new frmAddModifyPackagesProducts();
+            modifyPackageProducts.isNewPackageProduct = false;
+            modifyPackageProducts.packageProduct = selectedPackageProduct!;
+
+            DialogResult result = modifyPackageProducts.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                if (selectedPackageProduct != null)
+                {
+                    PackagesProductsSupplierDB.ModifyPackageProduct(selectedPackageProduct);
+                    MessageBox.Show($"Product added to package successfully.");
+                    DisplayPackageProducts();
+                }
+            }
+        }
+
+        private void DeletePackageProduct()
+        {
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this product from this package?",
+                "Confirm Package Product Deletion", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                PackagesProductsSupplierDB.DeletePackageProduct(selectedPackageProduct);
+                MessageBox.Show("Package product has been successfully deleted.");
+                DisplayPackageProducts();
+            }
+        }
+
+        private void btnPkgProductsExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
