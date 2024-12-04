@@ -172,4 +172,20 @@ public class ValidatorUtils
         }
     }
 
+    //Login Page Validation
+    // Method to validate that the input is either numeric or a valid email 
+
+    public static bool IsValidEmailOrAgentID(string input)
+    {
+        // Regular expression to match valid emails and numeric values 
+        string pattern = @"^(\d+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$";
+        return Regex.IsMatch(input, pattern);
+    }
+    // Method to validate that the password does not contain spaces 
+    public static bool IsValidPassword(string input)
+    {
+        // Ensure the password does not contain spaces 
+        return !input.Contains(" ");
+    }
+
 }
