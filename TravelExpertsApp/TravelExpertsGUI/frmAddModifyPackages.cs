@@ -49,16 +49,26 @@ namespace TravelExpertsGUI
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (isNewPackage)
+            if (ValidatorUtils.IsTextBoxNotEmpty(txtPkgName, "Package name cannot be empty.")
+                && ValidatorUtils.IsTextBoxNotEmpty(txtPkgDesc, "Package description cannot be empty.")
+                && ValidatorUtils.IsTextBoxWithinMaxLength(txtPkgName, 50, "Package name cannot exceed 50 characters.")
+                && ValidatorUtils.IsTextBoxWithinMaxLength(txtPkgDesc, 50, "Package description cannot exceed 50 characters.")
+                && ValidatorUtils.IsStartDateNotEarlierThanToday(dtpPkgStartDate, "Package start date cannot be earlier than today's date.")
+                && ValidatorUtils.IsEndDateAfterStartDate(dtpPkgStartDate, dtpPkgEndDate, "Package end date cannot be earlier than or equal to the start date.")
+                && ValidatorUtils.IsNonNegativeDecimal(txtPkgBasePrice, "Package base price must be a non-negative numeric value.")
+                && ValidatorUtils.IsNonNegativeDecimal(txtAgencyCommission, "Agency commission must be a non-negative numeric value."))
             {
-                package = new TravelExpertsData.Package();
-                PopulatePackage();
+                if (isNewPackage)
+                {
+                    package = new TravelExpertsData.Package();
+                    PopulatePackage();
+                }
+                else
+                {
+                    PopulatePackage();
+                }
+                this.DialogResult = DialogResult.OK;
             }
-            else
-            {
-                PopulatePackage();
-            }
-            this.DialogResult = DialogResult.OK;
         }
 
         private void PopulatePackage()

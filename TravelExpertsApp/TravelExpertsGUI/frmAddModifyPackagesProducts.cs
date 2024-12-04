@@ -72,22 +72,25 @@ namespace TravelExpertsGUI
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (isNewPackageProduct)
+            if (ValidatorUtils.IsComboBoxSelected(cmbPackages, "A package must be selected.")
+                && ValidatorUtils.IsComboBoxSelected(cmbProducts, "A product must be selected."))
             {
-                packageProduct = new PackagesProductsSupplier();
-                PopulatePackageProduct();
+                if (isNewPackageProduct)
+                {
+                    packageProduct = new PackagesProductsSupplier();
+                    PopulatePackageProduct();
+                }
+                else
+                {
+                    PopulatePackageProduct();
+                }
+                this.DialogResult = DialogResult.OK;
             }
-            else
-            {
-                PopulatePackageProduct();
-            }
-            this.DialogResult = DialogResult.OK;
         }
 
         private void PopulatePackageProduct()
         {
             packageProduct.PackageId = Convert.ToInt32(cmbPackages.SelectedValue);
-
             packageProduct.ProductSupplierId = Convert.ToInt32(cmbProducts.SelectedValue);
         }
 
