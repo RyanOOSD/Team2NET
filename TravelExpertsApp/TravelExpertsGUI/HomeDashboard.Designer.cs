@@ -41,6 +41,7 @@
             btnAgentsAndAgencies.TabIndex = 0;
             btnAgentsAndAgencies.Text = "Manage Agents and Agencies";
             btnAgentsAndAgencies.UseVisualStyleBackColor = true;
+            btnAgentsAndAgencies.Click += btnAgentsAndAgencies_Click;
             // 
             // btnProductsAndSuppliers
             // 
@@ -50,6 +51,7 @@
             btnProductsAndSuppliers.TabIndex = 1;
             btnProductsAndSuppliers.Text = "Manage Products And Suppliers";
             btnProductsAndSuppliers.UseVisualStyleBackColor = true;
+            btnProductsAndSuppliers.Click += btnProductsAndSuppliers_Click;
             // 
             // btnPackages
             // 
@@ -59,6 +61,7 @@
             btnPackages.TabIndex = 2;
             btnPackages.Text = "Manage Packages";
             btnPackages.UseVisualStyleBackColor = true;
+            btnPackages.Click += btnPackages_Click;
             // 
             // HomeDashboard
             // 

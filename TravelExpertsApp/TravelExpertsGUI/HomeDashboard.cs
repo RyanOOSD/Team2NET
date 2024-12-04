@@ -29,5 +29,21 @@ namespace TravelExpertsGUI
             }
 
         }
+
+        private void btnProductsAndSuppliers_Click(object sender, EventArgs e)
+        {
+            frmProductAndSupplier newForm = new frmProductAndSupplier();
+            newForm.ShowDialog();
+        }
+
+        private void btnPackages_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAgentsAndAgencies_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
