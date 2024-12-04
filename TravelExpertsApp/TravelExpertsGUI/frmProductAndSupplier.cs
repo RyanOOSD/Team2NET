@@ -28,6 +28,138 @@ namespace TravelExpertsGUI
             comboBxProducts.SelectedIndex = 3;
         }
 
+        // UI initialization functions
+        /// <summary>
+        /// Sets up the initial state of the UI components.
+        /// </summary>
+        private void SetUpInitialState()
+        {
+            dgvProducts.Visible = false;
+            dgvSuppliers.Visible = false;
+            btnExecuteProducts.Visible = false;
+            btnExecuteSuppliers.Visible = false;
+            btnClearProducts.Visible = false;
+            btnClearSuppliers.Visible = false;
+            grpBoxProducts.Visible = false;
+            grpBoxSuppliers.Visible = false;
+            grpBoxStatus.Text = "Add New Relationship";
+            dgvProductSuppliers.ReadOnly = true;
+            dgvAddRelationship.Rows.Clear();
+
+            comboBxProducts.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBxSuppliers.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // Hide textboxes and labels initially
+            txtProduct.Visible = false;
+            txtSupplier.Visible = false;
+            lblProduct.Visible = false;
+            lblSuppler.Visible = false;
+            dgvAddRelationship.Visible = false;
+
+            txtSearchSuppliers.TextChanged += txtSearch_Changed;
+            txtSearchProdSup.TextChanged += txtSearch_Changed;
+
+            btnCancelSearchProdSup.Visible = false;
+            btnCancelSearchSuppliers.Visible = false;
+            btnCancelSearchProducts.Visible = false;
+            btnCancelSearchProducts.Click += Cancel_Click;
+            btnCancelSearchSuppliers.Click += Cancel_Click;
+            btnCancelSearchProdSup.Click += Cancel_Click;
+        }
+
+        /// <summary>
+        /// Configures the DataGridView for adding new product-supplier relationships.
+        /// </summary>
+        private void ConfigureAddNewRelatioshipDgv()
+        {
+            if (dgvAddRelationship.Columns.Count == 0)
+            {
+                dgvAddRelationship.Columns.Add("ProductSupplierId", "ProductSupplierId");
+
+                DataGridViewComboBoxColumn productComboBoxColumn = new DataGridViewComboBoxColumn
+                {
+                    Name = "ProductId",
+                    HeaderText = "Product",
+                    DataSource = _context.Products.ToList(),
+                    DisplayMember = "ProductId",
+                    ValueMember = "ProductId"
+                };
+                dgvAddRelationship.Columns.Add(productComboBoxColumn);
+
+                DataGridViewComboBoxColumn supplierComboBoxColumn = new DataGridViewComboBoxColumn
+                {
+                    Name = "SupplierId",
+                    HeaderText = "Supplier",
+                    DataSource = _context.Suppliers.ToList(),
+                    DisplayMember = "SupplierId",
+                    ValueMember = "SupplierId"
+                };
+                dgvAddRelationship.Columns.Add(supplierComboBoxColumn);
+
+                DataGridViewButtonColumn addButtonColumn = new DataGridViewButtonColumn
+                {
+                    Name = "ApplyButton",
+                    Text = "Apply",
+                    UseColumnTextForButtonValue = true
+                };
+                dgvAddRelationship.Columns.Add(addButtonColumn);
+
+                DataGridViewButtonColumn deleteButtonColumn = new DataGridViewButtonColumn
+                {
+                    Name = "DiscardButton",
+                    Text = "Discard",
+                    UseColumnTextForButtonValue = true
+                };
+                dgvAddRelationship.Columns.Add(deleteButtonColumn);
+
+                dgvAddRelationship.CellContentClick += dgvAddRelationship_CellContentClick;
+            }
+        }
+
+        /// <summary>
+        /// Initializes the search box with rounded corners and event handlers.
+        /// </summary>
+        private void InitializeSearchBox()
+        {
+            List<Panel> searchBoxList = new List<Panel> { panelSearchProducts, panelSearchSupplier, panelSearchProdSup };
+
+            foreach (var searchBox in searchBoxList)
+            {
+                searchBox.Paint += (sender, e) =>
+                {
+                    e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                    using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+                    {
+                        int radius = 25;
+                        Rectangle rect = new Rectangle(0, 0, panelSearchProducts.Width - 1, panelSearchProducts.Height - 1);
+                        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+                        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
+                        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+                        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+                        path.CloseFigure();
+
+                        using (Brush brush = new SolidBrush(panelSearchProducts.BackColor))
+                        {
+                            e.Graphics.FillPath(brush, path);
+                        }
+
+                        using (Pen pen = new Pen(Color.Gray, 2))
+                        {
+                            e.Graphics.DrawPath(pen, path);
+                        }
+                    }
+                };
+            }
+        }
+
+
+        // Event handlers and utility functions
+        /// <summary>
+        /// Handles the search text change event and applies the appropriate filter.
+        /// </summary>
+        
+
         private TabPage FindParentTabPage(Control control)
         {
             while (control != null)
@@ -137,42 +269,175 @@ namespace TravelExpertsGUI
             }
         }
 
-
-
-        private void SetUpInitialState()
+        // Generates a new DataGridViewRow for the Add/Edit relationship DataGridView
+        private DataGridViewRow generateNewRow(int displayId, int? prodId, int? suppId)
         {
-            dgvProducts.Visible = false;
-            dgvSuppliers.Visible = false;
-            btnExecuteProducts.Visible = false;
-            btnExecuteSuppliers.Visible = false;
-            btnClearProducts.Visible = false;
-            btnClearSuppliers.Visible = false;
-            grpBoxProducts.Visible = false;
-            grpBoxSuppliers.Visible = false;
-            grpBoxStatus.Text = "Add New Relationship";
-            dgvProductSuppliers.ReadOnly = true;
-            dgvAddRelationship.Rows.Clear();
+            grpBoxStatus.Text = (isEdit ? "Editing Relationship " : "Adding Relationship ") + $"Id - {displayId}";
 
-            // Hide textboxes and labels initially
-            txtProduct.Visible = false;
-            txtSupplier.Visible = false;
-            lblProduct.Visible = false;
-            lblSuppler.Visible = false;
-            dgvAddRelationship.Visible = false;
+            // Creating a new row and populate the cells
+            DataGridViewRow newRow = new DataGridViewRow();
+            int newId = displayId;
 
+            DataGridViewTextBoxCell idCell = new DataGridViewTextBoxCell { Value = newId };
+            idCell.ReadOnly = true;
+            newRow.Cells.Add(idCell);
 
-            txtSearchSuppliers.TextChanged += txtSearch_Changed;
-            txtSearchProdSup.TextChanged += txtSearch_Changed;
+            DataGridViewComboBoxCell productComboBoxCell = new DataGridViewComboBoxCell
+            {
+                DataSource = _context.Products.ToList(),
+                DisplayMember = "ProdName",
+                ValueMember = "ProductId",
+                Value = prodId
+            };
+            newRow.Cells.Add(productComboBoxCell);
 
-            btnCancelSearchProdSup.Visible = false;
-            btnCancelSearchSuppliers.Visible = false;
-            btnCancelSearchProducts.Visible = false;
-            btnCancelSearchProducts.Click += Cancel_Click;
-            btnCancelSearchSuppliers.Click += Cancel_Click;
-            btnCancelSearchProdSup.Click += Cancel_Click;
+            DataGridViewComboBoxCell supplierComboBoxCell = new DataGridViewComboBoxCell
+            {
+                DataSource = _context.Suppliers.ToList(),
+                DisplayMember = "SupName",
+                ValueMember = "SupplierId",
+                Value = suppId
+            };
+            newRow.Cells.Add(supplierComboBoxCell);
+
+            DataGridViewButtonCell applyButtonCell = new DataGridViewButtonCell { Value = "Apply" };
+            applyButtonCell.Style.BackColor = Color.Green;
+            newRow.Cells.Add(applyButtonCell);
+
+            DataGridViewButtonCell discardButtonCell = new DataGridViewButtonCell { Value = "Discard" };
+            discardButtonCell.Style.BackColor = Color.Red;
+            newRow.Cells.Add(discardButtonCell);
+
+            return newRow;
         }
 
+        /// <summary>
+        /// CORE FUNCTIONALITY UI HANDLERS
+        /// </summary>
 
+        // Handles "Add New Relationship" button click, generates a new relationship row for editing
+        private void btnAddNewRelationship_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow newRow = generateNewRow(_context.ProductsSuppliers.Any()
+                ? _context.ProductsSuppliers.Max(ps => ps.ProductSupplierId) + 1
+                : 1, null, null);
+
+            dgvAddRelationship.Rows.Add(newRow);
+
+            disableButtons = true;
+            dgvAddRelationship.Visible = true;
+            btnAddNewRelationship.Visible = false;
+        }
+
+        // Handles cell clicks in the Add/Edit relationship DataGridView
+        private void dgvAddRelationship_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                string columnName = dgvAddRelationship.Columns[e.ColumnIndex].Name;
+
+                if (columnName == "ApplyButton")
+                {
+                    DataGridViewRow row = dgvAddRelationship.Rows[e.RowIndex];
+
+                    if (string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) && string.IsNullOrEmpty(Convert.ToString(row.Cells[2].Value)))
+                    {
+                        MessageBox.Show("New added Relationship can't be empty");
+                        return;
+                    }
+                    else
+                    {
+                        int productSupplierId = (int)row.Cells[0].Value;
+                        int productId = (int)row.Cells[1].Value;
+                        int supplierId = (int)row.Cells[2].Value;
+
+                        if (isEdit)
+                        {
+                            ProductsSupplier? relationship = _context.ProductsSuppliers.FirstOrDefault(ps => ps.ProductSupplierId == productSupplierId);
+                            if (relationship != null)
+                            {
+                                relationship.ProductId = productId;
+                                relationship.SupplierId = supplierId;
+                            }
+                        }
+                        else
+                        {
+                            // Add new relationship to database
+                            var newRelationship = new ProductsSupplier
+                            {
+                                ProductId = productId,
+                                SupplierId = supplierId
+                            };
+                            _context.ProductsSuppliers.Add(newRelationship);
+                        }
+
+                        _context.SaveChanges();
+
+                        var updatedData = _context.ProductsSuppliers
+                        .Select(ps => new
+                        {
+                            ps.ProductSupplierId,
+                            ProdName = string.IsNullOrEmpty(ps.Product.ProdName) ? "N/A" : ps.Product.ProdName,
+                            SuppName = string.IsNullOrEmpty(ps.Supplier.SupName) ? "N/A" : ps.Supplier.SupName,
+                        }).ToList();
+
+                        dgvProductSuppliers.DataSource = updatedData;
+
+                        dgvProductSuppliers.Refresh();
+
+                        MessageBox.Show($"Relationship {(isEdit ? "edited" : "added")} successfully!");
+
+                        dgvAddRelationship.Rows.RemoveAt(e.RowIndex);
+                        isEdit = false;
+                        dgvAddRelationship.Visible = false;
+                        btnAddNewRelationship.Visible = true;
+                    }
+                }
+                else if (columnName == "DiscardButton")
+                {
+                    // "Discard" button clicked
+                    dgvAddRelationship.Rows.RemoveAt(e.RowIndex);
+                    MessageBox.Show("Row discarded successfully!");
+
+                    isEdit = false;
+                    dgvAddRelationship.Visible = false;
+                    btnAddNewRelationship.Visible = true;
+                }
+
+                disableButtons = false;
+                grpBoxStatus.Text = "Add New Relationship";
+            }
+        }
+
+        // Handles "Execute Products" button click for product operations (Add, Edit, Get)
+        private void btnExecuteProducts_Click(object sender, EventArgs e)
+        {
+            ExecuteOperation(tabProducts, comboBxProducts, txtProduct);
+        }
+
+        private void btnExecuteSuppliers_Click(object sender, EventArgs e)
+        {
+            ExecuteOperation(tabSuppliers, comboBxSuppliers, txtSupplier);
+        }
+
+        // Handles tab control selection change and updates the UI accordingly
+        private void tabControl_Changed(object sender, EventArgs e)
+        {
+            Debug.WriteLine(sender);
+            TabControl tabControl = sender as TabControl;
+
+            if (tabControl.SelectedTab.Name == tabSuppliers.Name)
+            {
+                comboBxSuppliers.SelectedIndex = 3;
+            }
+            else if (tabControl.SelectedTab.Name == tabProductSuppliers.Name)
+            {
+                PopulateDataGridView(tabProductSuppliers, dgvProductSuppliers, _context.ProductsSuppliers);
+            }
+
+        }
+
+        // Handles the Clear Search Funtionality
         private void Cancel_Click(object sender, EventArgs e)
         {
             TabPage ParentTab = FindParentTabPage(sender as Control);
@@ -189,89 +454,89 @@ namespace TravelExpertsGUI
 
         }
 
-        private void InitializeSearchBox()
+        /// <summary>
+        /// Click HANDLERS FOR UI AND DGV
+        /// </summary>
+
+        private void btnClearProducts_Click(object sender, EventArgs e)
         {
-            // Handle the Paint event to draw rounded corners
+            txtProduct.Clear();
+        }
 
-            List<Panel> SearchBoxList = new List<Panel> {panelSearchProducts, panelSearchSupplier, panelSearchProdSup };
+        private void btnClearSuppliers_Click(object sender, EventArgs e)
+        {
+            txtSupplier.Clear();
+        }
 
-            foreach (var searchBox in SearchBoxList) {
-                searchBox.Paint += (sender, e) =>
+        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            HandleDataGridViewCellClick(dgvProducts, e, "Product");
+        }
+
+        private void dgvSuppliers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            HandleDataGridViewCellClick(dgvSuppliers, e, "Supplier");
+        }
+
+        private void HandleDataGridViewCellClick(DataGridView dgv, DataGridViewCellEventArgs e, string itemType)
+        {
+            if (e.ColumnIndex == dgv.Columns["DeleteButton"].Index && e.RowIndex >= 0)
+            {
+                if (MessageBox.Show($"Are you sure you want to delete this {itemType}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    // Clear the background
-                    e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                    // Create a rounded rectangle path
-                    using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+                    if (itemType == "Product")
                     {
-                        int radius = 25; // Border radius
-                        Rectangle rect = new Rectangle(0, 0, panelSearchProducts.Width-1 , panelSearchProducts.Height-1 );
-                        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-                        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
-                        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
-                        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
-                        path.CloseFigure();
-
-                        // Fill the background
-                        using (Brush brush = new SolidBrush(panelSearchProducts.BackColor))
+                        int productId = (int)dgv.Rows[e.RowIndex].Cells["ProductId"].Value;
+                        var product = _context.Products.Find(productId);
+                        if (product != null)
                         {
-                            e.Graphics.FillPath(brush, path);
-                        }
-
-                        // Draw the border
-                        using (Pen pen = new Pen(Color.Gray, 2))
-                        {
-                            e.Graphics.DrawPath(pen, path);
+                            _context.Products.Remove(product);
+                            MessageBox.Show($"{itemType} deleted successfully.", "Delete Successful", MessageBoxButtons.OK);
+                            _context.SaveChanges();
                         }
                     }
-                };
+                    else // Supplier
+                    {
+                        int supplierId = (int)dgv.Rows[e.RowIndex].Cells["SupplierId"].Value;
+                        var supplier = _context.Suppliers.Find(supplierId);
+                        if (supplier != null)
+                        {
+                            _context.Suppliers.Remove(supplier);
+                            MessageBox.Show($"{itemType} deleted successfully.", "Delete Successful", MessageBoxButtons.OK);
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                if (itemType == "Product")
+                {
+                    PopulateDataGridView(tabProducts, dgv, _context.Products);
 
+                }
+                else
+                {
+                    PopulateDataGridView(tabSuppliers, dgv, _context.Products);
+                }
             }
         }
-        private void ConfigureAddNewRelatioshipDgv()
+
+        private void dgvProductSuppliers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvAddRelationship.Columns.Count == 0)
+            if (e.RowIndex < 0) return;
+
+            if (disableButtons)
             {
-                dgvAddRelationship.Columns.Add("ProductSupplierId", "ProductSupplierId");
+                MessageBox.Show("Operation not allowed - Discard previous operation", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                DataGridViewComboBoxColumn productComboBoxColumn = new DataGridViewComboBoxColumn
-                {
-                    Name = "ProductId",
-                    HeaderText = "Product",
-                    DataSource = _context.Products.ToList(),
-                    DisplayMember = "ProductId",
-                    ValueMember = "ProductId"
-                };
-                dgvAddRelationship.Columns.Add(productComboBoxColumn);
-
-                DataGridViewComboBoxColumn supplierComboBoxColumn = new DataGridViewComboBoxColumn
-                {
-                    Name = "SupplierId",
-                    HeaderText = "Supplier",
-                    DataSource = _context.Suppliers.ToList(),
-                    DisplayMember = "SupplierId",
-                    ValueMember = "SupplierId"
-                };
-                dgvAddRelationship.Columns.Add(supplierComboBoxColumn);
-
-                DataGridViewButtonColumn addButtonColumn = new DataGridViewButtonColumn
-                {
-                    Name = "ApplyButton",
-                    Text = "Apply",
-                    UseColumnTextForButtonValue = true
-                };
-                dgvAddRelationship.Columns.Add(addButtonColumn);
-
-                DataGridViewButtonColumn deleteButtonColumn = new DataGridViewButtonColumn
-                {
-                    Name = "DiscardButton",
-                    Text = "Discard",
-                    UseColumnTextForButtonValue = true
-                };
-                dgvAddRelationship.Columns.Add(deleteButtonColumn);
-
-                dgvAddRelationship.CellContentClick += dgvAddRelationship_CellContentClick;
-                //dgvAddRelationship.Rows.RemoveAt(0);
+            if (e.ColumnIndex == dgvProductSuppliers.Columns["EditButton"].Index)
+            {
+                disableButtons = true;
+                EditRelationship(e.RowIndex);
+            }
+            else if (e.ColumnIndex == dgvProductSuppliers.Columns["DeleteButton"].Index)
+            {
+                DeleteRelationship(e.RowIndex);
             }
         }
 
@@ -402,221 +667,7 @@ namespace TravelExpertsGUI
             dgvSuppliers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void btnClearProducts_Click(object sender, EventArgs e)
-        {
-            txtProduct.Clear();
-        }
-
-        private void btnClearSuppliers_Click(object sender, EventArgs e)
-        {
-            txtSupplier.Clear();
-        }
-
-        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            HandleDataGridViewCellClick(dgvProducts, e, "Product");
-        }
-
-        private void dgvSuppliers_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            HandleDataGridViewCellClick(dgvSuppliers, e, "Supplier");
-        }
-
-        private void HandleDataGridViewCellClick(DataGridView dgv, DataGridViewCellEventArgs e, string itemType)
-        {
-            if (e.ColumnIndex == dgv.Columns["DeleteButton"].Index && e.RowIndex >= 0)
-            {
-                if (MessageBox.Show($"Are you sure you want to delete this {itemType}?", "Confirm Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    if (itemType == "Product")
-                    {
-                        int productId = (int)dgv.Rows[e.RowIndex].Cells["ProductId"].Value;
-                        var product = _context.Products.Find(productId);
-                        if (product != null)
-                        {
-                            _context.Products.Remove(product);
-                            MessageBox.Show($"{itemType} deleted successfully.", "Delete Successful", MessageBoxButtons.OK);
-                            _context.SaveChanges();
-                        }
-                    }
-                    else // Supplier
-                    {
-                        int supplierId = (int)dgv.Rows[e.RowIndex].Cells["SupplierId"].Value;
-                        var supplier = _context.Suppliers.Find(supplierId);
-                        if (supplier != null)
-                        {
-                            _context.Suppliers.Remove(supplier);
-                            MessageBox.Show($"{itemType} deleted successfully.", "Delete Successful", MessageBoxButtons.OK);
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                if(itemType == "Product")
-                {
-                    PopulateDataGridView(tabProducts, dgv, _context.Products);
-
-                } else
-                {
-                    PopulateDataGridView(tabSuppliers, dgv, _context.Products);
-                }
-            }
-        }
-
-        private void dgvProductSuppliers_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (disableButtons)
-            {
-                MessageBox.Show("Operation not allowed - Discard previous operation", "ERROR!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (e.ColumnIndex == dgvProductSuppliers.Columns["EditButton"].Index)
-            {
-                disableButtons = true;
-                EditRelationship(e.RowIndex);
-            }
-            else if (e.ColumnIndex == dgvProductSuppliers.Columns["DeleteButton"].Index)
-            {
-                DeleteRelationship(e.RowIndex);
-            }
-        }
-
-        private DataGridViewRow generateNewRow(int displayId, int? prodId, int? suppId)
-        {
-            grpBoxStatus.Text = (isEdit ? "Editing Relationship " : "Adding Relationship ") + $"Id - {displayId}";
-
-            // Creating a new row and populate the cells
-            DataGridViewRow newRow = new DataGridViewRow();
-            int newId = displayId;
-
-            DataGridViewTextBoxCell idCell = new DataGridViewTextBoxCell { Value = newId };
-            newRow.Cells.Add(idCell);
-
-            DataGridViewComboBoxCell productComboBoxCell = new DataGridViewComboBoxCell
-            {
-                DataSource = _context.Products.ToList(),
-                DisplayMember = "ProdName",
-                ValueMember = "ProductId",
-                Value = prodId
-            };
-            newRow.Cells.Add(productComboBoxCell);
-
-            DataGridViewComboBoxCell supplierComboBoxCell = new DataGridViewComboBoxCell
-            {
-                DataSource = _context.Suppliers.ToList(),
-                DisplayMember = "SupName",
-                ValueMember = "SupplierId",
-                Value = suppId
-            };
-            newRow.Cells.Add(supplierComboBoxCell);
-
-            DataGridViewButtonCell applyButtonCell = new DataGridViewButtonCell { Value = "Apply" };
-            applyButtonCell.Style.BackColor = Color.Green;
-            newRow.Cells.Add(applyButtonCell);
-
-            DataGridViewButtonCell discardButtonCell = new DataGridViewButtonCell { Value = "Discard" };
-            discardButtonCell.Style.BackColor = Color.Red;
-            newRow.Cells.Add(discardButtonCell);
-
-            return newRow;
-        }
-
-        private void btnAddNewRelationship_Click(object sender, EventArgs e)
-        {
-            DataGridViewRow newRow = generateNewRow(_context.ProductsSuppliers.Any()
-                ? _context.ProductsSuppliers.Max(ps => ps.ProductSupplierId) + 1
-                : 1, null, null);
-
-            dgvAddRelationship.Rows.Add(newRow);
-
-            disableButtons = true;
-            dgvAddRelationship.Visible = true;
-            btnAddNewRelationship.Visible = false;
-        }
-
-        private void dgvAddRelationship_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                string columnName = dgvAddRelationship.Columns[e.ColumnIndex].Name;
-
-                if (columnName == "ApplyButton")
-                {
-                    DataGridViewRow row = dgvAddRelationship.Rows[e.RowIndex];
-                    int productSupplierId = (int)row.Cells[0].Value;
-                    int productId = (int)row.Cells[1].Value;
-                    int supplierId = (int)row.Cells[2].Value;
-
-                    if (isEdit)
-                    {
-                        ProductsSupplier? relationship = _context.ProductsSuppliers.FirstOrDefault(ps => ps.ProductSupplierId == productSupplierId);
-                        if (relationship != null)
-                        {
-                            relationship.ProductId = productId;
-                            relationship.SupplierId = supplierId;
-                        }
-                    }
-                    else
-                    {
-                        // Add new relationship to database
-                        var newRelationship = new ProductsSupplier
-                        {
-                            ProductId = productId,
-                            SupplierId = supplierId
-                        };
-                        _context.ProductsSuppliers.Add(newRelationship);
-                    }
-
-                    _context.SaveChanges();
-
-                    var updatedData = _context.ProductsSuppliers
-                    .Select(ps => new
-                    {
-                        ps.ProductSupplierId,
-                        ProdName = string.IsNullOrEmpty(ps.Product.ProdName) ? "N/A" : ps.Product.ProdName,
-                        SuppName = string.IsNullOrEmpty(ps.Supplier.SupName) ? "N/A" : ps.Supplier.SupName,
-                    }).ToList();
-
-                    dgvProductSuppliers.DataSource = updatedData;
-
-                    dgvProductSuppliers.Refresh();
-
-                    MessageBox.Show($"Relationship {(isEdit ? "edited" : "added")} successfully!");
-
-                    dgvAddRelationship.Rows.RemoveAt(e.RowIndex);
-                    isEdit = false;
-                    dgvAddRelationship.Visible = false;
-                    btnAddNewRelationship.Visible = true;
-                }
-                else if (columnName == "DiscardButton")
-                {
-                    // "Discard" button clicked
-                    dgvAddRelationship.Rows.RemoveAt(e.RowIndex);
-                    MessageBox.Show("Row discarded successfully!");
-
-                    isEdit = false;
-                    dgvAddRelationship.Visible = false;
-                    btnAddNewRelationship.Visible = true;
-                }
-
-                disableButtons = false;
-                grpBoxStatus.Text = "Add New Relationship";
-            }
-        }
-
-
-        private void btnExecuteProducts_Click(object sender, EventArgs e)
-        {
-            ExecuteOperation(tabProducts, comboBxProducts, txtProduct);
-        }
-
-        private void btnExecuteSuppliers_Click(object sender, EventArgs e)
-        {
-            ExecuteOperation(tabSuppliers, comboBxSuppliers, txtSupplier);
-        }
-
+        // Executes the operation (Add, Edit, Get) based on the selected item in the ComboBox
         private void ExecuteOperation(TabPage tab, ComboBox comboBox, TextBox textBox)
         {
 
@@ -624,24 +675,24 @@ namespace TravelExpertsGUI
             string itemType = tab == tabProducts ? "Product" : "Supplier";
 
 
-            if (MessageBox.Show($"Are you sure you want to {operation}?", "Confirm Operation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show($"Are you sure you want to {operation}?", "Confirm Operation", MessageBoxButtons.YesNo) == DialogResult.Yes && ValidatorUtils.IsTextBoxNotEmpty(textBox, $"{comboBox.Items[comboBox.SelectedIndex].ToString().Split(' ')[0]} - {itemType} cannot be empty. Please try again with some value...."))
             {
                 switch (comboBox.SelectedIndex)
                 {
                     case 0: // Add
                         if (itemType == "Product")
                         {
-                            var newProduct = new Product { ProdName = textBox.Text };
+                            var newProduct = new Product { ProdName = textBox.Text.Trim() };
                             _context.Products.Add(newProduct);
                         }
                         else
                         {
-                            var newSupplier = new Supplier { SupName = textBox.Text };
+                            var newSupplier = new Supplier { SupName = textBox.Text.Trim() };
                             _context.Suppliers.Add(newSupplier);
                         }
                         break;
                     case 1: // Edit
-                        if (int.TryParse(textBox.Text, out int id))
+                        if (int.TryParse(textBox.Text.Trim(), out int id))
                         {
                             if (itemType == "Product")
                             {
@@ -670,7 +721,7 @@ namespace TravelExpertsGUI
                         }
                         break;
                     case 2: // Get
-                        if (int.TryParse(textBox.Text, out int getId))
+                        if (int.TryParse(textBox.Text.Trim(), out int getId))
                         {
                             if (itemType == "Product")
                             {
@@ -709,6 +760,7 @@ namespace TravelExpertsGUI
             }
         }
 
+        // Edits an existing product-supplier relationship and prepares it for update
         private void EditRelationship(int rowIndex)
         {
             isEdit = true;
@@ -733,6 +785,7 @@ namespace TravelExpertsGUI
             dgvAddRelationship.Rows.Add(newRow);
         }
 
+        // Deletes a product-supplier relationship and updates the DataGridView
         private void DeleteRelationship(int rowIndex)
         {
             int productSupplierId = (int)dgvProductSuppliers.Rows[rowIndex].Cells["ProductSupplierId"].Value;
@@ -770,6 +823,7 @@ namespace TravelExpertsGUI
             }
         }
 
+        // Updates the UI elements based on the current operation and selected tab
         private void ResetUI(TabPage tab)
         {
             ComboBox comboBox = tab == tabProducts ? comboBxProducts : comboBxSuppliers;
@@ -785,22 +839,6 @@ namespace TravelExpertsGUI
                 tab == tabProducts ? lblProduct : lblSuppler,
                 tab == tabProducts ? btnExecuteProducts : btnExecuteSuppliers,
                 tab == tabProducts ? btnClearProducts : btnClearSuppliers);
-        }
-
-        private void tabControl_Changed(object sender, EventArgs e)
-        {
-            Debug.WriteLine(sender);
-            TabControl tabControl = sender as TabControl;
-
-            if (tabControl.SelectedTab.Name == tabSuppliers.Name)
-            {
-                comboBxSuppliers.SelectedIndex = 3;
-            }
-            else if (tabControl.SelectedTab.Name == tabProductSuppliers.Name)
-            {
-                PopulateDataGridView(tabProductSuppliers, dgvProductSuppliers, _context.ProductsSuppliers);
-            }
-
         }
     }
 }
