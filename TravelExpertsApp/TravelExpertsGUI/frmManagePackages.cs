@@ -329,9 +329,20 @@ namespace TravelExpertsGUI
             if (result == DialogResult.OK)
             {
                 selectedPackageProduct = addPackageProducts.packageProduct;
-                PackagesProductsSupplierDB.AddPackageProduct(selectedPackageProduct);
-                MessageBox.Show("Product successfully added to the package.");
-                DisplayPackageProducts();
+                if(!PackagesProductsSupplierDB.CheckDuplicatePackageProduct(selectedPackageProduct))
+                {
+                    PackagesProductsSupplierDB.AddPackageProduct(selectedPackageProduct);
+                    MessageBox.Show("Product successfully added to the package.");
+                    DisplayPackageProducts();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "This product has already been added to this package.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -368,9 +379,20 @@ namespace TravelExpertsGUI
             {
                 if (selectedPackageProduct != null)
                 {
-                    PackagesProductsSupplierDB.ModifyPackageProduct(selectedPackageProduct);
-                    MessageBox.Show($"Product added to package successfully.");
-                    DisplayPackageProducts();
+                    if (!PackagesProductsSupplierDB.CheckDuplicatePackageProduct(selectedPackageProduct))
+                    {
+                        PackagesProductsSupplierDB.ModifyPackageProduct(selectedPackageProduct);
+                        MessageBox.Show($"Product added to package successfully.");
+                        DisplayPackageProducts();
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "This product has already been added to this package.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
             }
         }

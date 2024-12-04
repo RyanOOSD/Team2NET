@@ -77,6 +77,18 @@ namespace TravelExpertsData
             }
         }
 
+        public static bool CheckDuplicatePackageProduct(PackagesProductsSupplier checkPackageProduct)
+        {
+            using (TravelExpertsContext db = new TravelExpertsContext())
+            {
+                return db.PackagesProductsSuppliers
+                    .Where(packageProduct =>
+                        packageProduct.PackageId == checkPackageProduct.PackageId &&
+                        packageProduct.ProductSupplierId == checkPackageProduct.ProductSupplierId)
+                    .Any();
+            }
+        }
+
         public static void AddPackageProduct(PackagesProductsSupplier packageProduct)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
