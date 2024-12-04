@@ -14,6 +14,7 @@ namespace TravelExpertsGUI
 {
     public partial class frmAgents : Form
     {
+        // setting variables used by the program
         Agent? selectedAgent = null;
         Agency? selectedAgency = null;
         int agentID = 0;
@@ -31,6 +32,7 @@ namespace TravelExpertsGUI
             InitializeComponent();
         }
 
+        // method for when the form loads
         private void frmAgents_Load(object sender, EventArgs e)
         {
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
@@ -40,6 +42,18 @@ namespace TravelExpertsGUI
 
         }
 
+        // method to clear agentID field to make the form easier to use by users
+
+        private void txtAgentID_Enter(object sender, EventArgs e)
+        {
+            txtAgentID.Clear();
+        }
+
+        // METHODS THAT ARE CALLED WHEN BUTTONS ARE CLICKED
+
+
+
+        // method that is called when MANAGE AGENTS button is clicked
         private void btnManageAgents_Click(object sender, EventArgs e)
         {
             picAgencies.Visible = true;
@@ -52,6 +66,7 @@ namespace TravelExpertsGUI
 
         }
 
+        // method that is called when MANAGE AGENCIES button is clicked
         private void btnManageAgencies_Click(object sender, EventArgs e)
         {
             picAgents.Visible = true;
@@ -68,7 +83,7 @@ namespace TravelExpertsGUI
 
         }
 
-
+        // method that is called when ADD NEW AGENT button is clicked
 
         private void btnAgentAdd_Click(object sender, EventArgs e)
         {
@@ -81,7 +96,7 @@ namespace TravelExpertsGUI
             LoadCities(cboAgentLocation);
         }
 
-
+        // method that is called when ADD NEW AGENCY button is clicked
 
         private void btnAddLoc_Click(object sender, EventArgs e)
         {
@@ -95,14 +110,7 @@ namespace TravelExpertsGUI
             MakeAgencyNotReadOnly();
         }
 
-        private void ClearAgency()
-        {
-            txtAddress.Clear();
-            txtCity.Clear();
-            txtPostal.Clear();
-            txtAgencyPhone.Clear();
-            txtFax.Clear();
-        }
+        // method that is called when GET AGENT button is clicked
 
         private void btnGetAgent_Click(object sender, EventArgs e)
         {
@@ -124,58 +132,7 @@ namespace TravelExpertsGUI
             
         }
 
-        private void MakeAgentReadOnly()
-        {
-            txtFName.ReadOnly = true;
-            txtLName.ReadOnly = true;
-            txtMiddle.ReadOnly = true;
-            txtEmail.ReadOnly = true;
-            txtAgentPhone.ReadOnly = true;
-            txtPosition.ReadOnly = true;
-            cboAgentLocation.Enabled = false;
-        }
-
-        private void DisplayAgent(Agent selectedAgent)
-        {
-
-            if (selectedAgent != null)
-            {
-                txtAgentID.Text = selectedAgent.AgentId.ToString();
-                txtFName.Text = selectedAgent.AgtFirstName;
-                txtMiddle.Text = selectedAgent.AgtMiddleInitial;
-                txtLName.Text = selectedAgent.AgtLastName;
-                txtAgentPhone.Text = selectedAgent.AgtBusPhone;
-                txtEmail.Text = selectedAgent.AgtEmail;
-                txtPosition.Text = selectedAgent.AgtPosition;
-                cboAgentLocation.SelectedValue = AgentsDB.AgencyIDtoCity(selectedAgent.AgencyId);
-
-            }
-        }
-
-        private void ClearAgent()
-        {
-            txtFName.Clear();
-            txtLName.Clear();
-            txtMiddle.Clear();
-            txtEmail.Clear();
-            txtAgentPhone.Clear();
-            txtPosition.Clear();
-            txtAgentID.Clear();
-        }
-
-        private void LoadCities(ComboBox cboBox)
-        {
-            List<Agency> cityList = new List<Agency>();
-            cityList = AgentsDB.GetCity();
-            cboBox.DataSource = cityList;
-            cboBox.DisplayMember = "AgncyCity";
-            cboBox.ValueMember = "AgncyCity";
-        }
-
-        private void txtAgentID_Enter(object sender, EventArgs e)
-        {
-            txtAgentID.Clear();
-        }
+        // method that is called when SAVE CHANGES button on AGENTS tab is clicked
 
         private void btnAgentAddSave_Click(object sender, EventArgs e)
         {
@@ -218,7 +175,8 @@ namespace TravelExpertsGUI
 
 
 
-
+            /* USED THIS LITTLE CODE BLOCK FOR DEBUGGING AN ISSUE THAT HAS BEEN RESOLVED
+             * PLEASE DISREGARD                                                - KAZI
             // testing add agent functionality
             //using (TravelExpertsContext db = new TravelExpertsContext())
             //{
@@ -231,17 +189,10 @@ namespace TravelExpertsGUI
 
             //testBox1.Text = newAgent.AgencyId.ToString();
             //testBox1.Text = cboAgentLocation.SelectedValue.ToString();
+            */
         }
 
-        private void PopulateAgentInfo()
-        {
-            selectedAgent.AgtFirstName = txtFName.Text;
-            selectedAgent.AgtLastName = txtLName.Text;
-            selectedAgent.AgtMiddleInitial = txtMiddle.Text;
-            selectedAgent.AgtBusPhone = txtAgentPhone.Text;
-            selectedAgent.AgtEmail = txtEmail.Text;
-            selectedAgent.AgtPosition = txtPosition.Text;
-        }
+        // method that is called when DELETE button on AGENTS tab is clicked
 
         private void btnAgentDelete_Click(object sender, EventArgs e)
         {
@@ -262,22 +213,14 @@ namespace TravelExpertsGUI
 
         }
 
+        // method that is called when EDIT button on AGENTS tab is clicked
         private void btnAgentEdit_Click(object sender, EventArgs e)
         {
             MakeAgentNotReadOnly();
             isAdd = false;
         }
 
-        private void MakeAgentNotReadOnly()
-        {
-            txtFName.ReadOnly = false;
-            txtLName.ReadOnly = false;
-            txtMiddle.ReadOnly = false;
-            txtEmail.ReadOnly = false;
-            txtAgentPhone.ReadOnly = false;
-            txtPosition.ReadOnly = false;
-            cboAgentLocation.Enabled = true;
-        }
+        // method that is called when GET AGENCY button is clicked
 
         private void btnGetAgency_Click(object sender, EventArgs e)
         {
@@ -289,31 +232,10 @@ namespace TravelExpertsGUI
             selectedAgency = AgenciesDB.GetAgency(agencyCity);
             DisplayAgency(selectedAgency);
             MakeAgencyReadOnly();
-            //testBox1.Text = agencyCity;
+            
         }
 
-        private void MakeAgencyReadOnly()
-        {
-            txtAddress.ReadOnly = true;
-            txtCity.ReadOnly = true;
-            txtProvince.ReadOnly = true;
-            txtPostal.ReadOnly = true;
-            txtAgencyPhone.ReadOnly = true;
-            txtFax.ReadOnly = true;
-        }
-
-        private void DisplayAgency(Agency selectedAgency)
-        {
-            if (selectedAgency != null)
-            {
-                txtAddress.Text = selectedAgency.AgncyAddress;
-                txtProvince.Text = selectedAgency.AgncyProv;
-                txtPostal.Text = selectedAgency.AgncyPostal;
-                txtAgencyPhone.Text = selectedAgency.AgncyPhone;
-                txtFax.Text = selectedAgency.AgncyFax;
-                txtCity.Text = selectedAgency.AgncyCity;
-            }
-        }
+        // method that is called when EDIT button on AGENCIES tab is clicked
 
         private void btnAgencyEdit_Click(object sender, EventArgs e)
         {
@@ -321,16 +243,8 @@ namespace TravelExpertsGUI
             isAgencyAdd = false;
         }
 
-        private void MakeAgencyNotReadOnly()
-        {
-            txtAddress.ReadOnly = false;
-            txtCity.ReadOnly = false;
-            txtProvince.ReadOnly = false;
-            txtPostal.ReadOnly = false;
-            txtAgencyPhone.ReadOnly = false;
-            txtFax.ReadOnly = false;
-        }
 
+        // method that is called when SAVE CHANGES button on AGENCIES tab is clicked
         private void btnAddLocSave_Click(object sender, EventArgs e)
         {
             if (ValidatorUtils.IsTextBoxNotEmpty(txtAddress, errorMessageBlank(txtAddress)) &&
@@ -367,21 +281,7 @@ namespace TravelExpertsGUI
 
         }
 
-        private string errorMessageCharLimit(TextBox textBox, int charLimit)
-        {
-            string errorMessage = $"{textBox.Tag} cannot have more than {charLimit} characters";
-            return errorMessage;
-        }
-
-        private void PopulateAgencyInfo()
-        {
-            selectedAgency.AgncyAddress = txtAddress.Text;
-            selectedAgency.AgncyCity = txtCity.Text;
-            selectedAgency.AgncyProv = txtProvince.Text;
-            selectedAgency.AgncyPostal = txtPostal.Text;
-            selectedAgency.AgncyPhone = txtAgencyPhone.Text;
-            selectedAgency.AgncyFax = txtFax.Text;
-        }
+        // method that is called when DELETE button on AGENCIES tab is clicked
 
         private void btnAgencyDelete_Click(object sender, EventArgs e)
         {
@@ -403,6 +303,170 @@ namespace TravelExpertsGUI
 
         }
 
+        // method that is called when CLOSE FORM button is clicked
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+
+
+        // METHODS DEFINED BY ME (KAZI) TO MAKE THE PROGRAM FLOW BETTER
+
+        // method used to load comboboxes with names of cities where the agencies are located
+
+        private void LoadCities(ComboBox cboBox)
+        {
+            List<Agency> cityList = new List<Agency>();
+            cityList = AgentsDB.GetCity();
+            cboBox.DataSource = cityList;
+            cboBox.DisplayMember = "AgncyCity";
+            cboBox.ValueMember = "AgncyCity";
+        }
+
+        // PERTAINING TO AGENTS
+
+        // method used to fetch agent info from db and display it on the form
+
+        private void DisplayAgent(Agent selectedAgent)
+        {
+
+            if (selectedAgent != null)
+            {
+                txtAgentID.Text = selectedAgent.AgentId.ToString();
+                txtFName.Text = selectedAgent.AgtFirstName;
+                txtMiddle.Text = selectedAgent.AgtMiddleInitial;
+                txtLName.Text = selectedAgent.AgtLastName;
+                txtAgentPhone.Text = selectedAgent.AgtBusPhone;
+                txtEmail.Text = selectedAgent.AgtEmail;
+                txtPosition.Text = selectedAgent.AgtPosition;
+                cboAgentLocation.SelectedValue = AgentsDB.AgencyIDtoCity(selectedAgent.AgencyId);
+
+            }
+        }
+
+        // method used to clear all fields on the Agents section
+
+        private void ClearAgent()
+        {
+            txtFName.Clear();
+            txtLName.Clear();
+            txtMiddle.Clear();
+            txtEmail.Clear();
+            txtAgentPhone.Clear();
+            txtPosition.Clear();
+            txtAgentID.Clear();
+        }
+
+        // method used to make agent info READONLY i.e. uneditable
+
+        private void MakeAgentReadOnly()
+        {
+            txtFName.ReadOnly = true;
+            txtLName.ReadOnly = true;
+            txtMiddle.ReadOnly = true;
+            txtEmail.ReadOnly = true;
+            txtAgentPhone.ReadOnly = true;
+            txtPosition.ReadOnly = true;
+            cboAgentLocation.Enabled = false;
+        }
+
+        // method to make agent info editable
+
+        private void MakeAgentNotReadOnly()
+        {
+            txtFName.ReadOnly = false;
+            txtLName.ReadOnly = false;
+            txtMiddle.ReadOnly = false;
+            txtEmail.ReadOnly = false;
+            txtAgentPhone.ReadOnly = false;
+            txtPosition.ReadOnly = false;
+            cboAgentLocation.Enabled = true;
+        }
+
+        // method used to populate the object of selectedAgent with data entered by the user
+            // this data is then sent to the db to add/edit agent info
+
+        private void PopulateAgentInfo()
+        {
+            selectedAgent.AgtFirstName = txtFName.Text;
+            selectedAgent.AgtLastName = txtLName.Text;
+            selectedAgent.AgtMiddleInitial = txtMiddle.Text;
+            selectedAgent.AgtBusPhone = txtAgentPhone.Text;
+            selectedAgent.AgtEmail = txtEmail.Text;
+            selectedAgent.AgtPosition = txtPosition.Text;
+        }
+
+        // PERTAINING TO AGENCIES
+
+        // method used to fetch agency info from db and display it on the form
+
+        private void DisplayAgency(Agency selectedAgency)
+        {
+            if (selectedAgency != null)
+            {
+                txtAddress.Text = selectedAgency.AgncyAddress;
+                txtProvince.Text = selectedAgency.AgncyProv;
+                txtPostal.Text = selectedAgency.AgncyPostal;
+                txtAgencyPhone.Text = selectedAgency.AgncyPhone;
+                txtFax.Text = selectedAgency.AgncyFax;
+                txtCity.Text = selectedAgency.AgncyCity;
+            }
+        }
+
+        // method used to clear all fields on the Agencies section
+
+        private void ClearAgency()
+        {
+            txtAddress.Clear();
+            txtCity.Clear();
+            txtPostal.Clear();
+            txtAgencyPhone.Clear();
+            txtFax.Clear();
+        }
+
+        // method used to make agency info READONLY i.e. uneditable
+
+        private void MakeAgencyReadOnly()
+        {
+            txtAddress.ReadOnly = true;
+            txtCity.ReadOnly = true;
+            txtProvince.ReadOnly = true;
+            txtPostal.ReadOnly = true;
+            txtAgencyPhone.ReadOnly = true;
+            txtFax.ReadOnly = true;
+        }
+
+        // method to make agency info editable
+
+        private void MakeAgencyNotReadOnly()
+        {
+            txtAddress.ReadOnly = false;
+            txtCity.ReadOnly = false;
+            txtProvince.ReadOnly = false;
+            txtPostal.ReadOnly = false;
+            txtAgencyPhone.ReadOnly = false;
+            txtFax.ReadOnly = false;
+        }
+
+        // method used to populate the object of selectedAgency with data entered by the user
+        // this data is then sent to the db to add/edit agency info
+
+        private void PopulateAgencyInfo()
+        {
+            selectedAgency.AgncyAddress = txtAddress.Text;
+            selectedAgency.AgncyCity = txtCity.Text;
+            selectedAgency.AgncyProv = txtProvince.Text;
+            selectedAgency.AgncyPostal = txtPostal.Text;
+            selectedAgency.AgncyPhone = txtAgencyPhone.Text;
+            selectedAgency.AgncyFax = txtFax.Text;
+        }
+
+        // ERROR MESSAGES
+
+        // the following methods are used to generate error messages for form validation
+
         private string errorMessageBlank(TextBox textBox)
         {
             string errorMessage = $"{textBox.Tag} Field cannot be empty";
@@ -415,9 +479,10 @@ namespace TravelExpertsGUI
             return errorMessage;
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private string errorMessageCharLimit(TextBox textBox, int charLimit)
         {
-            DialogResult = DialogResult.Cancel;
+            string errorMessage = $"{textBox.Tag} cannot have more than {charLimit} characters";
+            return errorMessage;
         }
     }
 }
