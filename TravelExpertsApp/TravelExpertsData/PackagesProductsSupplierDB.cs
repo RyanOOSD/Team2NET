@@ -8,6 +8,13 @@ namespace TravelExpertsData
 {
     public class PackagesProductsSupplierDB
     {
+        /// <summary>
+        /// Creates a list of package products as PackageProductsSupplierDTO objects
+        /// and sorts by PackageProductSupplierID.
+        /// Joins PackagesProductsSuppliers, Packages, ProductSuppliers,
+        /// Products and Suppliers tables to show complete information about the package product.
+        /// </summary>
+        /// <returns></returns>
         public static List<PackagesProductsSupplierDTO> GetPackageProductsList()
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -44,6 +51,12 @@ namespace TravelExpertsData
             }
         }
 
+        /// <summary>
+        /// Creates a list of package products as PackageProductsSupplierDTO objects.
+        /// Joins the ProductsSuppliers, Products, and Suppliers tables to show
+        /// additional information about the package product.
+        /// </summary>
+        /// <returns></returns>
         public static List<PackagesProductsSupplierDTO> GetPackageProductsCombobox()
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -69,6 +82,12 @@ namespace TravelExpertsData
             }
         }
 
+        /// <summary>
+        /// Finds a package product by PackageProductSupplierID, the PK of the table
+        /// and returns it as an object
+        /// </summary>
+        /// <param name="packageProductID">PackageProductSupplierID to search with</param>
+        /// <returns>Package product object with matching ID</returns>
         public static PackagesProductsSupplier FindPackageProduct(int packageProductID)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -77,6 +96,12 @@ namespace TravelExpertsData
             }
         }
 
+        /// <summary>
+        /// Checks the database for a duplicate package product
+        /// based on selected package and selected product
+        /// </summary>
+        /// <param name="checkPackageProduct">Package product to be checked</param>
+        /// <returns>True if the package product already exists, false if not</returns>
         public static bool CheckDuplicatePackageProduct(PackagesProductsSupplier checkPackageProduct)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -89,6 +114,10 @@ namespace TravelExpertsData
             }
         }
 
+        /// <summary>
+        /// Adds the passed-in package product to the database
+        /// </summary>
+        /// <param name="packageProduct">New package product to add</param>
         public static void AddPackageProduct(PackagesProductsSupplier packageProduct)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -101,6 +130,11 @@ namespace TravelExpertsData
             }
         }
 
+        /// <summary>
+        /// Finds a matching package product by PackageProductSupplierID in the database
+        /// and updates the record with the attribute values of the passed-in package product object
+        /// </summary>
+        /// <param name="selectedPackageProduct">Package product with updated values</param>
         public static void ModifyPackageProduct(PackagesProductsSupplier selectedPackageProduct)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
@@ -115,12 +149,16 @@ namespace TravelExpertsData
             }
         }
 
+        /// <summary>
+        /// Finds a matching package product by PackageProductSupplierID in the database and deletes it
+        /// </summary>
+        /// <param name="selectedPackageProduct">Package product to delete</param>
         public static void DeletePackageProduct(PackagesProductsSupplier selectedPackageProduct)
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
                 PackagesProductsSupplier? packageProductToDelete = db.PackagesProductsSuppliers.Find(selectedPackageProduct.PackageProductSupplierId);
-                if ( packageProductToDelete != null )
+                if (packageProductToDelete != null)
                 {
                     db.PackagesProductsSuppliers.Remove(packageProductToDelete);
                     db.SaveChanges();

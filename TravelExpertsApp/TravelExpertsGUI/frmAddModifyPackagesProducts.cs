@@ -15,6 +15,7 @@ namespace TravelExpertsGUI
 {
     public partial class frmAddModifyPackagesProducts : Form
     {
+        // Create a flag and package product object that can be passed from the main form
         public bool isNewPackageProduct;
         public PackagesProductsSupplier packageProduct;
 
@@ -25,9 +26,14 @@ namespace TravelExpertsGUI
 
         private void frmAddModifyPackagesProducts_Load(object sender, EventArgs e)
         {
+            // Fill the comboboxes on form load
             LoadPackages();
             LoadPackageProducts();
 
+            /* Check the flag to see if it is a new package product
+             * If it is, set the window title and ID textbox text
+             * Otherwise, set the window title and pre-select the values in the comboboxes
+             */
             if (isNewPackageProduct)
             {
                 this.Text = "Add Package Product";
@@ -40,6 +46,7 @@ namespace TravelExpertsGUI
             }
         }
 
+        // If an existing package product is passed to the form, pre-select the values in the comboboxes
         private void ShowPackageProduct()
         {
             if (packageProduct != null)
@@ -50,6 +57,7 @@ namespace TravelExpertsGUI
             }
         }
 
+        // Fill the packages combobox with packages from the database
         private void LoadPackages()
         {
             List<Package> list = PackageDB.GetPackageCombobox();
@@ -58,6 +66,7 @@ namespace TravelExpertsGUI
             cmbPackages.ValueMember = "PackageId";
         }
 
+        // Fill the package products combobox with package products from the database
         private void LoadPackageProducts()
         {
             List<PackagesProductsSupplierDTO> list = PackagesProductsSupplierDB.GetPackageProductsCombobox();
@@ -65,6 +74,7 @@ namespace TravelExpertsGUI
             cmbProducts.ValueMember = "ProductSupId";
         }
 
+        // Format the package products combobox to display both the product and supplier
         private void cmbProducts_Format(object sender, ListControlConvertEventArgs e)
         {
             string prod = ((PackagesProductsSupplierDTO)e.ListItem).ProductName;
@@ -74,9 +84,14 @@ namespace TravelExpertsGUI
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            // Validate that values in the comboboxes are selected, and provide error messages
             if (ValidatorUtils.IsComboBoxSelected(cmbPackages, "A package must be selected.")
                 && ValidatorUtils.IsComboBoxSelected(cmbProducts, "A product must be selected."))
             {
+                /* Check the flag to se if it is a new package product
+                 * If it is, create a new package product object and assign values to its attributes
+                 * Otherwise, just assign updated values to its attributes
+                 */
                 if (isNewPackageProduct)
                 {
                     packageProduct = new PackagesProductsSupplier();
@@ -90,12 +105,14 @@ namespace TravelExpertsGUI
             }
         }
 
+        // Assigns the values of the package product object's attributes from the comboboxes
         private void PopulatePackageProduct()
         {
             packageProduct.PackageId = Convert.ToInt32(cmbPackages.SelectedValue);
             packageProduct.ProductSupplierId = Convert.ToInt32(cmbProducts.SelectedValue);
         }
 
+        // Closes the add/modify package products window
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();

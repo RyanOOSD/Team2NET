@@ -13,6 +13,7 @@ namespace TravelExpertsGUI
 {
     public partial class frmAddModifyPackages : Form
     {
+        // Create a flag and package object that can be passed from the main form
         public bool isNewPackage;
         public TravelExpertsData.Package package;
 
@@ -23,6 +24,10 @@ namespace TravelExpertsGUI
 
         private void frmAddModifyPackages_Load(object sender, EventArgs e)
         {
+            /* Check the flag to see if it is a new package
+             * If it is, set the window title and ID textbox text
+             * Otherwise, set the window title and pre-fill the input fields
+             */
             if (isNewPackage)
             {
                 this.Text = "Add Package";
@@ -35,6 +40,7 @@ namespace TravelExpertsGUI
             }
         }
 
+        // If an existing package is passed to the form, pre-fill the input fields
         private void ShowPackage()
         {
             if (package != null)
@@ -51,6 +57,7 @@ namespace TravelExpertsGUI
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            // Validate the input fields and provide error messages
             if (ValidatorUtils.IsTextBoxNotEmpty(txtPkgName, "Package name cannot be empty.")
                 && ValidatorUtils.IsTextBoxNotEmpty(txtPkgDesc, "Package description cannot be empty.")
                 && ValidatorUtils.IsTextBoxWithinMaxLength(txtPkgName, 50, "Package name cannot exceed 50 characters.")
@@ -60,6 +67,10 @@ namespace TravelExpertsGUI
                 && ValidatorUtils.IsNonNegativeDecimal(txtPkgBasePrice, "Package base price must be a non-negative numeric value.")
                 && ValidatorUtils.IsNonNegativeDecimal(txtAgencyCommission, "Agency commission must be a non-negative numeric value."))
             {
+                /* Check the flag to see if it is a new package
+                 * If it is, create a new package object and assign values to its attributes
+                 * Otherwise, just assign new values to its attributes
+                 */
                 if (isNewPackage)
                 {
                     package = new TravelExpertsData.Package();
@@ -73,6 +84,7 @@ namespace TravelExpertsGUI
             }
         }
 
+        // Assigns the values of the package object's attributes from the input fields
         private void PopulatePackage()
         {
             package.PkgName = txtPkgName.Text;
@@ -83,6 +95,7 @@ namespace TravelExpertsGUI
             package.PkgAgencyCommission = Convert.ToDecimal(txtAgencyCommission.Text);
         }
 
+        // Closes the add/modify packages window
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
