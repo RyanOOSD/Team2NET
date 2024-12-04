@@ -45,8 +45,8 @@ namespace TravelExpertsGUI
             if (packageProduct != null)
             {
                 txtPackageProductID.Text = packageProduct.PackageProductSupplierId.ToString();
-                cmbPackages.SelectedItem = packageProduct.PackageId;
-                cmbProducts.SelectedItem = packageProduct.ProductSupplierId;
+                cmbPackages.SelectedValue = packageProduct.PackageId;
+                cmbProducts.SelectedValue = packageProduct.ProductSupplierId;
             }
         }
 

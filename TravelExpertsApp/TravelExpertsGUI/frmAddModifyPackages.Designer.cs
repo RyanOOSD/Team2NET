@@ -42,12 +42,14 @@
             txtAgencyCommission = new TextBox();
             btnSubmit = new Button();
             btnCancel = new Button();
+            lblPkgID = new Label();
+            txtPkgID = new TextBox();
             SuspendLayout();
             // 
             // lblPkgName
             // 
             lblPkgName.AutoSize = true;
-            lblPkgName.Location = new Point(43, 30);
+            lblPkgName.Location = new Point(43, 67);
             lblPkgName.Name = "lblPkgName";
             lblPkgName.Size = new Size(89, 15);
             lblPkgName.TabIndex = 0;
@@ -55,22 +57,22 @@
             // 
             // txtPkgName
             // 
-            txtPkgName.Location = new Point(138, 22);
+            txtPkgName.Location = new Point(138, 59);
             txtPkgName.Name = "txtPkgName";
-            txtPkgName.Size = new Size(164, 23);
+            txtPkgName.Size = new Size(211, 23);
             txtPkgName.TabIndex = 1;
             // 
             // dtpPkgStartDate
             // 
-            dtpPkgStartDate.Location = new Point(138, 66);
+            dtpPkgStartDate.Location = new Point(138, 102);
             dtpPkgStartDate.Name = "dtpPkgStartDate";
-            dtpPkgStartDate.Size = new Size(164, 23);
+            dtpPkgStartDate.Size = new Size(211, 23);
             dtpPkgStartDate.TabIndex = 2;
             // 
             // lblPkgStartDate
             // 
             lblPkgStartDate.AutoSize = true;
-            lblPkgStartDate.Location = new Point(71, 74);
+            lblPkgStartDate.Location = new Point(71, 110);
             lblPkgStartDate.Name = "lblPkgStartDate";
             lblPkgStartDate.Size = new Size(61, 15);
             lblPkgStartDate.TabIndex = 3;
@@ -78,15 +80,15 @@
             // 
             // dtpPkgEndDate
             // 
-            dtpPkgEndDate.Location = new Point(138, 107);
+            dtpPkgEndDate.Location = new Point(138, 148);
             dtpPkgEndDate.Name = "dtpPkgEndDate";
-            dtpPkgEndDate.Size = new Size(164, 23);
+            dtpPkgEndDate.Size = new Size(211, 23);
             dtpPkgEndDate.TabIndex = 4;
             // 
             // lblPkgEndDate
             // 
             lblPkgEndDate.AutoSize = true;
-            lblPkgEndDate.Location = new Point(75, 115);
+            lblPkgEndDate.Location = new Point(75, 154);
             lblPkgEndDate.Name = "lblPkgEndDate";
             lblPkgEndDate.Size = new Size(57, 15);
             lblPkgEndDate.TabIndex = 5;
@@ -95,7 +97,7 @@
             // lblPkgDesc
             // 
             lblPkgDesc.AutoSize = true;
-            lblPkgDesc.Location = new Point(62, 153);
+            lblPkgDesc.Location = new Point(62, 199);
             lblPkgDesc.Name = "lblPkgDesc";
             lblPkgDesc.Size = new Size(70, 15);
             lblPkgDesc.TabIndex = 6;
@@ -103,16 +105,16 @@
             // 
             // txtPkgDesc
             // 
-            txtPkgDesc.Location = new Point(138, 153);
+            txtPkgDesc.Location = new Point(138, 196);
             txtPkgDesc.Multiline = true;
             txtPkgDesc.Name = "txtPkgDesc";
-            txtPkgDesc.Size = new Size(164, 54);
+            txtPkgDesc.Size = new Size(211, 54);
             txtPkgDesc.TabIndex = 7;
             // 
             // lblPkgBasePrice
             // 
             lblPkgBasePrice.AutoSize = true;
-            lblPkgBasePrice.Location = new Point(69, 236);
+            lblPkgBasePrice.Location = new Point(69, 278);
             lblPkgBasePrice.Name = "lblPkgBasePrice";
             lblPkgBasePrice.Size = new Size(63, 15);
             lblPkgBasePrice.TabIndex = 8;
@@ -120,7 +122,7 @@
             // 
             // txtPkgBasePrice
             // 
-            txtPkgBasePrice.Location = new Point(138, 228);
+            txtPkgBasePrice.Location = new Point(138, 270);
             txtPkgBasePrice.Name = "txtPkgBasePrice";
             txtPkgBasePrice.Size = new Size(100, 23);
             txtPkgBasePrice.TabIndex = 9;
@@ -128,7 +130,7 @@
             // lblAgencyCommission
             // 
             lblAgencyCommission.AutoSize = true;
-            lblAgencyCommission.Location = new Point(12, 278);
+            lblAgencyCommission.Location = new Point(12, 325);
             lblAgencyCommission.Name = "lblAgencyCommission";
             lblAgencyCommission.Size = new Size(120, 15);
             lblAgencyCommission.TabIndex = 10;
@@ -136,14 +138,14 @@
             // 
             // txtAgencyCommission
             // 
-            txtAgencyCommission.Location = new Point(138, 270);
+            txtAgencyCommission.Location = new Point(138, 317);
             txtAgencyCommission.Name = "txtAgencyCommission";
             txtAgencyCommission.Size = new Size(100, 23);
             txtAgencyCommission.TabIndex = 11;
             // 
             // btnSubmit
             // 
-            btnSubmit.Location = new Point(138, 324);
+            btnSubmit.Location = new Point(138, 373);
             btnSubmit.Name = "btnSubmit";
             btnSubmit.Size = new Size(75, 23);
             btnSubmit.TabIndex = 12;
@@ -153,7 +155,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(227, 324);
+            btnCancel.Location = new Point(274, 373);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 13;
@@ -161,12 +163,33 @@
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
+            // lblPkgID
+            // 
+            lblPkgID.AutoSize = true;
+            lblPkgID.Location = new Point(64, 20);
+            lblPkgID.Name = "lblPkgID";
+            lblPkgID.Size = new Size(68, 15);
+            lblPkgID.TabIndex = 14;
+            lblPkgID.Text = "Package ID:";
+            // 
+            // txtPkgID
+            // 
+            txtPkgID.Enabled = false;
+            txtPkgID.Location = new Point(138, 12);
+            txtPkgID.Name = "txtPkgID";
+            txtPkgID.ReadOnly = true;
+            txtPkgID.Size = new Size(63, 23);
+            txtPkgID.TabIndex = 15;
+            txtPkgID.TextAlign = HorizontalAlignment.Center;
+            // 
             // frmAddModifyPackages
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
-            ClientSize = new Size(314, 359);
+            ClientSize = new Size(361, 408);
+            Controls.Add(txtPkgID);
+            Controls.Add(lblPkgID);
             Controls.Add(btnCancel);
             Controls.Add(btnSubmit);
             Controls.Add(txtAgencyCommission);
@@ -205,5 +228,7 @@
         private TextBox txtAgencyCommission;
         private Button btnSubmit;
         private Button btnCancel;
+        private Label lblPkgID;
+        private TextBox txtPkgID;
     }
 }

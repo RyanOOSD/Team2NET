@@ -26,6 +26,7 @@ namespace TravelExpertsGUI
             if (isNewPackage)
             {
                 this.Text = "Add Package";
+                txtPkgID.Text = "New";
             }
             else
             {
@@ -38,6 +39,7 @@ namespace TravelExpertsGUI
         {
             if (package != null)
             {
+                txtPkgID.Text = package.PackageId.ToString();
                 txtPkgName.Text = package.PkgName;
                 dtpPkgStartDate.Value = Convert.ToDateTime(package.PkgStartDate);
                 dtpPkgEndDate.Value = Convert.ToDateTime(package.PkgEndDate);

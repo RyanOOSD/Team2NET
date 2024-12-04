@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices;
 using System.Drawing;
 using System.IO.Packaging;
 using System.Linq;
@@ -18,7 +19,9 @@ namespace TravelExpertsGUI
         PackagesProductsSupplier? selectedPackageProduct = null;
 
         List<PackageDTO> packages = new List<PackageDTO>();
-        List<PackagesProductsSupplierDTO> products = new List<PackagesProductsSupplierDTO>();
+        BindingSource dgvPkgBinding = new BindingSource();
+        List<PackagesProductsSupplierDTO> packageProducts = new List<PackagesProductsSupplierDTO>();
+        BindingSource dgvPkgProductsBinding = new BindingSource();
 
         const int modifyPkgIndex = 7;
         const int deletePkgIndex = 8;
@@ -47,8 +50,14 @@ namespace TravelExpertsGUI
             dgvPkg.Columns.Clear();
 
             packages = PackageDB.GetPackageList();
-            dgvPkg.DataSource = packages;
+            dgvPkg.DataSource = dgvPkgBinding;
+            dgvPkgBinding.DataSource = packages;
 
+            FormatPackageView();
+        }
+
+        private void FormatPackageView()
+        {
             DataGridViewCellStyle btnModifyStyle = new DataGridViewCellStyle()
             {
                 BackColor = Color.Yellow,
@@ -86,7 +95,10 @@ namespace TravelExpertsGUI
             dgvPkg.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             dgvPkg.Columns[0].HeaderText = "Package ID";
+
             dgvPkg.Columns[1].HeaderText = "Package Name";
+            dgvPkg.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvPkg.Columns[1].Width = 130;
 
             dgvPkg.Columns[2].HeaderText = "Start Date";
             dgvPkg.Columns[2].DefaultCellStyle.Format = "MM/dd/yyyy";
@@ -94,6 +106,8 @@ namespace TravelExpertsGUI
             dgvPkg.Columns[3].DefaultCellStyle.Format = "MM/dd/yyyy";
 
             dgvPkg.Columns[4].HeaderText = "Description";
+            dgvPkg.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvPkg.Columns[4].Width = 310;
 
             dgvPkg.Columns[5].HeaderText = "Price";
             dgvPkg.Columns[5].DefaultCellStyle.Format = "c";
@@ -198,9 +212,21 @@ namespace TravelExpertsGUI
             }
         }
 
-        private void txtPkgSearch_KeyDown(object sender, KeyEventArgs e)
+        private void txtPkgSearch_TextChanged(object sender, EventArgs e)
         {
-
+            string searchString = txtPkgSearch.Text;
+            List<PackageDTO> filteredPackages = packages.Where(package =>
+                package.PkgID.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                package.PkgName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                package.PkgStart.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                package.PkgEnd.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                package.PkgDesc!.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                package.PkgPrice.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                package.PkgCommission.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            dgvPkg.Columns.Clear();
+            dgvPkgBinding.DataSource = filteredPackages;
+            FormatPackageView();
         }
 
         private void btnPkgExit_Click(object sender, EventArgs e)
@@ -212,8 +238,15 @@ namespace TravelExpertsGUI
         {
             dgvPkgProducts.Columns.Clear();
 
-            products = PackagesProductsSupplierDB.GetPackageProductsList();
-            dgvPkgProducts.DataSource = products;
+            packageProducts = PackagesProductsSupplierDB.GetPackageProductsList();
+            dgvPkgProducts.DataSource = dgvPkgProductsBinding;
+            dgvPkgProductsBinding.DataSource = packageProducts;
+
+            FormatPackageProductsView();
+        }
+
+        private void FormatPackageProductsView()
+        {
             dgvPkgProducts.Columns["ProductSupId"].Visible = false;
 
             DataGridViewCellStyle btnModifyStyle = new DataGridViewCellStyle()
@@ -253,13 +286,13 @@ namespace TravelExpertsGUI
             dgvPkgProducts.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             dgvPkgProducts.Columns[0].HeaderText = "Package Product ID";
-            dgvPkgProducts.Columns[0].Width = 182;
+            dgvPkgProducts.Columns[0].Width = 180;
             dgvPkgProducts.Columns[1].HeaderText = "Package Name";
-            dgvPkgProducts.Columns[1].Width = 200;
+            dgvPkgProducts.Columns[1].Width = 223;
             dgvPkgProducts.Columns[3].HeaderText = "Product Name";
-            dgvPkgProducts.Columns[3].Width = 200;
+            dgvPkgProducts.Columns[3].Width = 223;
             dgvPkgProducts.Columns[4].HeaderText = "Supplier Name";
-            dgvPkgProducts.Columns[4].Width = 200;
+            dgvPkgProducts.Columns[4].Width = 223;
 
             dgvPkgProducts.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             dgvPkgProducts.Columns[5].Width = 100;
@@ -354,6 +387,20 @@ namespace TravelExpertsGUI
                 MessageBox.Show("Package product has been successfully deleted.");
                 DisplayPackageProducts();
             }
+        }
+
+        private void txtPkgProductSearch_TextChanged(object sender, EventArgs e)
+        {
+            string searchString = txtPkgProductSearch.Text;
+            List<PackagesProductsSupplierDTO> filteredPackageProducts = packageProducts.Where(packageProduct =>
+                packageProduct.PkgProductSupID.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                packageProduct.PkgName!.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                packageProduct.ProductName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                packageProduct.SupName.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+            dgvPkgProducts.Columns.Clear();
+            dgvPkgProductsBinding.DataSource = filteredPackageProducts;
+            FormatPackageProductsView();
         }
 
         private void btnPkgProductsExit_Click(object sender, EventArgs e)
