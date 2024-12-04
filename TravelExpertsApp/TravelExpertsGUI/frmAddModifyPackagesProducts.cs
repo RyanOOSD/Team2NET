@@ -31,6 +31,7 @@ namespace TravelExpertsGUI
             if (isNewPackageProduct)
             {
                 this.Text = "Add Package Product";
+                txtPackageProductID.Text = "New";
             }
             else
             {
@@ -43,6 +44,7 @@ namespace TravelExpertsGUI
         {
             if (packageProduct != null)
             {
+                txtPackageProductID.Text = packageProduct.PackageProductSupplierId.ToString();
                 cmbPackages.SelectedItem = packageProduct.PackageId;
                 cmbProducts.SelectedItem = packageProduct.ProductSupplierId;
             }

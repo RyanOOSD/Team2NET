@@ -34,12 +34,14 @@
             btnSubmit = new Button();
             btnCancel = new Button();
             cmbPackages = new ComboBox();
+            lblPackageProductID = new Label();
+            txtPackageProductID = new TextBox();
             SuspendLayout();
             // 
             // lblSelectedPkg
             // 
             lblSelectedPkg.AutoSize = true;
-            lblSelectedPkg.Location = new Point(12, 30);
+            lblSelectedPkg.Location = new Point(10, 64);
             lblSelectedPkg.Name = "lblSelectedPkg";
             lblSelectedPkg.Size = new Size(54, 15);
             lblSelectedPkg.TabIndex = 0;
@@ -48,7 +50,7 @@
             // cmbProducts
             // 
             cmbProducts.FormattingEnabled = true;
-            cmbProducts.Location = new Point(70, 71);
+            cmbProducts.Location = new Point(70, 97);
             cmbProducts.Name = "cmbProducts";
             cmbProducts.Size = new Size(277, 23);
             cmbProducts.TabIndex = 2;
@@ -57,7 +59,7 @@
             // lblSelectedProduct
             // 
             lblSelectedProduct.AutoSize = true;
-            lblSelectedProduct.Location = new Point(14, 79);
+            lblSelectedProduct.Location = new Point(12, 105);
             lblSelectedProduct.Name = "lblSelectedProduct";
             lblSelectedProduct.Size = new Size(52, 15);
             lblSelectedProduct.TabIndex = 3;
@@ -65,7 +67,7 @@
             // 
             // btnSubmit
             // 
-            btnSubmit.Location = new Point(70, 125);
+            btnSubmit.Location = new Point(72, 150);
             btnSubmit.Name = "btnSubmit";
             btnSubmit.Size = new Size(75, 23);
             btnSubmit.TabIndex = 4;
@@ -75,7 +77,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(272, 125);
+            btnCancel.Location = new Point(272, 150);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 5;
@@ -86,17 +88,38 @@
             // cmbPackages
             // 
             cmbPackages.FormattingEnabled = true;
-            cmbPackages.Location = new Point(72, 22);
+            cmbPackages.Location = new Point(70, 56);
             cmbPackages.Name = "cmbPackages";
             cmbPackages.Size = new Size(155, 23);
             cmbPackages.TabIndex = 6;
+            // 
+            // lblPackageProductID
+            // 
+            lblPackageProductID.AutoSize = true;
+            lblPackageProductID.Location = new Point(43, 20);
+            lblPackageProductID.Name = "lblPackageProductID";
+            lblPackageProductID.Size = new Size(21, 15);
+            lblPackageProductID.TabIndex = 7;
+            lblPackageProductID.Text = "ID:";
+            // 
+            // txtPackageProductID
+            // 
+            txtPackageProductID.Enabled = false;
+            txtPackageProductID.Location = new Point(70, 12);
+            txtPackageProductID.Name = "txtPackageProductID";
+            txtPackageProductID.ReadOnly = true;
+            txtPackageProductID.Size = new Size(77, 23);
+            txtPackageProductID.TabIndex = 8;
+            txtPackageProductID.TextAlign = HorizontalAlignment.Center;
             // 
             // frmAddModifyPackagesProducts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
-            ClientSize = new Size(359, 160);
+            ClientSize = new Size(359, 185);
+            Controls.Add(txtPackageProductID);
+            Controls.Add(lblPackageProductID);
             Controls.Add(cmbPackages);
             Controls.Add(btnCancel);
             Controls.Add(btnSubmit);
@@ -119,5 +142,7 @@
         private Button btnSubmit;
         private Button btnCancel;
         private ComboBox cmbPackages;
+        private Label lblPackageProductID;
+        private TextBox txtPackageProductID;
     }
 }
