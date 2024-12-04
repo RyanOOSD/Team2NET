@@ -40,78 +40,85 @@
             // 
             // btnManagePackages
             // 
-            btnManagePackages.Location = new Point(78, 174);
+            btnManagePackages.Location = new Point(89, 232);
+            btnManagePackages.Margin = new Padding(3, 4, 3, 4);
             btnManagePackages.Name = "btnManagePackages";
-            btnManagePackages.Size = new Size(128, 23);
+            btnManagePackages.Size = new Size(146, 31);
             btnManagePackages.TabIndex = 0;
             btnManagePackages.Text = "Manage Packages";
             btnManagePackages.UseVisualStyleBackColor = true;
             // 
             // btnManageAgents
             // 
-            btnManageAgents.Location = new Point(78, 203);
+            btnManageAgents.Location = new Point(89, 271);
+            btnManageAgents.Margin = new Padding(3, 4, 3, 4);
             btnManageAgents.Name = "btnManageAgents";
-            btnManageAgents.Size = new Size(128, 23);
+            btnManageAgents.Size = new Size(146, 31);
             btnManageAgents.TabIndex = 1;
             btnManageAgents.Text = "Manage Agents";
             btnManageAgents.UseVisualStyleBackColor = true;
             // 
             // btnManageProducts
             // 
-            btnManageProducts.Location = new Point(78, 232);
+            btnManageProducts.Location = new Point(89, 309);
+            btnManageProducts.Margin = new Padding(3, 4, 3, 4);
             btnManageProducts.Name = "btnManageProducts";
-            btnManageProducts.Size = new Size(128, 23);
+            btnManageProducts.Size = new Size(146, 31);
             btnManageProducts.TabIndex = 2;
             btnManageProducts.Text = "Manage Products";
             btnManageProducts.UseVisualStyleBackColor = true;
+            btnManageProducts.Click += btnManageProducts_Click;
             // 
             // lblAgentID
             // 
             lblAgentID.AutoSize = true;
-            lblAgentID.Location = new Point(44, 40);
+            lblAgentID.Location = new Point(50, 53);
             lblAgentID.Name = "lblAgentID";
-            lblAgentID.Size = new Size(56, 15);
+            lblAgentID.Size = new Size(71, 20);
             lblAgentID.TabIndex = 3;
             lblAgentID.Text = "Agent ID:";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(106, 32);
+            textBox1.Location = new Point(121, 43);
+            textBox1.Margin = new Padding(3, 4, 3, 4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
+            textBox1.Size = new Size(114, 27);
             textBox1.TabIndex = 4;
             // 
             // lblPIN
             // 
             lblPIN.AutoSize = true;
-            lblPIN.Location = new Point(71, 92);
+            lblPIN.Location = new Point(81, 123);
             lblPIN.Name = "lblPIN";
-            lblPIN.Size = new Size(29, 15);
+            lblPIN.Size = new Size(35, 20);
             lblPIN.TabIndex = 5;
             lblPIN.Text = "PIN:";
             // 
             // txtPIN
             // 
-            txtPIN.Location = new Point(106, 84);
+            txtPIN.Location = new Point(121, 112);
+            txtPIN.Margin = new Padding(3, 4, 3, 4);
             txtPIN.Name = "txtPIN";
-            txtPIN.Size = new Size(100, 23);
+            txtPIN.Size = new Size(114, 27);
             txtPIN.TabIndex = 6;
             // 
             // btnSignIn
             // 
-            btnSignIn.Location = new Point(117, 113);
+            btnSignIn.Location = new Point(134, 151);
+            btnSignIn.Margin = new Padding(3, 4, 3, 4);
             btnSignIn.Name = "btnSignIn";
-            btnSignIn.Size = new Size(75, 23);
+            btnSignIn.Size = new Size(86, 31);
             btnSignIn.TabIndex = 7;
             btnSignIn.Text = "Sign In";
             btnSignIn.UseVisualStyleBackColor = true;
             // 
             // frmOptionPicker
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gainsboro;
-            ClientSize = new Size(285, 272);
+            ClientSize = new Size(326, 363);
             Controls.Add(btnSignIn);
             Controls.Add(txtPIN);
             Controls.Add(lblPIN);
@@ -120,6 +127,7 @@
             Controls.Add(btnManageProducts);
             Controls.Add(btnManageAgents);
             Controls.Add(btnManagePackages);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "frmOptionPicker";
             Text = "Travel Experts";
             ResumeLayout(false);
