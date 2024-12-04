@@ -36,7 +36,6 @@
             txtBoxUsername = new TextBox();
             txtBoxPassword = new TextBox();
             btnLogin = new Button();
-            linkLabel1 = new LinkLabel();
             picBoxPassword = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picBoxLogo).BeginInit();
@@ -64,7 +63,7 @@
             // 
             // picBoxLogo
             // 
-            picBoxLogo.Image = Properties.Resources.appLogo1;
+            picBoxLogo.Image = Properties.Resources.logo;
             picBoxLogo.Location = new Point(92, 5);
             picBoxLogo.Name = "picBoxLogo";
             picBoxLogo.Size = new Size(65, 65);
@@ -119,16 +118,6 @@
             btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Location = new Point(391, 282);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(110, 20);
-            linkLabel1.TabIndex = 7;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Reset Password";
-            // 
             // picBoxPassword
             // 
             picBoxPassword.BackColor = Color.White;
@@ -146,7 +135,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(574, 416);
             Controls.Add(picBoxPassword);
-            Controls.Add(linkLabel1);
             Controls.Add(btnLogin);
             Controls.Add(txtBoxPassword);
             Controls.Add(txtBoxUsername);
@@ -173,7 +161,6 @@
         private TextBox txtBoxUsername;
         private TextBox txtBoxPassword;
         private Button btnLogin;
-        private LinkLabel linkLabel1;
         private PictureBox picBoxPassword;
     }
 }

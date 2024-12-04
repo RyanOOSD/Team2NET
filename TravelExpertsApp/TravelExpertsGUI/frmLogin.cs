@@ -17,40 +17,34 @@ namespace TravelExpertsGUI
     {
         private bool passwordVisible = false;
         private TravelExpertsContext _context;
+
         public frmLogin()
         {
             InitializeComponent();
-            SetupButtonStyles();
             _context = new TravelExpertsContext();
-            txtBoxPassword.UseSystemPasswordChar = true;
-            picBoxLogo.Image = TravelExpertsGUI.Properties.Resources.appLogo1;
-            picBoxPassword.Image = Properties.Resources.eye_open;
 
-            this.KeyPreview = true; // Allow the form to capture key presses
-            this.KeyDown += FrmLogin_KeyDown;
+            SetupButtonStyles(); // Initialize button styling
+            txtBoxPassword.UseSystemPasswordChar = true; // Set password text box to hide characters
+            picBoxLogo.Image = TravelExpertsGUI.Properties.Resources.appLogo1; // Set the application logo
+            picBoxPassword.Image = Properties.Resources.eye_open; // Default password visibility icon
 
+            this.KeyPreview = true; // Allow form to capture key presses
+            this.KeyDown += FrmLogin_KeyDown; // Bind Enter key press handler
         }
 
+        #region UI Event Handlers
+
+        // Handle Enter key to trigger login
         private void FrmLogin_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; 
+                e.SuppressKeyPress = true;
                 btnLogin_Click(sender, e);
             }
         }
 
-        private void SetupButtonStyles()
-        {
-            btnLogin.MouseEnter += BtnLogin_MouseEnter;
-            btnLogin.MouseLeave += BtnLogin_MouseLeave;
-
-            // Set the default border style
-            btnLogin.FlatStyle = FlatStyle.Flat;
-            btnLogin.FlatAppearance.BorderSize = 1;
-            btnLogin.FlatAppearance.BorderColor = Color.Gray;
-        }
-
+        // Toggle password visibility on clicking the eye icon
         private void picBoxPassword_Click(object sender, EventArgs e)
         {
             passwordVisible = !passwordVisible;
@@ -59,51 +53,7 @@ namespace TravelExpertsGUI
             txtBoxPassword.UseSystemPasswordChar = !passwordVisible;
         }
 
-        private async void btnLogin_Click(object sender, EventArgs e)
-        {
-            string UserName = txtBoxUsername.Text.Trim();
-            string Password = txtBoxPassword.Text;
-
-            try
-            {
-                var LoggedInAgent = await _context.Agents.Include(a => a.UserLogin).FirstOrDefaultAsync(a => (a.AgtEmail == UserName || Convert.ToString(a.AgentId) == UserName));
-
-                if (LoggedInAgent == null || LoggedInAgent.UserLogin == null)
-                {
-                    MessageBox.Show("Invalid email or password.");
-                    return;
-                }
-
-                byte[] hashedInputPassword = HashPassword(Password);
-
-
-                byte[] hashedPassword = LoggedInAgent.UserLogin.HashedPassword;
-                if (hashedPassword.SequenceEqual(hashedInputPassword))
-                {
-                    // Set user session
-                    UserSession.Login(LoggedInAgent.AgentId, LoggedInAgent.AgtEmail, LoggedInAgent.UserLogin.IsAdmin);
-                    RedirectMainMenu();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid email or password.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}");
-            }
-        }
-
-        private byte[] HashPassword(string password)
-        {
-            using (SHA512 sha512 = SHA512.Create())
-            {
-                byte[] hashBytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return hashBytes;
-            }
-        }
-
+        // Change button appearance on mouse hover
         private void BtnLogin_MouseEnter(object sender, EventArgs e)
         {
             btnLogin.BackColor = ColorTranslator.FromHtml("#234165"); // Background color
@@ -111,7 +61,7 @@ namespace TravelExpertsGUI
             btnLogin.FlatAppearance.BorderColor = Color.White;       // Border color
         }
 
-        // Event handler to revert changes (MouseLeave)
+        // Revert button appearance on mouse leave
         private void BtnLogin_MouseLeave(object sender, EventArgs e)
         {
             btnLogin.BackColor = SystemColors.Control;               // Default background color
@@ -119,11 +69,88 @@ namespace TravelExpertsGUI
             btnLogin.FlatAppearance.BorderColor = Color.Gray;        // Default border color
         }
 
+        #endregion
+
+        #region Core Functionality
+
+        // Handle the login button click
+        private async void btnLogin_Click(object sender, EventArgs e)
+        {
+            string UserName = txtBoxUsername.Text.Trim();
+            string Password = txtBoxPassword.Text;
+
+            // Validate user inputs
+            if (ValidatorUtils.IsValidEmailOrAgentID(UserName, "Username doesn't match email pattern or is not an agent ID") &&
+                ValidatorUtils.IsValidPassword(Password, "Password must not contain spaces") &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtBoxUsername, "Username must contain some value") &&
+                ValidatorUtils.IsTextBoxNotEmpty(txtBoxPassword, "Password should not be empty"))
+            {
+                try
+                {
+                    // Check if user exists in the database
+                    var LoggedInAgent = await _context.Agents.Include(a => a.UserLogin)
+                        .FirstOrDefaultAsync(a => (a.AgtEmail == UserName || Convert.ToString(a.AgentId) == UserName));
+
+                    if (LoggedInAgent == null || LoggedInAgent.UserLogin == null)
+                    {
+                        MessageBox.Show("Invalid email or password.");
+                        return;
+                    }
+
+                    // Hash the input password
+                    byte[] hashedInputPassword = HashPassword(Password);
+                    byte[] hashedPassword = LoggedInAgent.UserLogin.HashedPassword;
+
+                    // Compare hashed passwords
+                    if (hashedPassword.SequenceEqual(hashedInputPassword))
+                    {
+                        UserSession.Login(LoggedInAgent.AgentId, LoggedInAgent.AgtEmail, LoggedInAgent.UserLogin.IsAdmin); // Set user session
+                        RedirectMainMenu(); // Redirect to dashboard
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid email or password.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}");
+                }
+            }
+        }
+
+        // Redirect user to the main menu/dashboard
         private void RedirectMainMenu()
         {
             var dashboard = new HomeDashboard(UserSession.GetCurrentSession());
             this.Hide();
             dashboard.ShowDialog();
         }
+
+        // Hash the password using SHA512
+        private byte[] HashPassword(string password)
+        {
+            using (SHA512 sha512 = SHA512.Create())
+            {
+                return sha512.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        #endregion
+
+        #region UI Setup
+
+        // Set up button styles and event handlers
+        private void SetupButtonStyles()
+        {
+            btnLogin.MouseEnter += BtnLogin_MouseEnter;
+            btnLogin.MouseLeave += BtnLogin_MouseLeave;
+
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.FlatAppearance.BorderSize = 1;
+            btnLogin.FlatAppearance.BorderColor = Color.Gray;
+        }
+
+        #endregion
     }
 }
