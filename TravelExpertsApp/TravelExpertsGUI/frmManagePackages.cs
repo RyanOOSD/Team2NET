@@ -112,11 +112,11 @@ namespace TravelExpertsGUI
             {
                 if (e.ColumnIndex == modifyPkgIndex)
                 {
-                    e.CellStyle.BackColor = Color.Yellow;
+                    e.CellStyle!.BackColor = Color.Yellow;
                 }
                 else if (e.ColumnIndex == deletePkgIndex)
                 {
-                    e.CellStyle.BackColor = Color.Tomato;
+                    e.CellStyle!.BackColor = Color.Tomato;
                 }
                 else
                 {
@@ -273,11 +273,11 @@ namespace TravelExpertsGUI
             {
                 if (e.ColumnIndex == modifyPkgProductIndex)
                 {
-                    e.CellStyle.BackColor = Color.Yellow;
+                    e.CellStyle!.BackColor = Color.Yellow;
                 }
                 else if (e.ColumnIndex == deletePkgProductIndex)
                 {
-                    e.CellStyle.BackColor = Color.Tomato;
+                    e.CellStyle!.BackColor = Color.Tomato;
                 }
                 else
                 {
@@ -350,7 +350,7 @@ namespace TravelExpertsGUI
                 MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                PackagesProductsSupplierDB.DeletePackageProduct(selectedPackageProduct);
+                PackagesProductsSupplierDB.DeletePackageProduct(selectedPackageProduct!);
                 MessageBox.Show("Package product has been successfully deleted.");
                 DisplayPackageProducts();
             }

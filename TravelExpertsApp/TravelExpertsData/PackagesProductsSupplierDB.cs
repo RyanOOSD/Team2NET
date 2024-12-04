@@ -38,7 +38,7 @@ namespace TravelExpertsData
                         PkgProductSupID = p.prodSupC.prodSupB.pkgProdB.pkgProdA.PackageProductSupplierId,
                         PkgName = p.prodSupC.prodSupB.pkgProdB.pkg.PkgName,
                         ProductName = p.prodSupC.prod.ProdName,
-                        SupName = p.sup.SupName
+                        SupName = p.sup.SupName!
                     }).OrderBy(p => p.PkgProductSupID).ToList();
                 return packageProducts;
             }
@@ -63,7 +63,7 @@ namespace TravelExpertsData
                     {
                         ProductSupId = p.prodSupB.prodSupA.ProductSupplierId,
                         ProductName = p.prodSupB.prod.ProdName,
-                        SupName = p.sup.SupName
+                        SupName = p.sup.SupName!
                     }).ToList();
                 return productsSuppliers;
             }
@@ -73,7 +73,7 @@ namespace TravelExpertsData
         {
             using (TravelExpertsContext db = new TravelExpertsContext())
             {
-                return db.PackagesProductsSuppliers.Find(packageProductID);
+                return db.PackagesProductsSuppliers.Find(packageProductID)!;
             }
         }
 
