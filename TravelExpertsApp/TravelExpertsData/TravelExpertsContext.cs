@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace TravelExpertsData;
@@ -56,8 +55,11 @@ public partial class TravelExpertsContext : DbContext
 
     public virtual DbSet<TripType> TripTypes { get; set; }
 
+    public virtual DbSet<UserLogin> UserLogins { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["TravelExpertsConnection"].ConnectionString).UseLazyLoadingProxies();
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-0REMCMT\\SQLEXPRESS;Initial Catalog=TravelExperts;Integrated Security=True; TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -168,7 +170,7 @@ public partial class TravelExpertsContext : DbContext
 
         modelBuilder.Entity<PackagesProductsSupplier>(entity =>
         {
-            entity.HasKey(e => e.PackageProductSupplierId).HasName("PK__Packages__53E8ED99299534C4");
+            entity.HasKey(e => e.PackageProductSupplierId).HasName("PK__Packages__53E8ED996B6C7CA5");
 
             entity.HasOne(d => d.Package).WithMany(p => p.PackagesProductsSuppliers)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -239,6 +241,17 @@ public partial class TravelExpertsContext : DbContext
             entity.HasKey(e => e.TripTypeId)
                 .HasName("aaaaaTripTypes_PK")
                 .IsClustered(false);
+        });
+
+        modelBuilder.Entity<UserLogin>(entity =>
+        {
+            entity.HasKey(e => e.AgentId).HasName("PK__UserLogi__9AC3BFF1B458F4C0");
+
+            entity.Property(e => e.AgentId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Agent).WithOne(p => p.UserLogin)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UserLogin__Agent__0D7A0286");
         });
 
         OnModelCreatingPartial(modelBuilder);
