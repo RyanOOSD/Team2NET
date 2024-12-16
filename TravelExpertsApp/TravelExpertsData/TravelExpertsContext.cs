@@ -21,6 +21,18 @@ public partial class TravelExpertsContext : DbContext
 
     public virtual DbSet<Agent> Agents { get; set; }
 
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+
+    public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+
+    public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+
+    public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+
     public virtual DbSet<Booking> Bookings { get; set; }
 
     public virtual DbSet<BookingDetail> BookingDetails { get; set; }
@@ -73,6 +85,32 @@ public partial class TravelExpertsContext : DbContext
         modelBuilder.Entity<Agent>(entity =>
         {
             entity.HasOne(d => d.Agency).WithMany(p => p.Agents).HasConstraintName("FK_Agents_Agencies");
+        });
+
+        modelBuilder.Entity<AspNetRole>(entity =>
+        {
+            entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedName] IS NOT NULL)");
+        });
+
+        modelBuilder.Entity<AspNetUser>(entity =>
+        {
+            entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AspNetUserRole",
+                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId");
+                        j.ToTable("AspNetUserRoles");
+                        j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+                    });
         });
 
         modelBuilder.Entity<Booking>(entity =>
@@ -134,6 +172,8 @@ public partial class TravelExpertsContext : DbContext
                 .HasName("aaaaaCustomers_PK")
                 .IsClustered(false);
 
+            entity.Property(e => e.CustHomePhone).HasDefaultValue("");
+
             entity.HasOne(d => d.Agent).WithMany(p => p.Customers).HasConstraintName("FK_Customers_Agents");
         });
 
@@ -170,7 +210,7 @@ public partial class TravelExpertsContext : DbContext
 
         modelBuilder.Entity<PackagesProductsSupplier>(entity =>
         {
-            entity.HasKey(e => e.PackageProductSupplierId).HasName("PK__Packages__53E8ED996B6C7CA5");
+            entity.HasKey(e => e.PackageProductSupplierId).HasName("PK__Packages__53E8ED998C8C486A");
 
             entity.HasOne(d => d.Package).WithMany(p => p.PackagesProductsSuppliers)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -245,13 +285,13 @@ public partial class TravelExpertsContext : DbContext
 
         modelBuilder.Entity<UserLogin>(entity =>
         {
-            entity.HasKey(e => e.AgentId).HasName("PK__UserLogi__9AC3BFF1B458F4C0");
+            entity.HasKey(e => e.AgentId).HasName("PK__UserLogi__9AC3BFF1EA3949FB");
 
             entity.Property(e => e.AgentId).ValueGeneratedNever();
 
             entity.HasOne(d => d.Agent).WithOne(p => p.UserLogin)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserLogin__Agent__0D7A0286");
+                .HasConstraintName("FK_UserLogin_Agent");
         });
 
         OnModelCreatingPartial(modelBuilder);

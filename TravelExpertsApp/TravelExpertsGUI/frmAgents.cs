@@ -35,6 +35,7 @@ namespace TravelExpertsGUI
         // method for when the form loads
         private void frmAgents_Load(object sender, EventArgs e)
         {
+            Icon = Icon.ExtractAssociatedIcon(rootDir + "\\Images\\airplane.ico");
             picAgencies.Image = Image.FromFile(rootDir + "\\Images\\Agencies.jpg");
             picAgents.Image = Image.FromFile(rootDir + "\\Images\\Agents.jpg");
 
@@ -129,7 +130,7 @@ namespace TravelExpertsGUI
                 MakeAgentReadOnly();
             }
 
-            
+
         }
 
         // method that is called when SAVE CHANGES button on AGENTS tab is clicked
@@ -149,7 +150,7 @@ namespace TravelExpertsGUI
                 ValidatorUtils.IsTextBoxWithinMaxLength(txtEmail, 50, errorMessageCharLimit(txtFName, 50))
                 )
 
-                
+
             {
                 if (isAdd == true)
                 {
@@ -170,7 +171,7 @@ namespace TravelExpertsGUI
                     AgentsDB.ModifyAgent(selectedAgent.AgentId, selectedAgent, selectedCity);
                     MessageBox.Show($"Agent Info Updated");
                     MakeAgentReadOnly();
-                } 
+                }
             }
 
 
@@ -232,7 +233,7 @@ namespace TravelExpertsGUI
             selectedAgency = AgenciesDB.GetAgency(agencyCity);
             DisplayAgency(selectedAgency);
             MakeAgencyReadOnly();
-            
+
         }
 
         // method that is called when EDIT button on AGENCIES tab is clicked
@@ -276,7 +277,7 @@ namespace TravelExpertsGUI
                     AgenciesDB.ModifyAgency(selectedAgency.AgencyId, selectedAgency);
                     MessageBox.Show($"Agency Info Updated");
                     MakeAgencyReadOnly();
-                } 
+                }
             }
 
         }
@@ -386,7 +387,7 @@ namespace TravelExpertsGUI
         }
 
         // method used to populate the object of selectedAgent with data entered by the user
-            // this data is then sent to the db to add/edit agent info
+        // this data is then sent to the db to add/edit agent info
 
         private void PopulateAgentInfo()
         {

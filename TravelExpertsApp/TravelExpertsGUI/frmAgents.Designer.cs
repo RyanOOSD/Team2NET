@@ -130,7 +130,7 @@
             // 
             // btnAddLoc
             // 
-            btnAddLoc.Location = new Point(768, 134);
+            btnAddLoc.Location = new Point(260, 80);
             btnAddLoc.Name = "btnAddLoc";
             btnAddLoc.Size = new Size(151, 29);
             btnAddLoc.TabIndex = 6;
@@ -166,7 +166,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(31, 252);
+            label5.Location = new Point(33, 97);
             label5.Name = "label5";
             label5.Size = new Size(88, 20);
             label5.TabIndex = 10;
@@ -175,12 +175,11 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(31, 218);
+            label4.Location = new Point(33, 63);
             label4.Name = "label4";
             label4.Size = new Size(100, 20);
             label4.TabIndex = 11;
             label4.Text = "Middle Initial:";
-            label4.Visible = false;
             // 
             // label6
             // 
@@ -230,7 +229,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(538, 249);
+            label12.Location = new Point(39, 99);
             label12.Name = "label12";
             label12.Size = new Size(74, 20);
             label12.TabIndex = 17;
@@ -239,7 +238,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(538, 215);
+            label11.Location = new Point(39, 65);
             label11.Name = "label11";
             label11.Size = new Size(43, 20);
             label11.TabIndex = 18;
@@ -296,7 +295,7 @@
             // 
             // btnAgentAdd
             // 
-            btnAgentAdd.Location = new Point(248, 135);
+            btnAgentAdd.Location = new Point(233, 79);
             btnAgentAdd.Name = "btnAgentAdd";
             btnAgentAdd.Size = new Size(151, 29);
             btnAgentAdd.TabIndex = 24;
@@ -307,22 +306,20 @@
             // label1OR
             // 
             label1OR.AutoSize = true;
-            label1OR.Location = new Point(301, 111);
+            label1OR.Location = new Point(286, 55);
             label1OR.Name = "label1OR";
             label1OR.Size = new Size(29, 20);
             label1OR.TabIndex = 25;
             label1OR.Text = "OR";
-            label1OR.Visible = false;
             // 
             // label2OR
             // 
             label2OR.AutoSize = true;
-            label2OR.Location = new Point(826, 111);
+            label2OR.Location = new Point(318, 57);
             label2OR.Name = "label2OR";
             label2OR.Size = new Size(29, 20);
             label2OR.TabIndex = 26;
             label2OR.Text = "OR";
-            label2OR.Visible = false;
             // 
             // btnAgencyEdit
             // 
@@ -443,7 +440,7 @@
             // 
             // btnGetAgent
             // 
-            btnGetAgent.Location = new Point(248, 79);
+            btnGetAgent.Location = new Point(233, 23);
             btnGetAgent.Name = "btnGetAgent";
             btnGetAgent.Size = new Size(151, 29);
             btnGetAgent.TabIndex = 43;
@@ -453,7 +450,7 @@
             // 
             // btnGetAgency
             // 
-            btnGetAgency.Location = new Point(768, 79);
+            btnGetAgency.Location = new Point(260, 25);
             btnGetAgency.Name = "btnGetAgency";
             btnGetAgency.Size = new Size(151, 29);
             btnGetAgency.TabIndex = 44;
