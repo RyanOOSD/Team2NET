@@ -95,6 +95,7 @@ namespace TravelExpertsGUI
             selectedAgent = null;
             ClearAgent();
             LoadCities(cboAgentLocation);
+            MakeAgentNotReadOnly();
         }
 
         // method that is called when ADD NEW AGENCY button is clicked
