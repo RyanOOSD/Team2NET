@@ -40,6 +40,7 @@ public class ValidatorUtils
     // Phone Number Validation
     public static bool IsValidPhoneNumber(TextBox textBox, string errorMessage)
     {
+
         if (string.IsNullOrWhiteSpace(textBox.Text) || !textBox.Text.All(char.IsDigit) || textBox.Text.Length != 10)
         {
             MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -132,7 +133,7 @@ public class ValidatorUtils
         }
         // Check if AgentID is a non-negative integer 
         if (!int.TryParse(textBox.Text, out int agentID) || agentID < 0)
-    {
+        {
             MessageBox.Show("Agent ID must be a non-negative integer.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
@@ -165,13 +166,21 @@ public class ValidatorUtils
                 }
             }
             catch (Exception ex)
-        {
+            {
                 MessageBox.Show($"Database error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
-        }
+                return false;
+            }
         }
     }
 
+    public static bool IsDefaultText(TextBox textBox, string defaultText, string errorMessage)
+    {
+        if (textBox.Text == defaultText) 
+        {      
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        return true;
+    }
     //Login Page Validation
     // Method to validate that the input is either numeric or a valid email 
     public static bool IsValidEmailOrAgentID(string input, string errorMessage)
@@ -190,9 +199,22 @@ public class ValidatorUtils
         // Ensure the password does not contain spaces
         if(input.Contains(" "))
         {
-            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
         }
+        
         return !input.Contains(" ");
+    }
+
+    public static bool IsValidPhoneNumberAgent(TextBox textBox, string errorMessage)
+    {
+        Regex validatePhoneNumberRegex = new Regex("^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$");
+        if (string.IsNullOrWhiteSpace(textBox.Text) || validatePhoneNumberRegex.IsMatch(textBox.Text))
+        {
+            MessageBox.Show(errorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+        return true;
     }
 
 }

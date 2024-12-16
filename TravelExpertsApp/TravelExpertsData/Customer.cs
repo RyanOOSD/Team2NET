@@ -34,19 +34,27 @@ public partial class Customer
     public string? CustCountry { get; set; }
 
     [StringLength(20)]
-    public string? CustHomePhone { get; set; }
+    public string CustHomePhone { get; set; } = null!;
 
     [StringLength(20)]
-    public string CustBusPhone { get; set; } = null!;
+    public string? CustBusPhone { get; set; }
 
     [StringLength(50)]
     public string CustEmail { get; set; } = null!;
 
     public int? AgentId { get; set; }
 
+    public byte[]? ProfileImage { get; set; }
+
+    [Column(TypeName = "decimal(18, 2)")]
+    public decimal Balance { get; set; }
+
     [ForeignKey("AgentId")]
     [InverseProperty("Customers")]
     public virtual Agent? Agent { get; set; }
+
+    [InverseProperty("Customer")]
+    public virtual ICollection<AspNetUser> AspNetUsers { get; set; } = new List<AspNetUser>();
 
     [InverseProperty("Customer")]
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();

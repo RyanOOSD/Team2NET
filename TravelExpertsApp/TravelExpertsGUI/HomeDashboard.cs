@@ -38,12 +38,14 @@ namespace TravelExpertsGUI
 
         private void btnPackages_Click(object sender, EventArgs e)
         {
-
+            frmManagePackages newForm = new frmManagePackages();
+            newForm.ShowDialog();
         }
 
         private void btnAgentsAndAgencies_Click(object sender, EventArgs e)
         {
-
+            frmAgents newForm = new frmAgents();
+            newForm.ShowDialog();
         }
     }
 }
